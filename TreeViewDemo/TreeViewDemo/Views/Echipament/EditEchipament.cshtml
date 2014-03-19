@@ -1,0 +1,264 @@
+﻿@{
+    ViewBag.Title = "EditEchipament";
+}
+
+@using (Ajax.BeginForm("Edit", "Echipament", new AjaxOptions() { HttpMethod = "POST" }, new { id = "ajaxForm" }))
+  
+{
+    <div id="labels_div"  style="float:left;margin-left:17%;margin-top:1%;margin-right:2%;">
+   <input type="hidden" value="@ViewBag.id" id="id" name="id" />
+        <input type="hidden" value="@ViewBag.numeechip" id="numeechip" name="numeechip" />
+    <label   class="labels" style="display:none">Denumire</label>
+        <script>
+            if ('@ViewBag.id' != -1) {
+                var atr = '@Html.Raw(ViewBag.atribute)';
+                var x = $.parseJSON(atr);
+
+                console.log("json deserializat lung:" + x.length);
+                for (i = 0; i < x.length; i++) {
+                    var mainDiv = document.getElementById('labels_div');
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = x[i].nume_atr;
+                    mainDiv.appendChild(newSpan);
+
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+                }
+            }
+            else {
+                if ('@ViewBag.numeechip' == 'PABX') {
+                    var mainDiv = document.getElementById('labels_div');
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Tip";
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "IP";
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Versiune";
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+                }
+            }
+        </script> 
+        
+        </div>
+
+   <div id="text_div" style="margin-top:1%;">
+       <input type="hidden" class="editors" id="denumire" name="denumire" value="@ViewBag.numeechip" />
+       <script>
+           if ('@ViewBag.id' != -1) {
+               var atr = '@ViewBag.atribute';
+               console.log("nr atr:" + atr.length);
+
+               for (i = 0; i < x.length; i++) {
+                   if (x[i].nume_atr == 'Versiune') {
+                       var mainDiv = document.getElementById('text_div');
+                       var newSpan = document.createElement('select');
+                       console.log(x[i]);
+                       var idsel = '@ViewBag.id' + "_" + x[i].id_atr;
+                                newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                       newSpan.className = "editors";
+                       mainDiv.appendChild(newSpan);
+
+                       $.ajax({
+                           url: '@Url.Content("~/Echipament/GetVersiuni")',
+                           type: 'POST',
+                           data:{idver : x[i].val_atr.idver},
+                            success: function (response) {
+                           var tipuri = response.split(',');
+                           var option = document.createElement("option");
+                           option.value = '';
+                           option.text = '';
+
+                           var selvar = document.getElementById(idsel);
+                           selvar.appendChild(option);
+
+                           for (var j = 0; j < tipuri.length -1 ; j++) {
+                               var option = document.createElement("option");
+                               var valtext = tipuri[j].split(':');
+                               option.value = valtext[0];
+                               option.text = valtext[1];
+                               selvar.appendChild(option);
+                           }
+
+                           $("#" + idsel).val(tipuri[j]);
+                       }
+                        });
+                   }
+                   else {
+                       var mainDiv = document.getElementById('text_div');
+                       var newSpan = document.createElement('input');
+                       newSpan.type = "text";
+                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                       newSpan.className = "editors";
+                       newSpan.value = x[i].val_atr;
+                       mainDiv.appendChild(newSpan);
+                   }
+                  
+
+
+                   newSpan = document.createElement('input');
+                   newSpan.type = "hidden";
+                   newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + ":";
+                   newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + ":";
+                   newSpan.value = x[i].tip_val;
+                   mainDiv.appendChild(newSpan);
+
+                   var br = document.createElement("br");
+                   mainDiv.appendChild(br);
+
+               }
+           }
+           else {
+               if ('@ViewBag.numeechip' == 'PABX') {
+                   var mainDiv = document.getElementById('text_div');
+                   var newSpan = document.createElement('input');
+                   newSpan.type = "text";
+                   newSpan.id = 'tip_val';
+                   newSpan.name = 'tip_val'
+                   newSpan.className = "editors";
+                   mainDiv.appendChild(newSpan);
+
+
+                   newSpan = document.createElement('input');
+                   newSpan.type = "hidden";
+                   newSpan.id = 'tipechipament';
+                   newSpan.name = 'tipechipament';
+                   newSpan.value = '@ViewBag.tipechipament';
+                   mainDiv.appendChild(newSpan);
+
+
+                   newSpan = document.createElement('input');
+                   newSpan.type = "hidden";
+                   newSpan.id = 'tip_val:';
+                   newSpan.name = 'tip_val:';
+                   newSpan.value = 'S';
+                   mainDiv.appendChild(newSpan);
+
+                   var br = document.createElement("br");
+                   mainDiv.appendChild(br);
+
+                   var newSpan = document.createElement('input');
+                   newSpan.type = "text";
+                   newSpan.id = 'ip_val';
+                   newSpan.name = 'ip_val'
+                   newSpan.className = "editors";
+                   mainDiv.appendChild(newSpan);
+
+                   newSpan = document.createElement('input');
+                   newSpan.type = "hidden";
+                   newSpan.id = 'ip_val:';
+                   newSpan.name = 'ip_val:';
+                   newSpan.value = 'S';
+                   mainDiv.appendChild(newSpan);
+
+                   $.ajax({
+                       url: '@Url.Content("~/Echipament/GetVersiuni")',
+                       type: 'POST',
+                       success: function (response) {
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('select');
+
+                           newSpan.id = 'ver_val';
+                           newSpan.name = 'ver_val'
+                           newSpan.className = "editors";
+                           mainDiv.appendChild(newSpan);
+                           var tipuri = response.split(',');
+                           var option = document.createElement("option");
+                           option.value = '';
+                           option.text = '';
+                           newSpan.appendChild(option);
+                           for (var i = 0; i < tipuri.length; i++) {
+                               var option = document.createElement("option");
+                               var valtext = tipuri[i].split(':');
+                               option.value = valtext[0];
+                               option.text = valtext[1];
+                               newSpan.appendChild(option);
+                           }
+                       }
+                       });
+
+                   newSpan = document.createElement('input');
+                   newSpan.type = "hidden";
+                   newSpan.id = 'ver_val:';
+                   newSpan.name = 'ver_val:';
+                   newSpan.value = 'I';
+                   mainDiv.appendChild(newSpan);
+
+                   var newSpan = document.createElement('input');
+                   newSpan.type = "hidden";
+                   newSpan.id = 'siteID';
+                   newSpan.name = 'siteID';
+                   newSpan.value = '@ViewBag.siteID';
+                   document.getElementById('text_div').appendChild(newSpan);
+               }
+           }
+        </script> 
+
+       
+   </div>
+    
+    <div style="float:right;">
+        <input type="button" class="buton" id="cartela_noua" name="cartela_noua" value="Adauga cartela" />
+
+        <input type="button" class="buton" id="atr_nou" name="atr_nou" value="Adauga atribut" onclick="addatribut()"/>
+        <br />
+        <div id="atribut_nou_div" style="display:none">
+            <label class="labels">Tip:</label>
+
+            <select class="editors" id="tip_nou" name="tip_nou">
+                <option value="Tip">Tip</option>
+                <option value="IP">IP</option>
+                <option value="Versiune">Versiune</option>
+            </select>
+            <label class="labels">Valoare:</label>
+            <input type="text" id="val_nou" name="val_nou" />
+            <br />
+            <input type="button" value ="Adauga" class="buton" onclick="submit_form()"/>
+        </div>
+    </div>
+    
+    <script>
+        function submit_form() {
+            $('#ajaxForm').trigger('submit');
+        }
+        function addatribut() {
+            $("#atribut_nou_div").css({ 'display': 'block' });
+        }
+
+        $(":input").addClass("editors");
+        $("#submit_1").removeClass("editors");
+        $("#atr_nou").removeClass("editors");
+        $("#cartela_noua").removeClass("editors");
+
+
+        $("#cartela_noua").click(function () {
+            $("#treeDemo").find(".jstree-checked").each(function (index) {
+                tip_echip = $(this).attr('id').split("_")[0];
+                $.get('@Url.Content("~/Cartela/EditCartela")', "id=-1" + "&&parentID=" + tip_echip, getDetailsFunction(), 'html');
+            });
+        });
+    </script>
+    <br />
+    <div id="footer-form" style="margin-top:40%">
+   <input type="submit" value="Salveaza" class="buton" id="submit_1" />
+        </div>
+}

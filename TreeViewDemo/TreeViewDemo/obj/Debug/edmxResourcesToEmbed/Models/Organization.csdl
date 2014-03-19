@@ -1,0 +1,259 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OrganizationModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+  <EntityContainer Name="OrganizationEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="atributs" EntityType="OrganizationModel.atribut" />
+    <EntitySet Name="cartelas" EntityType="OrganizationModel.cartela" />
+    <EntitySet Name="contacts" EntityType="OrganizationModel.contact" />
+    <EntitySet Name="echipaments" EntityType="OrganizationModel.echipament" />
+    <EntitySet Name="echipament_atribute" EntityType="OrganizationModel.echipament_atribute" />
+    <EntitySet Name="judetes" EntityType="OrganizationModel.judete" />
+    <EntitySet Name="sites" EntityType="OrganizationModel.site" />
+    <EntitySet Name="tip_atribut" EntityType="OrganizationModel.tip_atribut" />
+    <EntitySet Name="tip_cartela" EntityType="OrganizationModel.tip_cartela" />
+    <EntitySet Name="tip_echipament" EntityType="OrganizationModel.tip_echipament" />
+    <AssociationSet Name="FK_echipament_atribute_atribut" Association="OrganizationModel.FK_echipament_atribute_atribut">
+      <End Role="atribut" EntitySet="atributs" />
+      <End Role="echipament_atribute" EntitySet="echipament_atribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK_cartela_tip_cartela" Association="OrganizationModel.FK_cartela_tip_cartela">
+      <End Role="tip_cartela" EntitySet="tip_cartela" />
+      <End Role="cartela" EntitySet="cartelas" />
+    </AssociationSet>
+    <AssociationSet Name="FK_echipament_atribute_echipament" Association="OrganizationModel.FK_echipament_atribute_echipament">
+      <End Role="echipament" EntitySet="echipaments" />
+      <End Role="echipament_atribute" EntitySet="echipament_atribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK_echipament_tip_echipament" Association="OrganizationModel.FK_echipament_tip_echipament">
+      <End Role="tip_echipament" EntitySet="tip_echipament" />
+      <End Role="echipament" EntitySet="echipaments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__site__judetID__09DE7BCC" Association="OrganizationModel.FK__site__judetID__09DE7BCC">
+      <End Role="judete" EntitySet="judetes" />
+      <End Role="site" EntitySet="sites" />
+    </AssociationSet>
+    <EntitySet Name="cartela_atribute" EntityType="OrganizationModel.cartela_atribute" />
+    <AssociationSet Name="FK_cartela_atribute_atribut" Association="OrganizationModel.FK_cartela_atribute_atribut">
+      <End Role="atribut" EntitySet="atributs" />
+      <End Role="cartela_atribute" EntitySet="cartela_atribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK_cartela_atribute" Association="OrganizationModel.FK_cartela_atribute">
+      <End Role="cartela" EntitySet="cartelas" />
+      <End Role="cartela_atribute" EntitySet="cartela_atribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK_cartela_echipament" Association="OrganizationModel.FK_cartela_echipament">
+      <End Role="echipament" EntitySet="echipaments" />
+      <End Role="cartela" EntitySet="cartelas" />
+    </AssociationSet>
+    <EntitySet Name="echipament_versiuni" EntityType="OrganizationModel.echipament_versiuni" />
+  </EntityContainer>
+  <EntityType Name="atribut">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int64" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int64" Name="tipID" Nullable="false" />
+    <Property Type="Int32" Name="val_int" />
+    <Property Type="String" Name="val_string" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Decimal" Name="val_nr" Precision="18" Scale="8" />
+    <Property Type="String" Name="val_csv" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="echipament_atribute" Relationship="OrganizationModel.FK_echipament_atribute_atribut" FromRole="atribut" ToRole="echipament_atribute" />
+    <NavigationProperty Name="cartela_atribute" Relationship="OrganizationModel.FK_cartela_atribute_atribut" FromRole="atribut" ToRole="cartela_atribute" />
+  </EntityType>
+  <EntityType Name="cartela">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int64" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int64" Name="tipID" Nullable="false" />
+    <NavigationProperty Name="tip_cartela" Relationship="OrganizationModel.FK_cartela_tip_cartela" FromRole="cartela" ToRole="tip_cartela" />
+    <Property Type="Int64" Name="echipamentID" Nullable="false" />
+    <NavigationProperty Name="cartela_atribute" Relationship="OrganizationModel.FK_cartela_atribute" FromRole="cartela" ToRole="cartela_atribute" />
+    <NavigationProperty Name="echipament" Relationship="OrganizationModel.FK_cartela_echipament" FromRole="cartela" ToRole="echipament" />
+  </EntityType>
+  <EntityType Name="contact">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int64" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="username" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="email" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Type="String" Name="password" MaxLength="50" FixedLength="false" Unicode="false" />
+  </EntityType>
+  <EntityType Name="echipament">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int64" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="denumire" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="tipID" Nullable="false" />
+    <Property Type="Int64" Name="siteID" />
+    <NavigationProperty Name="echipament_atribute" Relationship="OrganizationModel.FK_echipament_atribute_echipament" FromRole="echipament" ToRole="echipament_atribute" />
+    <NavigationProperty Name="tip_echipament" Relationship="OrganizationModel.FK_echipament_tip_echipament" FromRole="echipament" ToRole="tip_echipament" />
+    <NavigationProperty Name="cartelas" Relationship="OrganizationModel.FK_cartela_echipament" FromRole="echipament" ToRole="cartela" />
+  </EntityType>
+  <EntityType Name="echipament_atribute">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int64" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int64" Name="echipamentID" Nullable="false" />
+    <Property Type="Int64" Name="atributID" Nullable="false" />
+    <NavigationProperty Name="atribut" Relationship="OrganizationModel.FK_echipament_atribute_atribut" FromRole="echipament_atribute" ToRole="atribut" />
+    <NavigationProperty Name="echipament" Relationship="OrganizationModel.FK_echipament_atribute_echipament" FromRole="echipament_atribute" ToRole="echipament" />
+  </EntityType>
+  <EntityType Name="judete">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="denumire" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="sites" Relationship="OrganizationModel.FK__site__judetID__09DE7BCC" FromRole="judete" ToRole="site" />
+  </EntityType>
+  <EntityType Name="site">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int64" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int32" Name="judetID" Nullable="false" />
+    <Property Type="String" Name="denumire" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="Int64" Name="siteParinteID" Nullable="false" />
+    <NavigationProperty Name="judete" Relationship="OrganizationModel.FK__site__judetID__09DE7BCC" FromRole="site" ToRole="judete" />
+  </EntityType>
+  <EntityType Name="tip_atribut">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int64" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="denumire" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="tip_valoare" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="tip_cartela">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int64" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="denumire" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="cartelas" Relationship="OrganizationModel.FK_cartela_tip_cartela" FromRole="tip_cartela" ToRole="cartela" />
+  </EntityType>
+  <EntityType Name="tip_echipament">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="denumire" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="echipaments" Relationship="OrganizationModel.FK_echipament_tip_echipament" FromRole="tip_echipament" ToRole="echipament" />
+  </EntityType>
+  <Association Name="FK_echipament_atribute_atribut">
+    <End Type="OrganizationModel.atribut" Role="atribut" Multiplicity="1" />
+    <End Type="OrganizationModel.echipament_atribute" Role="echipament_atribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="atribut">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="echipament_atribute">
+        <PropertyRef Name="atributID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_cartela_tip_cartela">
+    <End Type="OrganizationModel.tip_cartela" Role="tip_cartela" Multiplicity="1" />
+    <End Type="OrganizationModel.cartela" Role="cartela" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tip_cartela">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="cartela">
+        <PropertyRef Name="tipID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_echipament_atribute_echipament">
+    <End Type="OrganizationModel.echipament" Role="echipament" Multiplicity="1" />
+    <End Type="OrganizationModel.echipament_atribute" Role="echipament_atribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="echipament">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="echipament_atribute">
+        <PropertyRef Name="echipamentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_echipament_tip_echipament">
+    <End Type="OrganizationModel.tip_echipament" Role="tip_echipament" Multiplicity="1" />
+    <End Type="OrganizationModel.echipament" Role="echipament" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tip_echipament">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="echipament">
+        <PropertyRef Name="tipID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__site__judetID__09DE7BCC">
+    <End Type="OrganizationModel.judete" Role="judete" Multiplicity="1" />
+    <End Type="OrganizationModel.site" Role="site" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="judete">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="site">
+        <PropertyRef Name="judetID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="cartela_atribute">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int64" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="Int64" Name="cartelaID" Nullable="false" />
+    <Property Type="Int64" Name="atributID" Nullable="false" />
+    <NavigationProperty Name="atribut" Relationship="OrganizationModel.FK_cartela_atribute_atribut" FromRole="cartela_atribute" ToRole="atribut" />
+    <NavigationProperty Name="cartela" Relationship="OrganizationModel.FK_cartela_atribute" FromRole="cartela_atribute" ToRole="cartela" />
+  </EntityType>
+  <Association Name="FK_cartela_atribute_atribut">
+    <End Type="OrganizationModel.atribut" Role="atribut" Multiplicity="1" />
+    <End Type="OrganizationModel.cartela_atribute" Role="cartela_atribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="atribut">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="cartela_atribute">
+        <PropertyRef Name="atributID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_cartela_atribute">
+    <End Type="OrganizationModel.cartela" Role="cartela" Multiplicity="1" />
+    <End Type="OrganizationModel.cartela_atribute" Role="cartela_atribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cartela">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="cartela_atribute">
+        <PropertyRef Name="cartelaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_cartela_echipament">
+    <End Type="OrganizationModel.echipament" Role="echipament" Multiplicity="1" />
+    <End Type="OrganizationModel.cartela" Role="cartela" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="echipament">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="cartela">
+        <PropertyRef Name="echipamentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="echipament_versiuni">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int64" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="denumire" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+</Schema>

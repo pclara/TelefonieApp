@@ -1,0 +1,17 @@
+﻿@model IEnumerable<TreeViewDemo.ViewModel.JsTreeModel>
+@foreach (var treeNode in Model)
+{
+    <ul>
+        @if (treeNode != null)
+        { 
+            <li id="@treeNode.id"><a href="#">
+                @treeNode.data.title
+            </a>
+                @if (treeNode.children.Count > 0)
+                {
+                    @Html.Partial("ChildNode", treeNode.children)
+                }
+            </li> 
+        }
+    </ul>
+}

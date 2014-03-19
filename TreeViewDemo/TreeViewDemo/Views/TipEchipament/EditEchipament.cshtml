@@ -1,0 +1,41 @@
+﻿@{
+    ViewBag.Title = "EditEchipament";
+}
+
+<input type="button" class="buton" id="createechip" style="float:right;margin-left:99%" />
+<br /><br />
+@using (Ajax.BeginForm("Edit", "TipEchipament", new AjaxOptions() { HttpMethod = "POST" }))
+  
+{
+    <div id="labels_div"  style="float:left;margin-left:17%;margin-top:1%">
+   <input type="hidden" value="@ViewBag.id" id="id" name="id" />
+        <input type="hidden" value="@ViewBag.siteID" id="siteid" name="siteid" />
+        <input type="hidden" value="@ViewBag.judetID" id="judetid" name="judetid" />
+    <label   class="labels">Denumire</label>
+        </div>
+
+   <div id="text_div" style="float:right;margin-top:1%;margin-right:20%">
+       <input type="text" class="editors" id="denumire" name="denumire" value="@ViewBag.numeechip" />
+   </div>
+    
+    <script>
+        $(":input").addClass("editors");
+        $("#submit_1").removeClass("editors");
+        $("#createechip").removeClass("editors");
+
+
+        $("#createechip").val("Creeaza " + '@ViewBag.numeechip');
+
+        $("#createechip").click(function () {
+            $("#treeDemo").find(".jstree-checked").each(function (index) {
+                tip_echip = $(this).attr('id').split("_")[0];
+                $.get('@Url.Content("~/Echipament/EditEchipament")', "id=-1" + "&&parentID=" + tip_echip + "&&site=" + "@ViewBag.siteID", getDetailsFunction(), 'html');
+            });
+        });
+
+    </script>
+    <br />
+    <div id="footer-form" style="margin-top:40%">
+   <input type="submit" value="Salveaza" class="buton" id="submit_1" />
+        </div>
+}

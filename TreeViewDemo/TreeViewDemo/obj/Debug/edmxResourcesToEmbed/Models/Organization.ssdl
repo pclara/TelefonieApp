@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="OrganizationModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+  <EntityContainer Name="OrganizationModelStoreContainer">
+    <EntitySet Name="atribut" EntityType="OrganizationModel.Store.atribut" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="cartela" EntityType="OrganizationModel.Store.cartela" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="cartela_atribute" EntityType="OrganizationModel.Store.cartela_atribute" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="contact" EntityType="OrganizationModel.Store.contact" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="echipament" EntityType="OrganizationModel.Store.echipament" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="echipament_atribute" EntityType="OrganizationModel.Store.echipament_atribute" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="echipament_versiuni" EntityType="OrganizationModel.Store.echipament_versiuni" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="judete" EntityType="OrganizationModel.Store.judete" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="site" EntityType="OrganizationModel.Store.site" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tip_atribut" EntityType="OrganizationModel.Store.tip_atribut" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tip_cartela" EntityType="OrganizationModel.Store.tip_cartela" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="tip_echipament" EntityType="OrganizationModel.Store.tip_echipament" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="FK__site__judetID__09DE7BCC" Association="OrganizationModel.Store.FK__site__judetID__09DE7BCC">
+      <End Role="judete" EntitySet="judete" />
+      <End Role="site" EntitySet="site" />
+    </AssociationSet>
+    <AssociationSet Name="FK_cartela_atribute" Association="OrganizationModel.Store.FK_cartela_atribute">
+      <End Role="cartela" EntitySet="cartela" />
+      <End Role="cartela_atribute" EntitySet="cartela_atribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK_cartela_atribute_atribut" Association="OrganizationModel.Store.FK_cartela_atribute_atribut">
+      <End Role="atribut" EntitySet="atribut" />
+      <End Role="cartela_atribute" EntitySet="cartela_atribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK_cartela_echipament" Association="OrganizationModel.Store.FK_cartela_echipament">
+      <End Role="echipament" EntitySet="echipament" />
+      <End Role="cartela" EntitySet="cartela" />
+    </AssociationSet>
+    <AssociationSet Name="FK_cartela_tip_cartela" Association="OrganizationModel.Store.FK_cartela_tip_cartela">
+      <End Role="tip_cartela" EntitySet="tip_cartela" />
+      <End Role="cartela" EntitySet="cartela" />
+    </AssociationSet>
+    <AssociationSet Name="FK_echipament_atribute_atribut" Association="OrganizationModel.Store.FK_echipament_atribute_atribut">
+      <End Role="atribut" EntitySet="atribut" />
+      <End Role="echipament_atribute" EntitySet="echipament_atribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK_echipament_atribute_echipament" Association="OrganizationModel.Store.FK_echipament_atribute_echipament">
+      <End Role="echipament" EntitySet="echipament" />
+      <End Role="echipament_atribute" EntitySet="echipament_atribute" />
+    </AssociationSet>
+    <AssociationSet Name="FK_echipament_tip_echipament" Association="OrganizationModel.Store.FK_echipament_tip_echipament">
+      <End Role="tip_echipament" EntitySet="tip_echipament" />
+      <End Role="echipament" EntitySet="echipament" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="atribut">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="tipID" Type="bigint" Nullable="false" />
+    <Property Name="val_int" Type="int" />
+    <Property Name="val_string" Type="nvarchar(max)" />
+    <Property Name="val_nr" Type="decimal" Scale="8" />
+    <Property Name="val_csv" Type="nvarchar(max)" />
+  </EntityType>
+  <EntityType Name="cartela">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="tipID" Type="bigint" Nullable="false" />
+    <Property Name="echipamentID" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="cartela_atribute">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="cartelaID" Type="bigint" Nullable="false" />
+    <Property Name="atributID" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="contact">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="username" Type="varchar" MaxLength="50" />
+    <Property Name="email" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="echipament">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="denumire" Type="nvarchar(max)" />
+    <Property Name="tipID" Type="int" Nullable="false" />
+    <Property Name="siteID" Type="bigint" />
+  </EntityType>
+  <EntityType Name="echipament_atribute">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="echipamentID" Type="bigint" Nullable="false" />
+    <Property Name="atributID" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="echipament_versiuni">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="denumire" Type="nvarchar" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="judete">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="denumire" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="site">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="judetID" Type="int" Nullable="false" />
+    <Property Name="denumire" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="siteParinteID" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="tip_atribut">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="denumire" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="tip_valoare" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tip_cartela">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="denumire" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <EntityType Name="tip_echipament">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="denumire" Type="nvarchar" Nullable="false" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK__site__judetID__09DE7BCC">
+    <End Role="judete" Type="OrganizationModel.Store.judete" Multiplicity="1" />
+    <End Role="site" Type="OrganizationModel.Store.site" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="judete">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="site">
+        <PropertyRef Name="judetID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_cartela_atribute">
+    <End Role="cartela" Type="OrganizationModel.Store.cartela" Multiplicity="1" />
+    <End Role="cartela_atribute" Type="OrganizationModel.Store.cartela_atribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="cartela">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="cartela_atribute">
+        <PropertyRef Name="cartelaID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_cartela_atribute_atribut">
+    <End Role="atribut" Type="OrganizationModel.Store.atribut" Multiplicity="1" />
+    <End Role="cartela_atribute" Type="OrganizationModel.Store.cartela_atribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="atribut">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="cartela_atribute">
+        <PropertyRef Name="atributID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_cartela_echipament">
+    <End Role="echipament" Type="OrganizationModel.Store.echipament" Multiplicity="1" />
+    <End Role="cartela" Type="OrganizationModel.Store.cartela" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="echipament">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="cartela">
+        <PropertyRef Name="echipamentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_cartela_tip_cartela">
+    <End Role="tip_cartela" Type="OrganizationModel.Store.tip_cartela" Multiplicity="1" />
+    <End Role="cartela" Type="OrganizationModel.Store.cartela" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tip_cartela">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="cartela">
+        <PropertyRef Name="tipID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_echipament_atribute_atribut">
+    <End Role="atribut" Type="OrganizationModel.Store.atribut" Multiplicity="1" />
+    <End Role="echipament_atribute" Type="OrganizationModel.Store.echipament_atribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="atribut">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="echipament_atribute">
+        <PropertyRef Name="atributID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_echipament_atribute_echipament">
+    <End Role="echipament" Type="OrganizationModel.Store.echipament" Multiplicity="1" />
+    <End Role="echipament_atribute" Type="OrganizationModel.Store.echipament_atribute" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="echipament">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="echipament_atribute">
+        <PropertyRef Name="echipamentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_echipament_tip_echipament">
+    <End Role="tip_echipament" Type="OrganizationModel.Store.tip_echipament" Multiplicity="1" />
+    <End Role="echipament" Type="OrganizationModel.Store.echipament" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="tip_echipament">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="echipament">
+        <PropertyRef Name="tipID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
