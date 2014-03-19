@@ -641,23 +641,29 @@
     </Options>
     <!-- Diagram content (shape and connector positions) -->
     <Diagrams>
-      <Diagram Name="Organization">
-        <EntityTypeShape EntityType="OrganizationModel.atribut" Width="1.5" PointX="2.845943739100333" PointY="23.3094848949972" />
-        <EntityTypeShape EntityType="OrganizationModel.cartela" Width="1.5" PointX="9.0397571367396772" PointY="25.286487740132255" />
-        <EntityTypeShape EntityType="OrganizationModel.contact" Width="1.5" PointX="3.4497796313137652" PointY="17.230985977328842" />
-        <EntityTypeShape EntityType="OrganizationModel.echipament" Width="1.5" PointX="3.8026605601434875" PointY="2.3625875275407862" />
+      <Diagram Name="Organization" ZoomLevel="50">
+        <EntityTypeShape EntityType="OrganizationModel.atribut" Width="1.5" PointX="0.5" PointY="9" />
+        <EntityTypeShape EntityType="OrganizationModel.cartela" Width="1.5" PointX="10.625" PointY="11.5" />
+        <EntityTypeShape EntityType="OrganizationModel.contact" Width="1.5" PointX="14.75" PointY="5.375" />
+        <EntityTypeShape EntityType="OrganizationModel.echipament" Width="1.5" PointX="4.125" PointY="4.125" />
         <EntityTypeShape EntityType="OrganizationModel.echipament_atribute" Width="1.5" PointX="10.147820350782862" PointY="2.2130304287248435" />
-        <EntityTypeShape EntityType="OrganizationModel.judete" Width="1.5" PointX="4.4000744448975073" PointY="28.72707900252523" />
-        <EntityTypeShape EntityType="OrganizationModel.site" Width="1.5" PointX="6.875" PointY="21.875" />
-        <EntityTypeShape EntityType="OrganizationModel.tip_atribut" Width="1.5" PointX="1.6869468398797078" PointY="14.318167499414724" />
-        <EntityTypeShape EntityType="OrganizationModel.tip_cartela" Width="1.5" PointX="1.21855412107825" PointY="6.2153609721992913" />
-        <EntityTypeShape EntityType="OrganizationModel.tip_echipament" Width="1.5" PointX="0.37395306135246209" PointY="16.391310118321009" />
-        <AssociationConnector Association="OrganizationModel.FK_echipament_atribute_atribut" />
+        <EntityTypeShape EntityType="OrganizationModel.judete" Width="1.5" PointX="18.375" PointY="2.375" />
+        <EntityTypeShape EntityType="OrganizationModel.site" Width="1.5" PointX="18.25" PointY="4.875" />
+        <EntityTypeShape EntityType="OrganizationModel.tip_atribut" Width="1.5" PointX="14.875" PointY="2.375" />
+        <EntityTypeShape EntityType="OrganizationModel.tip_cartela" Width="1.5" PointX="14.625" PointY="11.5" />
+        <EntityTypeShape EntityType="OrganizationModel.tip_echipament" Width="1.5" PointX="10.875" PointY="5.875" />
+        <AssociationConnector Association="OrganizationModel.FK_echipament_atribute_atribut" ManuallyRouted="true" >
+          <ConnectorPoint PointX="2" PointY="10.21875" />
+          <ConnectorPoint PointX="3.3658463684998612" PointY="10.21875" />
+          <ConnectorPoint PointX="3.3658463684998612" PointY="1.5612777355096026" />
+          <ConnectorPoint PointX="10.34375" PointY="1.5612777355096026" />
+          <ConnectorPoint PointX="10.34375" PointY="2.25" />
+        </AssociationConnector>
         <AssociationConnector Association="OrganizationModel.FK_cartela_tip_cartela" />
         <AssociationConnector Association="OrganizationModel.FK_echipament_atribute_echipament" />
         <AssociationConnector Association="OrganizationModel.FK_echipament_tip_echipament" />
         <AssociationConnector Association="OrganizationModel.FK__site__judetID__09DE7BCC" />
-        <EntityTypeShape EntityType="OrganizationModel.cartela_atribute" Width="1.5" PointX="2.4913467105903413" PointY="23.378404240765796" />
+        <EntityTypeShape EntityType="OrganizationModel.cartela_atribute" Width="1.5" PointX="6" PointY="15.5" />
         <AssociationConnector Association="OrganizationModel.FK_cartela_atribute_atribut" />
         <AssociationConnector Association="OrganizationModel.FK_cartela_atribute" />
         <AssociationConnector Association="OrganizationModel.FK_cartela_echipament" />

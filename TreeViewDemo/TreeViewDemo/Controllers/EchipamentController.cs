@@ -253,7 +253,7 @@ namespace TreeViewDemo.Controllers
             return cale;
         }
 
-        public string GetVersiuni(long idver)
+        public string GetVersiuni(long? idver)
         {
             string tipcartele = "";
             var tip = (from tc in db.echipament_versiuni select new { tc.id, tc.denumire }).ToList();
@@ -261,7 +261,11 @@ namespace TreeViewDemo.Controllers
             {
                 tipcartele += s.id +":" + s.denumire + ",";
             }
-            tipcartele += idver.ToString(); 
+            if (idver != null)
+                tipcartele += idver.ToString();
+            else
+                tipcartele = tipcartele.TrimEnd(',');
+
             return tipcartele;
         }
     }
