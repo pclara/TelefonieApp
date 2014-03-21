@@ -289,7 +289,7 @@
             TreeEventController.onNodeSelect = (function (eventArgs) {
                     
                 console.log("EnevtArgs:"+eventArgs.id + eventArgs.type);
-                    $("#details").html('<div id="loading-tab">Loading <img src="@Url.Content("~/Images/loading.gif")" /></div>');
+                   @* $("#details").html('<div id="loading-tab">Loading <img src="@Url.Content("~/Images/loading.gif")" /></div>');*@
                 if(eventArgs.type == 'judet')
                 {
                     $("#titlu").html("Editeaza judet");

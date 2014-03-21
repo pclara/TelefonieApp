@@ -311,5 +311,96 @@ namespace TreeViewDemo.Controllers
 
             return tipcartele;
         }
+
+
+
+        [HttpPost]
+        public string StergeEchipament(string id)
+        {
+            long idechipament = long.Parse(id.Split('_')[0]);
+
+           // long idcentrala = (from c in db.cartelas where c.id == idcartela select c.echipamentID).FirstOrDefault();
+            long tip_id = (from e in db.echipaments where e.id == idechipament select e.tipID).FirstOrDefault();
+
+            var denumire = (from t in db.tip_echipament where t.id == tip_id select t.denumire).FirstOrDefault();
+
+
+            if (denumire == "PABX")
+            {
+
+                var listacartele = (from c in db.cartelas where c.echipamentID == idechipament select c.id);
+
+                foreach (long idcartela in listacartele)
+                {
+                    var judet = (from j in db.judetes
+                                 join s in db.sites on j.id equals s.judetID
+                                 join e in db.echipaments on s.id equals e.siteID
+                                 join c in db.cartelas
+                                     on e.id equals c.echipamentID
+                                 where c.id == idcartela
+                                 select new { j.id, j.denumire }).FirstOrDefault();
+
+                    cartela car = (from c in db.cartelas where c.id == idcartela select c).FirstOrDefault();
+                    var c_a = (from ca in db.cartela_atribute where ca.cartelaID == idcartela select new { ca.id, ca.atributID }).ToList();
+                    //var atr = ( from a in db.atributs join ca in db.cartela_atribute on a.id equals ca.atributID  select a.id).ToList();
+
+
+                    foreach (var x in c_a)
+                    {
+                        cartela_atribute y = (from a in db.cartela_atribute where a.id == x.id select a).FirstOrDefault();
+                        db.cartela_atribute.DeleteObject(y);
+                        db.SaveChanges();
+                    }
+
+                    foreach (var x in c_a)
+                    {
+                        atribut y = (from a in db.atributs where a.id == x.atributID select a).FirstOrDefault();
+                        db.atributs.DeleteObject(y);
+                        db.SaveChanges();
+                    }
+
+
+                    db.cartelas.DeleteObject(car);
+                    db.SaveChanges();
+
+                }
+            }
+
+
+                var listaatr = (from e in db.echipament_atribute where e.echipamentID == idechipament select new { e.id, e.atributID }).ToList();
+
+           
+
+                foreach (var x in listaatr)
+                {
+                    atribut y = (from a in db.atributs where a.id == x.atributID select a).FirstOrDefault();
+                    db.atributs.DeleteObject(y);
+                    db.SaveChanges();
+                }
+
+
+                foreach (var x in listaatr)
+                {
+                    echipament_atribute y = (from a in db.echipament_atribute where a.id == x.id select a).FirstOrDefault();
+                    db.echipament_atribute.DeleteObject(y);
+                    db.SaveChanges();
+                }
+
+
+             
+                    echipament z = (from a in db.echipaments where a.id == idechipament select a).FirstOrDefault();
+                    db.echipaments.DeleteObject(z);
+                     db.SaveChanges();
+
+                     //}
+
+                var listaindex = (from e in db.echipaments 
+                                 join s in db.sites on e.siteID equals s.id
+                                 join j in db.judetes on s.judetID equals j.id select new {jid = j.id,sid = s.id}).FirstOrDefault();
+
+                return tip_id.ToString() + "_tip_echipament_" + listaindex.sid.ToString() + "_" + listaindex.jid.ToString();
+
+            //return RedirectToAction("Index", "Judete", new { name = judet.denumire.ToString(), id = idcentrala.ToString() + "_echipament" });
+        }
     }
 }

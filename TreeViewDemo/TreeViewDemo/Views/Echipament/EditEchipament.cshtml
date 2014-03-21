@@ -335,5 +335,24 @@
     <br />
     <div id="footer-form" style="margin-top:40%">
    <input type="submit" value="Salveaza" class="buton" id="submit_1" />
+   <input type="button" value="Sterge echipament" class="buton" id="stergeechipament" />
+
+
+            <script>
+                $("#stergeechipament").click(function () {
+                    $("#treeDemo").find(".jstree-checked").each(function () {
+                        var id = this.id;
+                        $.post('@Url.Content("~/Echipament/StergeEchipament")', "id=" + id, function (response) {
+                    var href = document.URL;
+                    var idechipament = href.substr(href.lastIndexOf("/") + 1, href.lastIndexOf("?") - href.lastIndexOf("/") - 1);
+                    alert(href.replace(idcartela, response));
+                    window.location = href.replace(idcartela, response);
+
+                }, 'html');
+            });
+
+        });
+    </script>
+
         </div>
 }
