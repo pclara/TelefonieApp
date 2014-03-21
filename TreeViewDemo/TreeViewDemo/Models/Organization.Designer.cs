@@ -269,6 +269,22 @@ namespace TreeViewDemo.Models
             }
         }
         private ObjectSet<echipament_versiuni> _echipament_versiuni;
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        public ObjectSet<echipament_tip> echipament_tip
+        {
+            get
+            {
+                if ((_echipament_tip == null))
+                {
+                    _echipament_tip = base.CreateObjectSet<echipament_tip>("echipament_tip");
+                }
+                return _echipament_tip;
+            }
+        }
+        private ObjectSet<echipament_tip> _echipament_tip;
 
         #endregion
 
@@ -368,6 +384,14 @@ namespace TreeViewDemo.Models
         public void AddToechipament_versiuni(echipament_versiuni echipament_versiuni)
         {
             base.AddObject("echipament_versiuni", echipament_versiuni);
+        }
+    
+        /// <summary>
+        /// Deprecated Method for adding a new object to the echipament_tip EntitySet. Consider using the .Add method of the associated ObjectSet&lt;T&gt; property instead.
+        /// </summary>
+        public void AddToechipament_tip(echipament_tip echipament_tip)
+        {
+            base.AddObject("echipament_tip", echipament_tip);
         }
 
         #endregion
@@ -1538,6 +1562,89 @@ namespace TreeViewDemo.Models
 
         #endregion
 
+    }
+    
+    /// <summary>
+    /// No Metadata Documentation available.
+    /// </summary>
+    [EdmEntityTypeAttribute(NamespaceName="OrganizationModel", Name="echipament_tip")]
+    [Serializable()]
+    [DataContractAttribute(IsReference=true)]
+    public partial class echipament_tip : EntityObject
+    {
+        #region Factory Method
+    
+        /// <summary>
+        /// Create a new echipament_tip object.
+        /// </summary>
+        /// <param name="id">Initial value of the id property.</param>
+        /// <param name="denumire">Initial value of the denumire property.</param>
+        public static echipament_tip Createechipament_tip(global::System.Int32 id, global::System.String denumire)
+        {
+            echipament_tip echipament_tip = new echipament_tip();
+            echipament_tip.id = id;
+            echipament_tip.denumire = denumire;
+            return echipament_tip;
+        }
+
+        #endregion
+
+        #region Primitive Properties
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=true, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.Int32 id
+        {
+            get
+            {
+                return _id;
+            }
+            set
+            {
+                if (_id != value)
+                {
+                    OnidChanging(value);
+                    ReportPropertyChanging("id");
+                    _id = StructuralObject.SetValidValue(value);
+                    ReportPropertyChanged("id");
+                    OnidChanged();
+                }
+            }
+        }
+        private global::System.Int32 _id;
+        partial void OnidChanging(global::System.Int32 value);
+        partial void OnidChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=false)]
+        [DataMemberAttribute()]
+        public global::System.String denumire
+        {
+            get
+            {
+                return _denumire;
+            }
+            set
+            {
+                OndenumireChanging(value);
+                ReportPropertyChanging("denumire");
+                _denumire = StructuralObject.SetValidValue(value, false);
+                ReportPropertyChanged("denumire");
+                OndenumireChanged();
+            }
+        }
+        private global::System.String _denumire;
+        partial void OndenumireChanging(global::System.String value);
+        partial void OndenumireChanged();
+
+        #endregion
+
+    
     }
     
     /// <summary>

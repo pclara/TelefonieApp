@@ -111,5 +111,13 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="echipament_tip">
+      <EntityTypeMapping TypeName="OrganizationModel.echipament_tip">
+        <MappingFragment StoreEntitySet="echipament_tip">
+          <ScalarProperty Name="denumire" ColumnName="denumire" />
+          <ScalarProperty Name="id" ColumnName="id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -344,7 +344,7 @@ namespace TreeViewDemo.Controllers
                         where c.id == idcartela
                         select new { judet = j.id, site = s1.id, tipechip = te.id , parinteE = c.echipamentID, id = c.id}).FirstOrDefault();
 
-            cale = nume.judet + "_judet," + nume.site + "_site," + nume.tipechip + "_tip_echipament_" + nume.judet+"_"+nume.site+","+nume.parinteE+"_echipament,"+nume.id+"_cartela";
+            cale = nume.judet + "_judet," + nume.site + "_site," + nume.tipechip + "_tip_echipament_" + nume.site+"_"+nume.judet+","+nume.parinteE+"_echipament,"+nume.id+"_cartela";
             return cale;                        
         }
 

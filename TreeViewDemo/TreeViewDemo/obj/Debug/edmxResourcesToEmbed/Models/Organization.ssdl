@@ -7,6 +7,7 @@
     <EntitySet Name="contact" EntityType="OrganizationModel.Store.contact" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="echipament" EntityType="OrganizationModel.Store.echipament" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="echipament_atribute" EntityType="OrganizationModel.Store.echipament_atribute" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="echipament_tip" EntityType="OrganizationModel.Store.echipament_tip" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="echipament_versiuni" EntityType="OrganizationModel.Store.echipament_versiuni" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="judete" EntityType="OrganizationModel.Store.judete" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="site" EntityType="OrganizationModel.Store.site" store:Type="Tables" Schema="dbo" />
@@ -98,6 +99,13 @@
     <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="echipamentID" Type="bigint" Nullable="false" />
     <Property Name="atributID" Type="bigint" Nullable="false" />
+  </EntityType>
+  <EntityType Name="echipament_tip">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="denumire" Type="nvarchar" Nullable="false" MaxLength="50" />
   </EntityType>
   <EntityType Name="echipament_versiuni">
     <Key>

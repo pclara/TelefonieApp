@@ -45,6 +45,7 @@
       <End Role="cartela" EntitySet="cartelas" />
     </AssociationSet>
     <EntitySet Name="echipament_versiuni" EntityType="OrganizationModel.echipament_versiuni" />
+    <EntitySet Name="echipament_tip" EntityType="OrganizationModel.echipament_tip" />
   </EntityContainer>
   <EntityType Name="atribut">
     <Key>
@@ -255,5 +256,12 @@
     </Key>
     <Property Type="Int64" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Type="String" Name="denumire" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="echipament_tip">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Type="String" Name="denumire" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
 </Schema>

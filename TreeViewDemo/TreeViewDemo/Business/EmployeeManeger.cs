@@ -104,8 +104,9 @@ namespace TreeViewDemo.Business
                                                   let titlu = (from a in _orgDb.atributs join ea in _orgDb.echipament_atribute on a.id equals ea.atributID
                                                                    join e in _orgDb.echipaments on ea.echipamentID equals e.id
                                                                    join ta in _orgDb.tip_atribut on a.tipID equals ta.id
+                                                                   join et in _orgDb.echipament_tip on   a.val_int equals et.id
                                                                    where e.id == e1.id && ta.denumire == "Tip"
-                                                                   select a.val_string).FirstOrDefault()
+                                                                   select et.denumire).FirstOrDefault()
                                                   let copii = (from car in _orgDb.cartelas
                                                                join ech in _orgDb.echipaments on car.echipamentID equals ech.id
                                                                where ech.id == e1.id

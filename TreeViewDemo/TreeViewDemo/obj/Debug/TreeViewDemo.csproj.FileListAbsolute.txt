@@ -14,6 +14,5 @@ C:\Users\clara\Desktop\TreeViewDemo\TreeViewDemo\obj\Debug\TreeViewDemo.dll
 C:\Users\clara\Desktop\TreeViewDemo\TreeViewDemo\obj\Debug\TreeViewDemo.pdb
 D:\GitHub\TelefonieApp\TreeViewDemo\TreeViewDemo\bin\TreeViewDemo.dll
 D:\GitHub\TelefonieApp\TreeViewDemo\TreeViewDemo\bin\TreeViewDemo.pdb
-D:\GitHub\TelefonieApp\TreeViewDemo\TreeViewDemo\obj\Debug\TreeViewDemo.csprojResolveAssemblyReference.cache
 D:\GitHub\TelefonieApp\TreeViewDemo\TreeViewDemo\obj\Debug\TreeViewDemo.dll
 D:\GitHub\TelefonieApp\TreeViewDemo\TreeViewDemo\obj\Debug\TreeViewDemo.pdb

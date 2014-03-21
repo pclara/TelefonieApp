@@ -12,6 +12,7 @@
           <EntitySet Name="contact" EntityType="OrganizationModel.Store.contact" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="echipament" EntityType="OrganizationModel.Store.echipament" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="echipament_atribute" EntityType="OrganizationModel.Store.echipament_atribute" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="echipament_tip" EntityType="OrganizationModel.Store.echipament_tip" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="echipament_versiuni" EntityType="OrganizationModel.Store.echipament_versiuni" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="judete" EntityType="OrganizationModel.Store.judete" store:Type="Tables" Schema="dbo" />
           <EntitySet Name="site" EntityType="OrganizationModel.Store.site" store:Type="Tables" Schema="dbo" />
@@ -103,6 +104,13 @@
           <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="echipamentID" Type="bigint" Nullable="false" />
           <Property Name="atributID" Type="bigint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="echipament_tip">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="denumire" Type="nvarchar" Nullable="false" MaxLength="50" />
         </EntityType>
         <EntityType Name="echipament_versiuni">
           <Key>
@@ -294,6 +302,7 @@
             <End Role="cartela" EntitySet="cartelas" />
           </AssociationSet>
           <EntitySet Name="echipament_versiuni" EntityType="OrganizationModel.echipament_versiuni" />
+          <EntitySet Name="echipament_tip" EntityType="OrganizationModel.echipament_tip" />
         </EntityContainer>
         <EntityType Name="atribut">
           <Key>
@@ -505,6 +514,13 @@
           <Property Type="Int64" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="denumire" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
+        <EntityType Name="echipament_tip">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="denumire" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -621,6 +637,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="echipament_tip">
+            <EntityTypeMapping TypeName="OrganizationModel.echipament_tip">
+              <MappingFragment StoreEntitySet="echipament_tip">
+                <ScalarProperty Name="denumire" ColumnName="denumire" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
@@ -668,6 +692,7 @@
         <AssociationConnector Association="OrganizationModel.FK_cartela_atribute" />
         <AssociationConnector Association="OrganizationModel.FK_cartela_echipament" />
         <EntityTypeShape EntityType="OrganizationModel.echipament_versiuni" Width="1.5" PointX="0.53080819758158559" PointY="1.0073880706948173" />
+        <EntityTypeShape EntityType="OrganizationModel.echipament_tip" Width="1.5" PointX="3.4711919573467185" PointY="31.025540977262679" />
       </Diagram>
     </Diagrams>
   </Designer>

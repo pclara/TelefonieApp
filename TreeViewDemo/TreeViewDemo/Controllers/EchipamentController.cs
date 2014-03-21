@@ -32,7 +32,17 @@ namespace TreeViewDemo.Controllers
                 ViewBag.numeechip = idPABX;
                 ViewBag.id = -1;
                 ViewBag.tipechipament = parentID;
-                ViewBag.siteID = site;
+                long par = 0;
+                if (long.TryParse(parentID, out par) == true)
+                {
+                    ViewBag.tipechipament = par;
+                    ViewBag.siteID = site;
+                }
+                else
+                {
+                    ViewBag.tipechipament = parentID.Split('_')[0];
+                    ViewBag.siteID = parentID.Split('_')[3];
+                }
             }
             else
             {
@@ -55,12 +65,17 @@ namespace TreeViewDemo.Controllers
                             break;
                         case "I":
                             {
-                                if (atr.tipatrden != "Versiune")
+                                if (atr.tipatrden != "Versiune" && atr.tipatrden != "Tip")
                                     lista_atr.Add(new { id_atr = atr.id, nume_atr = atr.tipatrden, tip_val = atr.tip_valoare, val_atr = atr.val_int });
-                                else
+                                else if (atr.tipatrden == "Versiune")
                                 {
                                     string versiune = (from ver in db.echipament_versiuni where ver.id == atr.val_int select ver.denumire).FirstOrDefault();
                                     lista_atr.Add(new { id_atr = atr.id, nume_atr = atr.tipatrden, tip_val = atr.tip_valoare, val_atr = new { idver = atr.val_int, den_ver = versiune } });
+                                }
+                                else if (atr.tipatrden == "Tip")
+                                {
+                                    string versiune = (from ver in db.echipament_tip where ver.id == atr.val_int select ver.denumire).FirstOrDefault();
+                                    lista_atr.Add(new { id_atr = atr.id, nume_atr = atr.tipatrden, tip_val = atr.tip_valoare, val_atr = new { idsel = atr.val_int, den_tip = versiune } });
                                 }
                                 break;
                             }
@@ -100,14 +115,21 @@ namespace TreeViewDemo.Controllers
                     {
                         s = new echipament();
                         s.denumire = echipmodel["denumire"].ToString();
-                        s.tipID = int.Parse(echipmodel["tipechipament"].ToString());
-                        s.siteID = long.Parse(echipmodel["siteID"].ToString());
+
+                        int x = 0;
+                        if(int.TryParse(echipmodel["tipechipament"].ToString(), out x) == true)
+                            s.tipID = int.Parse(echipmodel["tipechipament"].ToString());
+                        else
+                            s.tipID = int.Parse(echipmodel["tipechipament"].ToString().Split('_')[0]);
+
+
+                        s.siteID = long.Parse(echipmodel["siteID"].ToString()); /// ???
                         db.AddToechipaments(s);
 
                         atribut a = new atribut();
-                        a.val_string = echipmodel["tip_val"];
+                        a.val_string = null;
                         a.val_csv = null;
-                        a.val_int = null;
+                        a.val_int = int.Parse(echipmodel["tip_val"]);
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "Tip" select ta.id).FirstOrDefault();
                         db.AddToatributs(a);
@@ -252,9 +274,9 @@ namespace TreeViewDemo.Controllers
             string cale = "";
 
             long siteID = (from s in db.sites join e in db.echipaments on s.id equals e.siteID where e.id == idechip select s.id).FirstOrDefault();
-            long judetID = (from s in db.sites join e in db.judetes on s.judetID equals e.id where s.id == siteID select s.id).FirstOrDefault();
+            long judetID = (from s in db.sites join e in db.judetes on s.judetID equals e.id where s.id == siteID select e.id).FirstOrDefault();
             var tip_echip = (from t in db.tip_echipament join e in db.echipaments on t.id equals e.tipID where e.id == idechip select new { t.id, t.denumire }).FirstOrDefault();
-            cale = judetID.ToString() + "_judet," + siteID.ToString() + "_site," + tip_echip.id + "_tip_echipament_" + judetID.ToString() + "_" + siteID.ToString() + "," + id;
+            cale = judetID.ToString() + "_judet," + siteID.ToString() + "_site," + tip_echip.id + "_tip_echipament_" + siteID.ToString() +  "_" + judetID.ToString() + "," + id;
             return cale;
         }
 
@@ -268,6 +290,22 @@ namespace TreeViewDemo.Controllers
             }
             if (idver != null)
                 tipcartele += idver.ToString();
+            else
+                tipcartele = tipcartele.TrimEnd(',');
+
+            return tipcartele;
+        }
+
+        public string GetTip(long? idsel)
+        {
+            string tipcartele = "";
+            var tip = (from tc in db.echipament_tip select new { tc.id, tc.denumire }).ToList();
+            foreach (var s in tip)
+            {
+                tipcartele += s.id + ":" + s.denumire + ",";
+            }
+            if (idsel != null)
+                tipcartele += idsel.ToString();
             else
                 tipcartele = tipcartele.TrimEnd(',');
 

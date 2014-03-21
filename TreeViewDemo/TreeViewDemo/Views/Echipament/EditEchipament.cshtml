@@ -102,7 +102,41 @@
                        }
                         });
                    }
-                   else {
+                   else if (x[i].nume_atr == 'Tip') {
+                       var mainDiv = document.getElementById('text_div');
+                       var newSpan2 = document.createElement('select');
+                       console.log(x[i]);
+                       var idsel1 = '@ViewBag.id' + "_" + x[i].id_atr;
+                       newSpan2.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                       newSpan2.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                       newSpan2.className = "editors";
+                       mainDiv.appendChild(newSpan2);
+
+                       $.ajax({
+                           url: '@Url.Content("~/Echipament/GetTip")',
+                           type: 'POST',
+                           data: { idsel: x[i].val_atr.idsel },
+                           success: function (response) {
+                               var tipuri = response.split(',');
+                               var option2 = document.createElement("option");
+                               option2.value = '';
+                               option2.text = '';
+
+                               var selvar1 = document.getElementById(idsel1);
+                               selvar1.appendChild(option2);
+
+                               for (var j = 0; j < tipuri.length - 1 ; j++) {
+                                   var option2 = document.createElement("option");
+                                   var valtext = tipuri[j].split(':');
+                                   option2.value = valtext[0];
+                                   option2.text = valtext[1];
+                                   selvar1.appendChild(option2);
+                               }
+                               $("#" + idsel1).val(tipuri[j]);
+                           }
+                       });
+                   } else
+                   {
                        var mainDiv = document.getElementById('text_div');
                        var newSpan = document.createElement('input');
                        newSpan.type = "text";
@@ -125,33 +159,62 @@
                    var br = document.createElement("br");
                    mainDiv.appendChild(br);
 
+
+                   var newSpan = document.createElement('input');
+                   newSpan.type = "hidden";
+                   newSpan.id = 'siteID';
+                   newSpan.name = 'siteID';
+                   newSpan.value = '@ViewBag.siteID';
+                   document.getElementById('text_div').appendChild(newSpan);
                }
            }
            else {
                if ('@ViewBag.numeechip' == 'PABX') {
-                   var mainDiv = document.getElementById('text_div');
-                   var newSpan = document.createElement('input');
-                   newSpan.type = "text";
-                   newSpan.id = 'tip_val';
-                   newSpan.name = 'tip_val'
-                   newSpan.className = "editors";
+                  
+
+                   $.ajax({
+                       url: '@Url.Content("~/Echipament/GetTip")',
+                         type: 'POST',
+                         success: function (response) {
+                             var mainDiv = document.getElementById('text_div');
+                             var newSpan = document.createElement('select');
+
+                             newSpan.id = 'tip_val';
+                             newSpan.name = 'tip_val'
+                             newSpan.className = "editors";
+                             mainDiv.appendChild(newSpan);
+                             var tipuri = response.split(',');
+                             var option = document.createElement("option");
+                             option.value = '';
+                             option.text = '';
+                             newSpan.appendChild(option);
+                             for (var i = 0; i < tipuri.length; i++) {
+                                 var option = document.createElement("option");
+                                 var valtext = tipuri[i].split(':');
+                                 option.value = valtext[0];
+                                 option.text = valtext[1];
+                                 newSpan.appendChild(option);
+                             }
+
+
+                             newSpan = document.createElement('input');
+                             newSpan.type = "hidden";
+                             newSpan.id = 'tip_val:';
+                             newSpan.name = 'tip_val:';
+                             newSpan.value = 'I';
+                             mainDiv.appendChild(newSpan);
+
+
+
+
+                             newSpan = document.createElement('input');
+                             newSpan.type = "hidden";
+                             newSpan.id = 'tipechipament';
+                             newSpan.name = 'tipechipament';
+                             newSpan.value = '@ViewBag.tipechipament';
                    mainDiv.appendChild(newSpan);
 
 
-                   newSpan = document.createElement('input');
-                   newSpan.type = "hidden";
-                   newSpan.id = 'tipechipament';
-                   newSpan.name = 'tipechipament';
-                   newSpan.value = '@ViewBag.tipechipament';
-                   mainDiv.appendChild(newSpan);
-
-
-                   newSpan = document.createElement('input');
-                   newSpan.type = "hidden";
-                   newSpan.id = 'tip_val:';
-                   newSpan.name = 'tip_val:';
-                   newSpan.value = 'S';
-                   mainDiv.appendChild(newSpan);
 
                    var br = document.createElement("br");
                    mainDiv.appendChild(br);
@@ -194,14 +257,18 @@
                                newSpan.appendChild(option);
                            }
                        }
-                       });
+                   });
 
-                   newSpan = document.createElement('input');
-                   newSpan.type = "hidden";
-                   newSpan.id = 'ver_val:';
-                   newSpan.name = 'ver_val:';
-                   newSpan.value = 'I';
-                   mainDiv.appendChild(newSpan);
+                             newSpan = document.createElement('input');
+                             newSpan.type = "hidden";
+                             newSpan.id = 'ver_val:';
+                             newSpan.name = 'ver_val:';
+                             newSpan.value = 'I';
+                             mainDiv.appendChild(newSpan);
+                         }
+                     });
+
+                     
 
                    var newSpan = document.createElement('input');
                    newSpan.type = "hidden";
