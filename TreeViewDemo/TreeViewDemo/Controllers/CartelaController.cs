@@ -347,5 +347,51 @@ namespace TreeViewDemo.Controllers
             cale = nume.judet + "_judet," + nume.site + "_site," + nume.tipechip + "_tip_echipament_" + nume.judet+"_"+nume.site+","+nume.parinteE+"_echipament,"+nume.id+"_cartela";
             return cale;                        
         }
+
+        
+        [HttpPost]
+        public string StergeCartela(string id)
+        {
+            long idcartela = long.Parse(id.Split('_')[0]);
+
+            long idcentrala = (from c in db.cartelas where c.id == idcartela select c.echipamentID).FirstOrDefault();
+
+            var judet = (from j in db.judetes
+                         join s in db.sites on j.id equals s.judetID
+                         join e in db.echipaments on s.id equals e.siteID
+                         join c in db.cartelas
+                             on e.id equals c.echipamentID
+                         where c.id == idcartela
+                         select new { j.id, j.denumire }).FirstOrDefault();
+
+            cartela car = (from c in db.cartelas where c.id == idcartela select c).FirstOrDefault();
+            var c_a = (from ca in db.cartela_atribute where ca.cartelaID == idcartela select new {ca.id, ca.atributID}).ToList();
+            //var atr = ( from a in db.atributs join ca in db.cartela_atribute on a.id equals ca.atributID  select a.id).ToList();
+
+
+            foreach (var x in c_a)
+            {
+                cartela_atribute y = (from a in db.cartela_atribute where a.id == x.id select a).FirstOrDefault();
+                db.cartela_atribute.DeleteObject(y);
+                db.SaveChanges();
+            }
+
+            foreach (var x in c_a)
+            {
+                atribut y = (from a in db.atributs where a.id == x.atributID select a).FirstOrDefault();
+                db.atributs.DeleteObject(y);
+                db.SaveChanges();
+            }
+            
+
+            db.cartelas.DeleteObject(car);
+            db.SaveChanges();
+
+
+            return idcentrala.ToString() + "_echipament";
+
+            //return RedirectToAction("Index", "Judete", new { name = judet.denumire.ToString(), id = idcentrala.ToString() + "_echipament" });
+        }
+         
     }
 }

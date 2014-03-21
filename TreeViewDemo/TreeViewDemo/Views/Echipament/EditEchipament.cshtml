@@ -248,7 +248,15 @@
         $("#submit_1").removeClass("editors");
         $("#atr_nou").removeClass("editors");
         $("#cartela_noua").removeClass("editors");
+        $("#createechip").removeClass("editors");
+        $("#create").removeClass("editors");
 
+        var getDetailsFunction = function () {
+            return function (data, textStatus, jqXHR) {
+                console.log("data = " + data);
+                $("#details").html(data);
+            };
+        }
 
         $("#cartela_noua").click(function () {
             $("#treeDemo").find(".jstree-checked").each(function (index) {

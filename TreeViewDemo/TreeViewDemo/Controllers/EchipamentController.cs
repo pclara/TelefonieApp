@@ -232,8 +232,13 @@ namespace TreeViewDemo.Controllers
                         }
                     }
                 }
+                var judet = (from j in db.judetes
+                             join s1 in db.sites on j.id equals s1.judetID
+                             join e in db.echipaments on s1.id equals e.siteID
+                             where e.id == s.id
+                             select new { j.id, j.denumire }).FirstOrDefault();
 
-                return RedirectToAction("Index", "Judete", new { name = "Bucuresti", id = s.id.ToString() + "_echipament" });
+                return RedirectToAction("Index", "Judete", new { name = judet.denumire.ToString() , id = s.id.ToString() + "_echipament" });
             }
             else
             {

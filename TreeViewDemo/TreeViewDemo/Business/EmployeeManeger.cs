@@ -72,12 +72,17 @@ namespace TreeViewDemo.Business
                     string judetID = rootNode.attr.parentJudet;
 
                     List<JsTreeModel> children = (from e1 in _orgDb.tip_echipament
+                                                  let copii = (from j in _orgDb.judetes join s in _orgDb.sites on j.id equals s.judetID
+                                                                   join e in _orgDb.echipaments on s.id equals e.siteID
+                                                                   join te in _orgDb.tip_echipament on e.tipID equals te.id
+                                                                   where te.id == e1.id
+                                                                   select e.id).Count()
                                                   select new JsTreeModel()
                                                   {
                                                       data = new JsTreeData() { title = e1.denumire, icon = "" },
                                                       attr = new JsTreeAttribute() { description = "tip_echipament", id = SqlFunctions.StringConvert((double)e1.id).Trim() + "_tip_echipament_" + siteID + "_" + judetID, selected = false },
                                                       id = SqlFunctions.StringConvert((double)e1.id).Trim() +"_tip_echipament_"+ siteID + "_"+judetID,
-                                                      state = "closed"
+                                                      state = copii > 0 ? "closed" : null
                                                   }).ToList<JsTreeModel>();
 
                     if (children.Count > 0)
@@ -101,12 +106,16 @@ namespace TreeViewDemo.Business
                                                                    join ta in _orgDb.tip_atribut on a.tipID equals ta.id
                                                                    where e.id == e1.id && ta.denumire == "Tip"
                                                                    select a.val_string).FirstOrDefault()
+                                                  let copii = (from car in _orgDb.cartelas
+                                                               join ech in _orgDb.echipaments on car.echipamentID equals ech.id
+                                                               where ech.id == e1.id
+                                                               select car.id).Count()
                                                   select new JsTreeModel()
                                                   {
                                                       data = new JsTreeData() { title = titlu, icon = "" },
                                                       attr = new JsTreeAttribute() { description = "echipament", id = SqlFunctions.StringConvert((double)e1.id).Trim() +"_echipament", selected = false },
                                                       id = SqlFunctions.StringConvert((double)e1.id).Trim() + "_echipament",
-                                                      state = "closed"
+                                                      state =  copii > 0 ?  "closed" : null
                                                   }).ToList<JsTreeModel>();
 
                     if (children.Count > 0)
@@ -129,7 +138,8 @@ namespace TreeViewDemo.Business
                                                                join e in _orgDb.cartelas on ea.cartelaID equals e.id
                                                                join ta in _orgDb.tip_cartela on e.tipID equals ta.id
                                                                where e.id == c.id
-                                                               select ta.denumire).FirstOrDefault()
+                                                               select ta.denumire).FirstOrDefault() 
+                                                  
                                                   select new JsTreeModel()
                                                   {
                                                       data = new JsTreeData() { title = titlu, icon = "" },
