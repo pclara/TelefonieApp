@@ -276,7 +276,6 @@
 
     var getDetailsFunction = function () {
         return function (data, textStatus, jqXHR) {
-            console.log("data = " + data);
             $("#details").html(data);
         };
     }
@@ -301,7 +300,7 @@
                 {
                     $("#titlu").html("Editeaza locatie");
                     $("#create").val("Creeaza locatie");
-                    $("#create").css({"display":"block"});
+                    //$("#create").css({"display":"block"});
 
                     $("#create").click(function(event, data)
                     {
@@ -316,7 +315,7 @@
                     {
                         $("#titlu").html("Editeaza tip echipament");
                         $("#create").val("Creeaza tip echipament");
-                        $("#create").css({"display":"block"});
+                        //$("#create").css({"display":"block"});
 
                         $("#create").bind("click",function(event, data)
                         {
@@ -331,9 +330,9 @@
                             var numeechip = $("#"+eventArgs.id + "_echipament").parent().parent().find("a")[0].text.trim();
                             $("#titlu").html("Editeaza "+numeechip);
                             $("#create").val("Creeaza "+numeechip);
-                            $("#create").css({"display":"block"});
+                            //$("#create").css({"display":"block"});
 
-                            $("#create").bind("click",function(event, data)
+                            $("#create").click(function(event, data)
                             {
                                 $.get('@Url.Content("~/Echipament/EditEchipament")', "id=-1" + "&&parentID=" + eventArgs.parentID,  getDetailsFunction(), 'html');
                         }
@@ -346,9 +345,9 @@
                                 var numeechip = $("#"+eventArgs.id + "_cartela").find("a")[0].text.trim();
                                 $("#titlu").html("Editeaza "+numeechip);
                                 $("#create").val("Creeaza "+numeechip);
-                                $("#create").css({"display":"block"});
+                                //$("#create").css({"display":"block"});
 
-                                $("#create").bind("click",function(event, data)
+                                $("#create").click(function(event, data)
                                 {
                                     $.get('@Url.Content("~/Cartela/EditCartela")', "id=-1" + "&&parentID=" + eventArgs.parentID,  getDetailsFunction(), 'html');
                             }

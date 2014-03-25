@@ -2,9 +2,12 @@
     ViewBag.Title = "EditEchipament";
 }
 
+
 @using (Ajax.BeginForm("Edit", "Echipament", new AjaxOptions() { HttpMethod = "POST" }, new { id = "ajaxForm" }))
   
 {
+   
+    
     <div id="labels_div"  style="float:left;margin-left:17%;margin-top:1%;margin-right:2%;">
    <input type="hidden" value="@ViewBag.id" id="id" name="id" />
         <input type="hidden" value="@ViewBag.numeechip" id="numeechip" name="numeechip" />
@@ -92,6 +95,7 @@
                 }
 
             }
+            
         </script> 
         
         </div>
@@ -99,6 +103,7 @@
    <div id="text_div" style="margin-top:1%;">
        <input type="hidden" class="editors" id="denumire" name="denumire" value="@ViewBag.numeechip" />
        <script>
+           loaded = 0;
            if ('@ViewBag.id' != -1) {   //exista deja
                var atr = '@ViewBag.atribute';
                console.log("nr atr:" + atr.length);
@@ -109,7 +114,7 @@
                        var newSpan = document.createElement('select');
                        console.log(x[i]);
                        var idsel = '@ViewBag.id' + "_" + x[i].id_atr;
-                                newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
                        newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
                        newSpan.className = "editors";
                        mainDiv.appendChild(newSpan);
@@ -117,27 +122,27 @@
                        $.ajax({
                            url: '@Url.Content("~/Echipament/GetVersiuni")',
                            type: 'POST',
-                           data:{idver : x[i].val_atr.idver},
-                            success: function (response) {
-                           var tipuri = response.split(',');
-                           var option = document.createElement("option");
-                           option.value = '';
-                           option.text = '';
-
-                           var selvar = document.getElementById(idsel);
-                           selvar.appendChild(option);
-
-                           for (var j = 0; j < tipuri.length -1 ; j++) {
+                           data: { idver: x[i].val_atr.idver },
+                           success: function (response) {
+                               var tipuri = response.split(',');
                                var option = document.createElement("option");
-                               var valtext = tipuri[j].split(':');
-                               option.value = valtext[0];
-                               option.text = valtext[1];
-                               selvar.appendChild(option);
-                           }
+                               option.value = '';
+                               option.text = '';
 
-                           $("#" + idsel).val(tipuri[j]);
-                       }
-                        });
+                               var selvar = document.getElementById(idsel);
+                               selvar.appendChild(option);
+
+                               for (var j = 0; j < tipuri.length - 1 ; j++) {
+                                   var option = document.createElement("option");
+                                   var valtext = tipuri[j].split(':');
+                                   option.value = valtext[0];
+                                   option.text = valtext[1];
+                                   selvar.appendChild(option);
+                               }
+
+                               $("#" + idsel).val(tipuri[j]);
+                           }
+                       });
                    }
                    else if (x[i].nume_atr == 'Tip') {
                        var mainDiv = document.getElementById('text_div');
@@ -172,15 +177,15 @@
                                $("#" + idsel1).val(tipuri[j]);
                            }
                        });
-                   } else if(x[i].nume_atr == "Abonati analogici" || x[i].nume_atr == "Abonati digitali" || 
-                       x[i].nume_atr == "Abonati IP" || x[i].nume_atr == "Abonati DECT" || 
-                       x[i].nume_atr == "Abonati total")
-                   {
+                   } else if (x[i].nume_atr == "Abonati analogici" || x[i].nume_atr == "Abonati digitali" ||
+                       x[i].nume_atr == "Abonati IP" || x[i].nume_atr == "Abonati DECT" ||
+                       x[i].nume_atr == "Abonati total") {
+                       alert(x[i].nume_atr);
                        var mainDiv = document.getElementById('text_div');
                        var newSpan = document.createElement('input');
                        newSpan.type = "text";
-                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr +"1";
-                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr +"1";
+                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "1";
+                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "1";
                        newSpan.className = "editors";
                        newSpan.setAttribute("style", "float:left;width:50px;");
                        newSpan.value = x[i].val_atr.split(',')[0];
@@ -188,25 +193,25 @@
 
                        var newSpan = document.createElement('input');
                        newSpan.type = "text";
-                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr+"2";
-                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr+"2";
+                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "2";
+                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "2";
                        newSpan.className = "editors";
                        newSpan.setAttribute("style", "float:right;width:50px;");
                        newSpan.value = x[i].val_atr.split(',')[1];
                        mainDiv.appendChild(newSpan);
                    }
-                   else
-                       {
-                           var mainDiv = document.getElementById('text_div');
-                           var newSpan = document.createElement('input');
-                           newSpan.type = "text";
-                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                   else {
+                       alert(x[i].val_atr);
+                       var mainDiv = document.getElementById('text_div');
+                       var newSpan = document.createElement('input');
+                       newSpan.type = "text";
+                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
                        newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
-                           newSpan.className = "editors";
-                           newSpan.value = x[i].val_atr;
-                           mainDiv.appendChild(newSpan);
-                       }
-                  
+                       newSpan.className = "editors";
+                       newSpan.value = x[i].val_atr;
+                       mainDiv.appendChild(newSpan);
+                   }
+
 
 
                    newSpan = document.createElement('input');
@@ -229,249 +234,252 @@
                }
            }
            else {   //nu exista echip
-               if ('@ViewBag.numeechip' == 'PABX') {
-                  
+               if (loaded == 0) {
+                   loaded++;
+                   if ('@ViewBag.numeechip' == 'PABX') {
 
-                   $.ajax({
-                       url: '@Url.Content("~/Echipament/GetTip")',
-                         type: 'POST',
-                         success: function (response) {
-                             var mainDiv = document.getElementById('text_div');
-                             var newSpan = document.createElement('select');
+                       $.ajax({
+                           url: '@Url.Content("~/Echipament/GetTip")',
+                           type: 'POST',
+                           success: function (response) {
+                               var mainDiv = document.getElementById('text_div');
+                               var newSpan = document.createElement('select');
 
-                             newSpan.id = 'tip_val';
-                             newSpan.name = 'tip_val'
-                             newSpan.className = "editors";
-                             mainDiv.appendChild(newSpan);
-                             var tipuri = response.split(',');
-                             var option = document.createElement("option");
-                             option.value = '';
-                             option.text = '';
-                             newSpan.appendChild(option);
-                             for (var i = 0; i < tipuri.length; i++) {
-                                 var option = document.createElement("option");
-                                 var valtext = tipuri[i].split(':');
-                                 option.value = valtext[0];
-                                 option.text = valtext[1];
-                                 newSpan.appendChild(option);
-                             }
-
-
-                             newSpan = document.createElement('input');
-                             newSpan.type = "hidden";
-                             newSpan.id = 'tip_val:';
-                             newSpan.name = 'tip_val:';
-                             newSpan.value = 'I';
-                             mainDiv.appendChild(newSpan);
-
-
-
-
-                             newSpan = document.createElement('input');
-                             newSpan.type = "hidden";
-                             newSpan.id = 'tipechipament';
-                             newSpan.name = 'tipechipament';
-                             newSpan.value = '@ViewBag.tipechipament';
-                   mainDiv.appendChild(newSpan);
-
-
-
-                   var br = document.createElement("br");
-                   mainDiv.appendChild(br);
-
-                   var newSpan = document.createElement('input');
-                   newSpan.type = "text";
-                   newSpan.id = 'ip_val';
-                   newSpan.name = 'ip_val'
-                   newSpan.className = "editors";
-                   mainDiv.appendChild(newSpan);
-
-                   newSpan = document.createElement('input');
-                   newSpan.type = "hidden";
-                   newSpan.id = 'ip_val:';
-                   newSpan.name = 'ip_val:';
-                   newSpan.value = 'S';
-                   mainDiv.appendChild(newSpan);
-
-                   $.ajax({
-                       url: '@Url.Content("~/Echipament/GetVersiuni")',
-                       type: 'POST',
-                       success: function (response) {
-                           var mainDiv = document.getElementById('text_div');
-                           var newSpan = document.createElement('select');
-
-                           newSpan.id = 'ver_val';
-                           newSpan.name = 'ver_val'
-                           newSpan.className = "editors";
-                           mainDiv.appendChild(newSpan);
-                           var tipuri = response.split(',');
-                           var option = document.createElement("option");
-                           option.value = '';
-                           option.text = '';
-                           newSpan.appendChild(option);
-                           for (var i = 0; i < tipuri.length; i++) {
+                               newSpan.id = 'tip_val';
+                               newSpan.name = 'tip_val'
+                               newSpan.className = "editors";
+                               mainDiv.appendChild(newSpan);
+                               var tipuri = response.split(',');
                                var option = document.createElement("option");
-                               var valtext = tipuri[i].split(':');
-                               option.value = valtext[0];
-                               option.text = valtext[1];
+                               option.value = '';
+                               option.text = '';
                                newSpan.appendChild(option);
+                               for (var i = 0; i < tipuri.length; i++) {
+                                   var option = document.createElement("option");
+                                   var valtext = tipuri[i].split(':');
+                                   option.value = valtext[0];
+                                   option.text = valtext[1];
+                                   newSpan.appendChild(option);
+                               }
+
+
+                               newSpan = document.createElement('input');
+                               newSpan.type = "hidden";
+                               newSpan.id = 'tip_val:';
+                               newSpan.name = 'tip_val:';
+                               newSpan.value = 'I';
+                               mainDiv.appendChild(newSpan);
+
+
+
+
+                               newSpan = document.createElement('input');
+                               newSpan.type = "hidden";
+                               newSpan.id = 'tipechipament';
+                               newSpan.name = 'tipechipament';
+                               newSpan.value = '@ViewBag.tipechipament';
+                               mainDiv.appendChild(newSpan);
+
+
+
+                               var br = document.createElement("br");
+                               mainDiv.appendChild(br);
+
+                               var newSpan = document.createElement('input');
+                               newSpan.type = "text";
+                               newSpan.id = 'ip_val';
+                               newSpan.name = 'ip_val'
+                               newSpan.className = "editors";
+                               mainDiv.appendChild(newSpan);
+
+                               newSpan = document.createElement('input');
+                               newSpan.type = "hidden";
+                               newSpan.id = 'ip_val:';
+                               newSpan.name = 'ip_val:';
+                               newSpan.value = 'S';
+                               mainDiv.appendChild(newSpan);
+
+                               $.ajax({
+                                   url: '@Url.Content("~/Echipament/GetVersiuni")',
+                                   type: 'POST',
+                                   success: function (response) {
+                                       var mainDiv = document.getElementById('text_div');
+                                       var newSpan = document.createElement('select');
+
+                                       newSpan.id = 'ver_val';
+                                       newSpan.name = 'ver_val'
+                                       newSpan.className = "editors";
+                                       mainDiv.appendChild(newSpan);
+                                       var tipuri = response.split(',');
+                                       var option = document.createElement("option");
+                                       option.value = '';
+                                       option.text = '';
+                                       newSpan.appendChild(option);
+                                       for (var i = 0; i < tipuri.length; i++) {
+                                           var option = document.createElement("option");
+                                           var valtext = tipuri[i].split(':');
+                                           option.value = valtext[0];
+                                           option.text = valtext[1];
+                                           newSpan.appendChild(option);
+                                       }
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_analogici_dela';
+                                       newSpan.name = 'ab_analogici_dela';
+                                       newSpan.setAttribute("style", "float:left;width:50px;");
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_analogici_dela:';
+                                       newSpan.name = 'ab_analogici_dela:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_analogici_panala';
+                                       newSpan.name = 'ab_analogici_panala';
+                                       newSpan.setAttribute("style", "float:right;width:50px;");
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_analogici_panala:';
+                                       newSpan.name = 'ab_analogici_panala:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_digitali_dela';
+                                       newSpan.name = 'ab_digitali_dela';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_digitali_dela:';
+                                       newSpan.name = 'ab_digitali_dela:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_digitali_panala';
+                                       newSpan.name = 'ab_digitali_panala';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_digitali_panala:';
+                                       newSpan.name = 'ab_digitali_panala:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_IP_dela';
+                                       newSpan.name = 'ab_IP_dela';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_IP_dela:';
+                                       newSpan.name = 'ab_IP_dela:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_IP_panala';
+                                       newSpan.name = 'ab_IP_panala';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_IP_panala:';
+                                       newSpan.name = 'ab_IP_panala:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_DECT_dela';
+                                       newSpan.name = 'ab_DECT_dela';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_DECT_dela:';
+                                       newSpan.name = 'ab_DECT_dela:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_DECT_panala';
+                                       newSpan.name = 'ab_DECT_panala';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_DECT_panala:';
+                                       newSpan.name = 'ab_DECT_panala:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_total_dela';
+                                       newSpan.name = 'ab_total_dela';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_total_dela:';
+                                       newSpan.name = 'ab_total_dela:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_total_panala';
+                                       newSpan.name = 'ab_total_panala';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_total_panala:';
+                                       newSpan.name = 'ab_total_panala:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+                                   }
+                               });
+
+                               newSpan = document.createElement('input');
+                               newSpan.type = "hidden";
+                               newSpan.id = 'ver_val:';
+                               newSpan.name = 'ver_val:';
+                               newSpan.value = 'I';
+                               mainDiv.appendChild(newSpan);
+
+
+
                            }
-
-                           newSpan = document.createElement('input');
-                           newSpan.type = "text";
-                           newSpan.id = 'ab_analogici_dela';
-                           newSpan.name = 'ab_analogici_dela';
-                           newSpan.setAttribute("style", "float:left;width:50px;");
-                           mainDiv.appendChild(newSpan);
-
-                           newSpan = document.createElement('input');
-                           newSpan.type = "hidden";
-                           newSpan.id = 'ab_analogici_dela:';
-                           newSpan.name = 'ab_analogici_dela:';
-                           newSpan.value = 'I';
-                           mainDiv.appendChild(newSpan);
-
-                           newSpan = document.createElement('input');
-                           newSpan.type = "text";
-                           newSpan.id = 'ab_analogici_panala';
-                           newSpan.name = 'ab_analogici_panala';
-                           newSpan.setAttribute("style", "float:right;width:50px;");
-                           mainDiv.appendChild(newSpan);
-
-                           newSpan = document.createElement('input');
-                           newSpan.type = "hidden";
-                           newSpan.id = 'ab_analogici_panala:';
-                           newSpan.name = 'ab_analogici_panala:';
-                           newSpan.value = 'I';
-                           mainDiv.appendChild(newSpan);
+                       });
 
 
-                           newSpan = document.createElement('input');
-                           newSpan.type = "text";
-                           newSpan.id = 'ab_digitali_dela';
-                           newSpan.name = 'ab_digitali_dela';
-                           mainDiv.appendChild(newSpan);
 
-                           newSpan = document.createElement('input');
-                           newSpan.type = "hidden";
-                           newSpan.id = 'ab_digitali_dela:';
-                           newSpan.name = 'ab_digitali_dela:';
-                           newSpan.value = 'I';
-                           mainDiv.appendChild(newSpan);
-
-                           newSpan = document.createElement('input');
-                           newSpan.type = "text";
-                           newSpan.id = 'ab_digitali_panala';
-                           newSpan.name = 'ab_digitali_panala';
-                           mainDiv.appendChild(newSpan);
-
-                           newSpan = document.createElement('input');
-                           newSpan.type = "hidden";
-                           newSpan.id = 'ab_digitali_panala:';
-                           newSpan.name = 'ab_digitali_panala:';
-                           newSpan.value = 'I';
-                           mainDiv.appendChild(newSpan);
-
-                           newSpan = document.createElement('input');
-                           newSpan.type = "text";
-                           newSpan.id = 'ab_IP_dela';
-                           newSpan.name = 'ab_IP_dela';
-                           mainDiv.appendChild(newSpan);
-
-                           newSpan = document.createElement('input');
-                           newSpan.type = "hidden";
-                           newSpan.id = 'ab_IP_dela:';
-                           newSpan.name = 'ab_IP_dela:';
-                           newSpan.value = 'I';
-                           mainDiv.appendChild(newSpan);
-
-                           newSpan = document.createElement('input');
-                           newSpan.type = "text";
-                           newSpan.id = 'ab_IP_panala';
-                           newSpan.name = 'ab_IP_panala';
-                           mainDiv.appendChild(newSpan);
-
-                           newSpan = document.createElement('input');
-                           newSpan.type = "hidden";
-                           newSpan.id = 'ab_IP_panala:';
-                           newSpan.name = 'ab_IP_panala:';
-                           newSpan.value = 'I';
-                           mainDiv.appendChild(newSpan);
-
-                           newSpan = document.createElement('input');
-                           newSpan.type = "text";
-                           newSpan.id = 'ab_DECT_dela';
-                           newSpan.name = 'ab_DECT_dela';
-                           mainDiv.appendChild(newSpan);
-
-                           newSpan = document.createElement('input');
-                           newSpan.type = "hidden";
-                           newSpan.id = 'ab_DECT_dela:';
-                           newSpan.name = 'ab_DECT_dela:';
-                           newSpan.value = 'I';
-                           mainDiv.appendChild(newSpan);
-
-                           newSpan = document.createElement('input');
-                           newSpan.type = "text";
-                           newSpan.id = 'ab_DECT_panala';
-                           newSpan.name = 'ab_DECT_panala';
-                           mainDiv.appendChild(newSpan);
-
-                           newSpan = document.createElement('input');
-                           newSpan.type = "hidden";
-                           newSpan.id = 'ab_DECT_panala:';
-                           newSpan.name = 'ab_DECT_panala:';
-                           newSpan.value = 'I';
-                           mainDiv.appendChild(newSpan);
-
-                           newSpan = document.createElement('input');
-                           newSpan.type = "text";
-                           newSpan.id = 'ab_total_dela';
-                           newSpan.name = 'ab_total_dela';
-                           mainDiv.appendChild(newSpan);
-
-                           newSpan = document.createElement('input');
-                           newSpan.type = "hidden";
-                           newSpan.id = 'ab_total_dela:';
-                           newSpan.name = 'ab_total_dela:';
-                           newSpan.value = 'I';
-                           mainDiv.appendChild(newSpan);
-
-                           newSpan = document.createElement('input');
-                           newSpan.type = "text";
-                           newSpan.id = 'ab_total_panala';
-                           newSpan.name = 'ab_total_panala';
-                           mainDiv.appendChild(newSpan);
-
-                           newSpan = document.createElement('input');
-                           newSpan.type = "hidden";
-                           newSpan.id = 'ab_total_panala:';
-                           newSpan.name = 'ab_total_panala:';
-                           newSpan.value = 'I';
-                           mainDiv.appendChild(newSpan);
-                       }
-                   });
-
-                             newSpan = document.createElement('input');
-                             newSpan.type = "hidden";
-                             newSpan.id = 'ver_val:';
-                             newSpan.name = 'ver_val:';
-                             newSpan.value = 'I';
-                             mainDiv.appendChild(newSpan);
-
-
-                            
-                         }
-                     });
-
-                     
-
-                   var newSpan = document.createElement('input');
-                   newSpan.type = "hidden";
-                   newSpan.id = 'siteID';
-                   newSpan.name = 'siteID';
-                   newSpan.value = '@ViewBag.siteID';
-                   document.getElementById('text_div').appendChild(newSpan);
+                       var newSpan = document.createElement('input');
+                       newSpan.type = "hidden";
+                       newSpan.id = 'siteID';
+                       newSpan.name = 'siteID';
+                       newSpan.value = '@ViewBag.siteID';
+                       document.getElementById('text_div').appendChild(newSpan);
+                   }
+                   loaded++;
                }
            }
         </script> 
