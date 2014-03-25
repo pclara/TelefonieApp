@@ -576,17 +576,13 @@
 
 
 
-                       var newSpan = document.createElement('input');
-                       newSpan.type = "hidden";
-                       newSpan.id = 'siteID';
-                       newSpan.name = 'siteID';
-                       newSpan.value = '@ViewBag.siteID';
-                       document.getElementById('text_div').appendChild(newSpan);
+                      
                    }
                    else if ('@ViewBag.numeechip' == 'MSED') {
 
                        var mainDiv = document.getElementById('text_div');
 
+                     
                        var newSpan = document.createElement('label');
                        newSpan.className = "labels";
                        newSpan.innerHTML = "IP CES <br/> REMOTE";
@@ -622,6 +618,22 @@
 
                       
                    }
+
+                   var mainDiv = document.getElementById('text_div');
+
+                   newSpan = document.createElement('input');
+                   newSpan.type = "hidden";
+                   newSpan.id = 'tipechipament';
+                   newSpan.name = 'tipechipament';
+                   newSpan.value = '@ViewBag.tipechipament';
+                       mainDiv.appendChild(newSpan);
+
+                   var newSpan = document.createElement('input');
+                   newSpan.type = "hidden";
+                   newSpan.id = 'siteID';
+                   newSpan.name = 'siteID';
+                   newSpan.value = '@ViewBag.siteID';
+                       document.getElementById('text_div').appendChild(newSpan);
                    loaded++;
                }
            }
@@ -658,6 +670,7 @@
     
     <script>
         function submit_form() {
+            alert("before submit");
             $('#ajaxForm').trigger('submit');
         }
         function addatribut() {
