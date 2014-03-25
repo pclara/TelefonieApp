@@ -148,14 +148,14 @@ namespace TreeViewDemo.Controllers
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "Versiune" select ta.id).FirstOrDefault();
                         db.AddToatributs(a);
+                        db.SaveChanges();
 
                         ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
                         db.AddToechipament_atribute(ea);
-
                         db.SaveChanges();
-
+                        ////
                         a = new atribut();
                         a.val_string = echipmodel["ip_val"];
                         a.val_csv = null;
@@ -163,24 +163,175 @@ namespace TreeViewDemo.Controllers
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "IP" select ta.id).FirstOrDefault();
                         db.AddToatributs(a);
+                        ea = new echipament_atribute();
+                        ea.echipamentID = s.id;
+                        ea.atributID = a.id;
+                        db.AddToechipament_atribute(ea);
+                        db.SaveChanges();
+                        ///
+                        a = new atribut();
+                        a.val_string = null;
+                        a.val_csv = echipmodel["ab_analogici_dela"].ToString() + "," + echipmodel["ab_analogici_panala"].ToString();
+                        a.val_int = null;
+                        a.val_nr = null;
+                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati analogici" select ta.id).FirstOrDefault();
+                        db.AddToatributs(a);
 
                         ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
                         db.AddToechipament_atribute(ea);
+                        db.SaveChanges();
+                        ///
+                        /*
+                        a = new atribut();
+                        a.val_string = null;
+                        a.val_csv = null;
+                        a.val_int = int.Parse( echipmodel["ab_analogici_panala"].ToString());
+                        a.val_nr = null;
+                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati analogici pana la" select ta.id).FirstOrDefault();
+                        db.AddToatributs(a);
+
+                        ea = new echipament_atribute();
+                        ea.echipamentID = s.id;
+                        ea.atributID = a.id;
+                        db.AddToechipament_atribute(ea);
+                          db.SaveChanges();*/
+                        ////
+                        a = new atribut();
+                        a.val_string = null;
+                        a.val_csv = echipmodel["ab_digitali_dela"].ToString() + "," + echipmodel["ab_digitali_panala"].ToString();
+                        a.val_int = null;
+                        a.val_nr = null;
+                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati digitali" select ta.id).FirstOrDefault();
+                        db.AddToatributs(a);
+
+                        ea = new echipament_atribute();
+                        ea.echipamentID = s.id;
+                        ea.atributID = a.id;
+                        db.AddToechipament_atribute(ea);
+                        db.SaveChanges();
+                        ///
+                        /*
+                        a = new atribut();
+                        a.val_string = null;
+                        a.val_csv = null;
+                        a.val_int = int.Parse(echipmodel["ab_digitali_panala"].ToString());
+                        a.val_nr = null;
+                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati digitali pana la" select ta.id).FirstOrDefault();
+                        db.AddToatributs(a);
+                    
+                        ea = new echipament_atribute();
+                        ea.echipamentID = s.id;
+                        ea.atributID = a.id;
+                        db.AddToechipament_atribute(ea);
+
+                        db.SaveChanges();*/
+                        ////
+                        a = new atribut();
+                        a.val_string = null;
+                        a.val_csv = echipmodel["ab_IP_dela"].ToString() + "," + echipmodel["ab_IP_panala"].ToString();
+                        a.val_int = null;
+                        a.val_nr = null;
+                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati IP" select ta.id).FirstOrDefault();
+                        db.AddToatributs(a);
+
+                        ea = new echipament_atribute();
+                        ea.echipamentID = s.id;
+                        ea.atributID = a.id;
+                        db.AddToechipament_atribute(ea);
+
+                        db.SaveChanges();
+                        //
+                        /*
+                        a = new atribut();
+                        a.val_string = null;
+                        a.val_csv = null;
+                        a.val_int = int.Parse(echipmodel["ab_IP_panala"].ToString());
+                        a.val_nr = null;
+                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati IP pana la" select ta.id).FirstOrDefault();
+                        db.AddToatributs(a);
+
+                        ea = new echipament_atribute();
+                        ea.echipamentID = s.id;
+                        ea.atributID = a.id;
+                        db.AddToechipament_atribute(ea);
+
+                        db.SaveChanges();*/
+                        ///
+                        a = new atribut();
+                        a.val_string = null;
+                        a.val_csv = echipmodel["ab_DECT_dela"].ToString() + "," + echipmodel["ab_DECT_panala"].ToString();
+                        a.val_int = null;
+                        a.val_nr = null;
+                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati DECT" select ta.id).FirstOrDefault();
+                        db.AddToatributs(a);
+
+                        ea = new echipament_atribute();
+                        ea.echipamentID = s.id;
+                        ea.atributID = a.id;
+                        db.AddToechipament_atribute(ea);
+
+                        db.SaveChanges();
+                        //
+                        /*
+                        a = new atribut();
+                        a.val_string = null;
+                        a.val_csv = null;
+                        a.val_int = int.Parse(echipmodel["ab_DECT_panala"].ToString());
+                        a.val_nr = null;
+                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati DECT pana la" select ta.id).FirstOrDefault();
+                        db.AddToatributs(a);
+
+                        ea = new echipament_atribute();
+                        ea.echipamentID = s.id;
+                        ea.atributID = a.id;
+                        db.AddToechipament_atribute(ea);
+
+                        db.SaveChanges();*/
+                        //
+                        a = new atribut();
+                        a.val_string = null;
+                        a.val_csv = echipmodel["ab_total_dela"].ToString() + "," + echipmodel["ab_total_panala"].ToString();
+                        a.val_int = null;
+                        a.val_nr = null;
+                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati total" select ta.id).FirstOrDefault();
+                        db.AddToatributs(a);
+
+                        ea = new echipament_atribute();
+                        ea.echipamentID = s.id;
+                        ea.atributID = a.id;
+                        db.AddToechipament_atribute(ea);
+                        db.SaveChanges();
+                        //
+                        /*
+                        a = new atribut();
+                        a.val_string = null;
+                        a.val_csv = null;
+                        a.val_int = int.Parse(echipmodel["ab_total_panala"].ToString());
+                        a.val_nr = null;
+                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati total pana la" select ta.id).FirstOrDefault();
+                        db.AddToatributs(a);
+
+                        ea = new echipament_atribute();
+                        ea.echipamentID = s.id;
+                        ea.atributID = a.id;
+                        db.AddToechipament_atribute(ea);
+                        db.SaveChanges();*/
+
                     }
                     else
                         s = new echipament();
 
                     db.SaveChanges();
                 }
-                else
+                else//exista deja
                 {
                     s = db.echipaments.Where(o => o.id == id).FirstOrDefault();
                     int i = 0;
                     foreach (var key in echipmodel.Keys)
                     {
-                        if (key.ToString() != "numeechip" && key.ToString() != "tip_nou" && key.ToString() != "denumire" && key.ToString() != "tip_val" && key.ToString() != "val_nou" && key.ToString() != "id" && !key.ToString().EndsWith(":"))
+                        if (key.ToString() != "numeechip" && key.ToString() != "ab_analogici_dela" && key.ToString() != "ab_digitali_dela" && key.ToString() != "ab_IP_dela" && key.ToString() != "ab_DECT_dela" && key.ToString() != "ab_total_dela" && key.ToString() != "ab_analogici_panala" && key.ToString() != "ab_digitali_panala" && key.ToString() != "ab_IP_panala" && key.ToString() != "ab_DECT_panala" && key.ToString() != "ab_total_panala" && key.ToString() != "tip_nou" && key.ToString() != "denumire" && key.ToString() != "tip_val" && key.ToString() != "val_nou" && key.ToString() != "id" && !key.ToString().EndsWith(":"))
                         {
                             string idechip_idatr = key.ToString();
                             long idechip = long.Parse(idechip_idatr.Split('_')[0]);
