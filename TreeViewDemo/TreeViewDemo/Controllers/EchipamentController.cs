@@ -328,9 +328,9 @@ namespace TreeViewDemo.Controllers
             if (denumire == "PABX")
             {
 
-                var listacartele = (from c in db.cartelas where c.echipamentID == idechipament select c.id);
+                var listacartele = (from c in db.cartelas where c.echipamentID == idechipament select c.id).ToList();
 
-                foreach (long idcartela in listacartele)
+                foreach (long idcartela in listacartele.ToList())
                 {
                     var judet = (from j in db.judetes
                                  join s in db.sites on j.id equals s.judetID
@@ -345,20 +345,21 @@ namespace TreeViewDemo.Controllers
                     //var atr = ( from a in db.atributs join ca in db.cartela_atribute on a.id equals ca.atributID  select a.id).ToList();
 
 
-                    foreach (var x in c_a)
+                    foreach (var x in c_a.ToList())
                     {
                         cartela_atribute y = (from a in db.cartela_atribute where a.id == x.id select a).FirstOrDefault();
                         db.cartela_atribute.DeleteObject(y);
-                        db.SaveChanges();
                     }
+                    db.SaveChanges();
+
 
                     foreach (var x in c_a)
                     {
                         atribut y = (from a in db.atributs where a.id == x.atributID select a).FirstOrDefault();
                         db.atributs.DeleteObject(y);
-                        db.SaveChanges();
                     }
 
+                    db.SaveChanges();
 
                     db.cartelas.DeleteObject(car);
                     db.SaveChanges();
@@ -369,7 +370,13 @@ namespace TreeViewDemo.Controllers
 
                 var listaatr = (from e in db.echipament_atribute where e.echipamentID == idechipament select new { e.id, e.atributID }).ToList();
 
-           
+
+                foreach (var x in listaatr)
+                {
+                    echipament_atribute y = (from a in db.echipament_atribute where a.id == x.id select a).FirstOrDefault();
+                    db.echipament_atribute.DeleteObject(y);
+                    db.SaveChanges();
+                }
 
                 foreach (var x in listaatr)
                 {
@@ -379,12 +386,7 @@ namespace TreeViewDemo.Controllers
                 }
 
 
-                foreach (var x in listaatr)
-                {
-                    echipament_atribute y = (from a in db.echipament_atribute where a.id == x.id select a).FirstOrDefault();
-                    db.echipament_atribute.DeleteObject(y);
-                    db.SaveChanges();
-                }
+               
 
 
              
