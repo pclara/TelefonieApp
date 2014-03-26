@@ -24,6 +24,30 @@
                     var newSpan = document.createElement('label');
                     newSpan.className = "labels";
                     newSpan.innerHTML = x[i].nume_atr;
+
+                    if ('@ViewBag.numeechip' == 'PABX') {
+                        if (i == 1) {
+                            newSpan.setAttribute("style", "margin-top:-5%;");
+                        }
+                        else if (i == 2)
+                            newSpan.setAttribute("style", "margin-top:-5%;");
+                        else if (i == 4)
+                            newSpan.setAttribute("style", "margin-top:-1%;");
+                        else if (i == 5)
+                            newSpan.setAttribute("style", "margin-top:-2%;");
+                        else if (i == 6)
+                            newSpan.setAttribute("style", "margin-top:-1%;");
+                    }
+                    else
+                        if ('@ViewBag.numeechip' == 'MSED') {
+                            if (i == 2) {
+                                newSpan.setAttribute("style", "margin-top:-2%;");
+                            }
+                            else if (i == 4)
+                                newSpan.setAttribute("style", "margin-top:-1%;");
+                            else if (i == 3)
+                                newSpan.setAttribute("style", "margin-top:-1%;");
+                        }
                     mainDiv.appendChild(newSpan);
 
                     var br = document.createElement("br");
@@ -165,7 +189,8 @@
                     newSpan.setAttribute("style", "float:right;width:50%");
                     mainDiv.appendChild(newSpan);
 
-                   
+
+
 
 
 
@@ -609,6 +634,21 @@
                        newSpan.id = 'ipmanagementremote';
                        newSpan.name = 'ipmanagementremote';
                        newSpan.setAttribute("style", "float:right;width:15%");
+                       mainDiv.appendChild(newSpan);
+
+                       var br = document.createElement("br");
+
+                       var newSpan = document.createElement('label');
+                       newSpan.className = "labels";
+                       newSpan.innerHTML = "<br/>Locatie <br/> REMOTE";
+                       newSpan.setAttribute("style", "margin-left:-8%;margin-top:4%;float:left;width:5%");
+                       mainDiv.appendChild(newSpan);
+
+                       newSpan = document.createElement('input');
+                       newSpan.type = "text";
+                       newSpan.id = 'locatieremote';
+                       newSpan.name = 'locatieremote';
+                       newSpan.setAttribute("style", "float:right;width:15%;margin-top:3%");
                        mainDiv.appendChild(newSpan);
 
                        var br = document.createElement("br");

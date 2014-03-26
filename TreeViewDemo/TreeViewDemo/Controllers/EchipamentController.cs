@@ -335,7 +335,25 @@ namespace TreeViewDemo.Controllers
                         s.siteID = long.Parse(echipmodel["siteID"].ToString()); /// ???
                         db.AddToechipaments(s);
 
+
                         atribut a = new atribut();
+                        a.val_string = echipmodel["locatieremote"];
+                        a.val_csv = null;
+                        a.val_int = null;
+                        a.val_nr = null;
+                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Locatie remote" select ta.id).FirstOrDefault();
+                        db.AddToatributs(a);
+
+                        echipament_atribute ea = new echipament_atribute();
+                        ea.echipamentID = s.id;
+                        ea.atributID = a.id;
+                        db.AddToechipament_atribute(ea);
+
+                        db.SaveChanges();
+
+
+
+                         a = new atribut();
                         a.val_string = echipmodel["ipces"];
                         a.val_csv = null;
                         a.val_int = null;
@@ -343,7 +361,7 @@ namespace TreeViewDemo.Controllers
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "IP CES" select ta.id).FirstOrDefault();
                         db.AddToatributs(a);
 
-                        echipament_atribute ea = new echipament_atribute();
+                         ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
                         db.AddToechipament_atribute(ea);
@@ -426,6 +444,9 @@ namespace TreeViewDemo.Controllers
 
                         db.SaveChanges();
 
+          
+
+
 
 
                     }
@@ -440,7 +461,7 @@ namespace TreeViewDemo.Controllers
                     int i = 0;
                     foreach (var key in echipmodel.Keys)
                     {
-                        if (key.ToString() != "ipces" && key.ToString() != "ipmanagement" && key.ToString() != "ipcesremote" && key.ToString() != "ipmanagementremote" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "numeechip" && key.ToString() != "ab_analogici_dela" && key.ToString() != "ab_digitali_dela" && key.ToString() != "ab_IP_dela" && key.ToString() != "ab_DECT_dela" && key.ToString() != "ab_total_dela" && key.ToString() != "ab_analogici_panala" && key.ToString() != "ab_digitali_panala" && key.ToString() != "ab_IP_panala" && key.ToString() != "ab_DECT_panala" && key.ToString() != "ab_total_panala" && key.ToString() != "tip_nou" && key.ToString() != "denumire" && key.ToString() != "tip_val" && key.ToString() != "val_nou" && key.ToString() != "id" && !key.ToString().EndsWith(":"))
+                        if (key.ToString() != "ipces" && key.ToString() != "locatieremote" && key.ToString() != "ipmanagement" && key.ToString() != "ipcesremote" && key.ToString() != "ipmanagementremote" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "numeechip" && key.ToString() != "ab_analogici_dela" && key.ToString() != "ab_digitali_dela" && key.ToString() != "ab_IP_dela" && key.ToString() != "ab_DECT_dela" && key.ToString() != "ab_total_dela" && key.ToString() != "ab_analogici_panala" && key.ToString() != "ab_digitali_panala" && key.ToString() != "ab_IP_panala" && key.ToString() != "ab_DECT_panala" && key.ToString() != "ab_total_panala" && key.ToString() != "tip_nou" && key.ToString() != "denumire" && key.ToString() != "tip_val" && key.ToString() != "val_nou" && key.ToString() != "id" && !key.ToString().EndsWith(":"))
                         {
                             string idechip_idatr = key.ToString();
                             long idechip = long.Parse(idechip_idatr.Split('_')[0]);
