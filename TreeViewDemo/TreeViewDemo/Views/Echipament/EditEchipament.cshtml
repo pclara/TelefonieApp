@@ -98,7 +98,7 @@
                     var newSpan = document.createElement('label');
                     newSpan.className = "labels";
                     newSpan.innerHTML = "Abonati analogici";
-                    newSpan.setAttribute("style", "float:right;margin-top:-8%;");
+                    newSpan.setAttribute("style", "float:right;margin-top:-14%;");
                     mainDiv.appendChild(newSpan);
                     var br = document.createElement("br");
                     mainDiv.appendChild(br);
@@ -442,6 +442,8 @@
                                            $("#licenta1").attr('readonly', true);
                                        }
                                        else {
+                                           $("#licenta1").unbind('keyup');
+                                           $("#licenta2").unbind('keyup');
                                            $("#licenta2").css({ 'visibility': 'hidden' });
                                            $("#licenta1").val('');
                                            $("#licenta1").attr('readonly', false);
