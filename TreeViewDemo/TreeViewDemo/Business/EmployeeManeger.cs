@@ -101,12 +101,23 @@ namespace TreeViewDemo.Business
                                                   on e1.tipID equals te.id
                                                   where te.id == idroot
                                                   && e1.siteID == idparam
-                                                  let titlu = (from a in _orgDb.atributs join ea in _orgDb.echipament_atribute on a.id equals ea.atributID
-                                                                   join e in _orgDb.echipaments on ea.echipamentID equals e.id
-                                                                   join ta in _orgDb.tip_atribut on a.tipID equals ta.id
-                                                                   join et in _orgDb.echipament_tip on   a.val_int equals et.id
-                                                                   where e.id == e1.id && ta.denumire == "Tip"
-                                                                   select et.denumire).FirstOrDefault()
+
+                                                  let nrmsed = (from e2 in _orgDb.echipaments
+                                                                join te1 in _orgDb.tip_echipament
+                                                                on e2.tipID equals te1.id
+                                                                where te1.id == idroot
+                                                                && e2.siteID == idparam && te1.denumire == "MSED"
+                                                                where e2.id < e1.id
+                                                                select e2.id).Count()
+                                                  let titlu = te.denumire == "PABX" ?
+                                                        (from a in _orgDb.atributs
+                                                         join ea in _orgDb.echipament_atribute on a.id equals ea.atributID
+                                                         join e in _orgDb.echipaments on ea.echipamentID equals e.id
+                                                         join ta in _orgDb.tip_atribut on a.tipID equals ta.id
+                                                         join te1 in _orgDb.echipament_tip on a.val_int equals te1.id 
+                                                         where e.id == e1.id && ta.denumire == "Tip"
+                                                         select te1.denumire).FirstOrDefault() :
+                                                         (te.denumire == "MSED" ? "MSED" + SqlFunctions.StringConvert((double)nrmsed).Trim() : null)
                                                   let copii = (from car in _orgDb.cartelas
                                                                join ech in _orgDb.echipaments on car.echipamentID equals ech.id
                                                                where ech.id == e1.id

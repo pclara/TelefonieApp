@@ -278,7 +278,6 @@
                     //http://localhost:60170/Judete/Index/24_cartela?name=Bucuresti
                     var href = document.URL;
                     var idcartela = href.substr(href.lastIndexOf("/") + 1, href.lastIndexOf("?") - href.lastIndexOf("/") - 1);
-                    alert(href.replace(idcartela, response));
                     window.location = href.replace(idcartela, response);
 
                     console.log("IDCARTELA"+idcartela);
