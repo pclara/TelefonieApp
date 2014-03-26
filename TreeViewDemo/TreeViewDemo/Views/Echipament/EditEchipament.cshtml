@@ -172,7 +172,7 @@
                     var newSpan = document.createElement('label');
                     newSpan.className = "labels";
                     newSpan.innerHTML = "Tip";
-                    newSpan.setAttribute("style", "float:right;margin-top:-0%;");
+                    newSpan.setAttribute("style", "float:right;margin-top:-13%;");
                     mainDiv.appendChild(newSpan);
                     var br = document.createElement("br");
                     mainDiv.appendChild(br);
@@ -618,6 +618,7 @@
                                        mainDiv.appendChild(br);
 
                                        var hr = document.createElement("hr");
+                                       hr.setAttribute("style", "margin-left:50%;position:relative;width:48%;");
                                        mainDiv.appendChild(hr);
 
 
@@ -787,6 +788,7 @@
                                        mainDiv.appendChild(br);
 
                                        var hr = document.createElement("hr");
+                                       hr.setAttribute("style", "margin-left:50%;position:relative;width:48%;");
                                        mainDiv.appendChild(hr);
 
 
@@ -940,7 +942,6 @@
                    newSpan.value = '@ViewBag.tipechipament';
                        mainDiv.appendChild(newSpan);
 
-                       alert("TIP ECHIP:"+$("#tipechipament").val());
 
                    var newSpan = document.createElement('input');
                    newSpan.type = "hidden";
