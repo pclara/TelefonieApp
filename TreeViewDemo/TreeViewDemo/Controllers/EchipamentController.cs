@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Objects.SqlClient;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -96,6 +97,13 @@ namespace TreeViewDemo.Controllers
                 ViewBag.numeechip = numeechip.denumire.ToString();
                 ViewBag.tipechipament = parentID.Split('_')[0];
                 ViewBag.id = long.Parse(numeechip.id.ToString());
+                if (numeechip.denumire.ToString() == "PABX")
+                {
+                    string tip = (from e in db.echipaments join te in db.tip_echipament on e.tipID equals te.id select te.denumire).FirstOrDefault();
+                    ViewBag.tipCentrala = tip;
+                }
+                else
+                    ViewBag.tipCentrala = "";
                 ViewBag.siteID = 0;
             }
             return PartialView();
@@ -169,6 +177,27 @@ namespace TreeViewDemo.Controllers
                         db.AddToechipament_atribute(ea);
                         db.SaveChanges();
                         ///
+                        int idtip = int.Parse(echipmodel["tip_val"].ToString());
+                        string tip_den = ( from a1 in db.atributs join ea1 in db.echipament_atribute on a1.id equals ea1.atributID join
+                                            e1 in db.echipaments on ea1.echipamentID equals e1.id join at1 in db.tip_atribut on a1.tipID equals at1.id
+                                            join et1 in db.echipament_tip on  a1.val_int equals et1.id
+                                           where at1.denumire == "Tip" && et1.id == idtip
+                                            select et1.denumire).FirstOrDefault();
+                            
+
+                        a = new atribut();
+                        a.val_string = (tip_den == "MD" || tip_den == "MX-ONE") ? echipmodel["licenta1"].ToString() + echipmodel["licenta2"].ToString() : echipmodel["licenta1"].ToString();
+                        a.val_csv = null;
+                        a.val_int = null;
+                        a.val_nr = null;
+                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Licenta" select ta.id).FirstOrDefault();
+                        db.AddToatributs(a);
+                        ea = new echipament_atribute();
+                        ea.echipamentID = s.id;
+                        ea.atributID = a.id;
+                        db.AddToechipament_atribute(ea);
+                        db.SaveChanges();
+                        ////
                         a = new atribut();
                         a.val_string = null;
                         a.val_csv = echipmodel["ab_analogici_dela"].ToString() + "," + echipmodel["ab_analogici_panala"].ToString();
@@ -461,7 +490,7 @@ namespace TreeViewDemo.Controllers
                     int i = 0;
                     foreach (var key in echipmodel.Keys)
                     {
-                        if (key.ToString() != "ipces" && key.ToString() != "locatieremote" && key.ToString() != "ipmanagement" && key.ToString() != "ipcesremote" && key.ToString() != "ipmanagementremote" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "numeechip" && key.ToString() != "ab_analogici_dela" && key.ToString() != "ab_digitali_dela" && key.ToString() != "ab_IP_dela" && key.ToString() != "ab_DECT_dela" && key.ToString() != "ab_total_dela" && key.ToString() != "ab_analogici_panala" && key.ToString() != "ab_digitali_panala" && key.ToString() != "ab_IP_panala" && key.ToString() != "ab_DECT_panala" && key.ToString() != "ab_total_panala" && key.ToString() != "tip_nou" && key.ToString() != "denumire" && key.ToString() != "tip_val" && key.ToString() != "val_nou" && key.ToString() != "id" && !key.ToString().EndsWith(":"))
+                        if (key.ToString() != "siteID"  && key.ToString() != "ipces" && key.ToString() != "licenta" && key.ToString() != "locatieremote" && key.ToString() != "ipmanagement" && key.ToString() != "ipcesremote" && key.ToString() != "ipmanagementremote" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "numeechip" && key.ToString() != "ab_analogici_dela" && key.ToString() != "ab_digitali_dela" && key.ToString() != "ab_IP_dela" && key.ToString() != "ab_DECT_dela" && key.ToString() != "ab_total_dela" && key.ToString() != "ab_analogici_panala" && key.ToString() != "ab_digitali_panala" && key.ToString() != "ab_IP_panala" && key.ToString() != "ab_DECT_panala" && key.ToString() != "ab_total_panala" && key.ToString() != "tip_nou" && key.ToString() != "denumire" && key.ToString() != "tip_val" && key.ToString() != "val_nou" && key.ToString() != "id" && !key.ToString().EndsWith(":"))
                         {
                             string idechip_idatr = key.ToString();
                             long idechip = long.Parse(idechip_idatr.Split('_')[0]);
@@ -470,6 +499,16 @@ namespace TreeViewDemo.Controllers
                             atribut a = db.atributs.Where(o=> o.id == idatr).FirstOrDefault();
 
                             string valoare = echipmodel[i];
+                            /*
+                            string tip = (from a1 in db.atributs
+                                          join at1 in db.tip_atribut on a1.tipID equals at1.id
+                                          where a1.id == a.id
+                                          select at1.denumire).FirstOrDefault();
+                            if (tip == "Licenta")
+                            {
+                                
+                            }
+                            */
                             switch (echipmodel[key.ToString() + ":"])
                             {
                                 case "S" : a.val_string = echipmodel[key.ToString()];
