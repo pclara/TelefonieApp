@@ -219,6 +219,7 @@
        <script>
            loaded = 0;
            if ('@ViewBag.id' != -1) {   //exista deja
+
                var atr = '@ViewBag.atribute';
                console.log("nr atr:" + atr.length);
 
@@ -304,6 +305,7 @@
                        newSpan.value = x[i].val_atr.split(',')[0];
                        mainDiv.appendChild(newSpan);
 
+
                        var newSpan = document.createElement('input');
                        newSpan.type = "text";
                        newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "2";
@@ -312,53 +314,79 @@
                        newSpan.setAttribute("style", "float:right;width:50px;");
                        newSpan.value = x[i].val_atr.split(',')[1];
                        mainDiv.appendChild(newSpan);
+
                    }
                    else if (x[i].nume_atr == "Licenta" && ('@ViewBag.tipCentrala' == "MD" || '@ViewBag.tipCentrala' == "MX-ONE"  ))
                    {
+                       console.log("tip CENTRALA:" + '@ViewBag.tipCentrala');
                        var mainDiv = document.getElementById('text_div');
                        var newSpan = document.createElement('input');
                        newSpan.type = "text";
-                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
-                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1";
+                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1";
                        newSpan.className = "editors";
-                       newSpan.value = x[i].val_atr.substr(0, 2);
+                       newSpan.setAttribute("style", "float:left;width:50px;");
+                       //newSpan.value = x[i].val_atr.substr(0, 2);
+                       var licenta1 = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1";
+                       mainDiv.appendChild(newSpan);
 
-                       
+                       var mainDiv = document.getElementById('text_div');
+                       var newSpan = document.createElement('input');
+                       newSpan.type = "hidden";
+                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1:";
+                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1:";
+                       newSpan.value = "S";
+                       mainDiv.appendChild(newSpan);
+
+
+                       var mainDiv = document.getElementById('text_div');
+                       var newSpan = document.createElement('input');
+                       newSpan.type = "text";
+                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2";
+                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2";
+                       newSpan.className = "editors";
+                       newSpan.setAttribute("style", "float:right;width:50px;");
+                       //newSpan.value = x[i].val_atr.substr(2);
+                       var licenta2 = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2";
+                       mainDiv.appendChild(newSpan);
+
+                       var mainDiv = document.getElementById('text_div');
+                       var newSpan = document.createElement('input');
+                       newSpan.type = "hidden";
+                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2:";
+                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2:";
+                       newSpan.value = "S";
+                       mainDiv.appendChild(newSpan);
+
+
                        if ('@ViewBag.tipCentrala' == "MD")
-                           newSpan.onkeyup = function (event, data) {
-                               alert(this.id);
-                               /*$("#licenta2").css({ 'visibility': 'visible' });
-                               $("#licenta1").keyup(function () {
-                                   $("#licenta1").val($("#licenta1").val().substr(0, 2));
+                       {
+                           $("#" + licenta1).val(x[i].val_atr.substr(0, 2));
+                           $("#" + licenta2).val(x[i].val_atr.substr(2));
+                           console.log("E MD , SE ADAUGA EVENTURI:");
+                               $("#" + licenta2).css({ 'visibility': 'visible' });
+                               $("#" + licenta1).keyup(function () {
+                                   $("#" + licenta1).val($("#" + licenta1).val().substr(0, 2));
                                });
-                               $("#licenta2").keyup(function () {
-                                   $("#licenta2").val($("#licenta2").val().substr(0, 4));
+                               $("#"+licenta2).keyup(function () {
+                                   $("#" + licenta2).val($("#" + licenta2).val().substr(0, 4));
                                });
-                               $("#licenta1").val('');
-                               $("#licenta1").attr('readonly', false);*/
-                           };
+                               
+                               $("#" + licenta1).attr('readonly', false);
+                           }
                        else if ('@ViewBag.tipCentrala' == "MX-ONE") {
-                           /*$("#licenta2").css({ 'visibility': 'visible' });
-                           $("#licenta1").val('SN');
-                           $("#licenta1").attr('readonly', true);*/
-                       }
+                           $("#" + licenta1).val(x[i].val_atr.substr(0, 2));
+                           $("#" + licenta2).val(x[i].val_atr.substr(2));
+                           $("#" + licenta2).css({ 'visibility': 'visible' });
+                           /*$("#" + licenta1).val('SN');
+                           $("#" + licenta1).attr('readonly', true);*/
+                        }
                        else {
-                           /*$("#licenta2").css({ 'visibility': 'hidden' });
-                           $("#licenta1").val('');
-                           $("#licenta1").attr('readonly', false);*/
-                       }
-                       mainDiv.appendChild(newSpan);
-
-
-
-                       var mainDiv = document.getElementById('text_div');
-                       var newSpan = document.createElement('input');
-                       newSpan.type = "text";
-                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
-                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
-                       newSpan.className = "editors";
-                       newSpan.value = x[i].val_atr.substr(2);
-                       mainDiv.appendChild(newSpan);
+                           $("#" + licenta1).val(x[i].val_atr);
+                           $("#" + licenta2).css({ 'visibility': 'hidden' });
+                            $("#" + licenta1).val('');
+                            $("#" + licenta1).attr('readonly', false);
+                        }
                    }
                    else {
                        var mainDiv = document.getElementById('text_div');

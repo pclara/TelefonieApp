@@ -97,9 +97,17 @@ namespace TreeViewDemo.Controllers
                 ViewBag.numeechip = numeechip.denumire.ToString();
                 ViewBag.tipechipament = parentID.Split('_')[0];
                 ViewBag.id = long.Parse(numeechip.id.ToString());
+                long id1 = long.Parse(numeechip.id.ToString());
                 if (numeechip.denumire.ToString() == "PABX")
                 {
-                    string tip = (from e in db.echipaments join te in db.tip_echipament on e.tipID equals te.id select te.denumire).FirstOrDefault();
+                    string tip = (from e in db.echipaments
+                                  join ea in db.echipament_atribute on e.id equals ea.echipamentID
+                                  join a in db.atributs on ea.atributID equals a.id
+                                  join ta in db.tip_atribut on a.tipID equals ta.id
+                                  join et in db.echipament_tip on a.val_int equals et.id
+                                  where ta.denumire == "Tip" && e.id == id1
+                                  select et.denumire).FirstOrDefault(); 
+
                     ViewBag.tipCentrala = tip;
                 }
                 else
@@ -493,38 +501,75 @@ namespace TreeViewDemo.Controllers
                         if (key.ToString() != "siteID"  && key.ToString() != "ipces" && key.ToString() != "licenta" && key.ToString() != "locatieremote" && key.ToString() != "ipmanagement" && key.ToString() != "ipcesremote" && key.ToString() != "ipmanagementremote" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "numeechip" && key.ToString() != "ab_analogici_dela" && key.ToString() != "ab_digitali_dela" && key.ToString() != "ab_IP_dela" && key.ToString() != "ab_DECT_dela" && key.ToString() != "ab_total_dela" && key.ToString() != "ab_analogici_panala" && key.ToString() != "ab_digitali_panala" && key.ToString() != "ab_IP_panala" && key.ToString() != "ab_DECT_panala" && key.ToString() != "ab_total_panala" && key.ToString() != "tip_nou" && key.ToString() != "denumire" && key.ToString() != "tip_val" && key.ToString() != "val_nou" && key.ToString() != "id" && !key.ToString().EndsWith(":"))
                         {
                             string idechip_idatr = key.ToString();
-                            long idechip = long.Parse(idechip_idatr.Split('_')[0]);
-                            long idatr = long.Parse(idechip_idatr.Split('_')[1]);
+                            int nr_split = idechip_idatr.Split('_').Count();
+                            long idechip = 0;
+                            long idatr = 0;
+                            
+                                idechip = long.Parse(idechip_idatr.Split('_')[0]);
+                                idatr = long.Parse(idechip_idatr.Split('_')[1]);
 
                             atribut a = db.atributs.Where(o=> o.id == idatr).FirstOrDefault();
 
                             string valoare = echipmodel[i];
-                            /*
-                            string tip = (from a1 in db.atributs
-                                          join at1 in db.tip_atribut on a1.tipID equals at1.id
-                                          where a1.id == a.id
-                                          select at1.denumire).FirstOrDefault();
+
+
+                            string tip = "";
+                            try
+                            {
+                                tip = (from a1 in db.atributs
+                                       join at1 in db.tip_atribut on a1.tipID equals at1.id
+                                       where a1.id == a.id
+                                       select at1.denumire).FirstOrDefault();
+                            }
+                            catch
+                            {
+                                // plan de numerotatie
+
+                                idatr = long.Parse(idatr.ToString().Substring(0, idatr.ToString().Length - 1));
+                                a = db.atributs.Where(o => o.id == idatr).FirstOrDefault();
+                                tip = (from a1 in db.atributs
+                                       join at1 in db.tip_atribut on a1.tipID equals at1.id
+                                       where a1.id == a.id
+                                       select at1.denumire).FirstOrDefault();
+                            }
+
+                            string den_centrala = "";
                             if (tip == "Licenta")
                             {
-                                
+                                den_centrala = (from e in db.echipaments
+                                  join ea in db.echipament_atribute on e.id equals ea.echipamentID
+                                  join a1 in db.atributs on ea.atributID equals a1.id
+                                  join ta in db.tip_atribut on a1.tipID equals ta.id
+                                  join et in db.echipament_tip on a1.val_int equals et.id
+                                  where ta.denumire == "Tip" && e.id == idechip
+                                  select et.denumire).FirstOrDefault(); 
                             }
-                            */
-                            switch (echipmodel[key.ToString() + ":"])
+
+                            string cheie = echipmodel[key.ToString() + ":"];
+                            if (tip.Contains("Abonati"))
+                                cheie = echipmodel[key.ToString().Substring(0, key.ToString().Length - 1) + ":"];
+
+                            switch (cheie)
                             {
-                                case "S" : a.val_string = echipmodel[key.ToString()];
+                                case "S": a.val_string = 
+                                    (tip == "Licenta" && (den_centrala == "MD" || den_centrala == "MX-ONE") && key.ToString().EndsWith("licenta1")) ?
+                                   echipmodel[key.ToString()] + echipmodel[key.ToString().Replace("licenta1", "licenta2")] :
+                                   (key.ToString().EndsWith("licenta2") ? a.val_string : echipmodel[key.ToString()]);
+                                    ;
                                             break;
                                 case "I": a.val_int = int.Parse(echipmodel[key.ToString()]);
                                             break;
                                 case "N" : a.val_nr = decimal.Parse(echipmodel[key.ToString()]);
                                             break;
-                                case "CSV": a.val_csv = echipmodel[key.ToString()];
+                                case "CSV": a.val_csv = (tip.Contains("Abonati") == true && key.ToString().EndsWith("1") ? echipmodel[key.ToString()] + "," + echipmodel[key.ToString().Substring(0,key.ToString().Length-1) + "2"] :
+                                    (tip.Contains("Abonati") == true && key.ToString().EndsWith("2") ? a.val_csv : echipmodel[key.ToString()]));
                                             break;
                                 default:    a.val_string = echipmodel[key.ToString()].ToString();
                                             break;
                             }
                             db.SaveChanges();
                         }
-                        else if (key.ToString() == "tip_nou")
+                        else if (key.ToString() == "tip_nou" && echipmodel["val_nou"].ToString() != "")
                         {
                             atribut a = new atribut();
                             string tip_nou = echipmodel["tip_nou"];
