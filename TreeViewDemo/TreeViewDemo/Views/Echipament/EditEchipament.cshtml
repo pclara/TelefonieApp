@@ -54,7 +54,7 @@
                     mainDiv.appendChild(br);
                 }
             }
-            else { 
+            else { //echipamentul nu exista
                 if ('@ViewBag.numeechip' == 'PABX') {
                     var mainDiv = document.getElementById('labels_div');
 
@@ -86,19 +86,36 @@
                     mainDiv.appendChild(newSpan);
                     var br = document.createElement("br");
                     mainDiv.appendChild(br);
+                    
 
                     var newSpan = document.createElement('label');
                     newSpan.className = "labels";
+                    newSpan.innerHTML = "Plan Numerotatie :";
+                 newSpan.setAttribute("style", "margin-left:-60%;");
+                    mainDiv.appendChild(newSpan);
+                 //   var br = document.createElement("br");
+                   // mainDiv.appendChild(br);
+             
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
                     newSpan.innerHTML = "Licenta";
-                    newSpan.setAttribute("style", "margin-top:-5%;");
+                    newSpan.setAttribute("style", "margin-top:-30%;");
                     mainDiv.appendChild(newSpan);
                     var br = document.createElement("br");
                     mainDiv.appendChild(br);
 
+
+                 //   var hr = document.createElement("hr");
+                  //  hr.setAttribute("style", "float:right;margin-top:-3%;");
+                  //  mainDiv.appendChild(hr);
+         
+
+
+
                     var newSpan = document.createElement('label');
                     newSpan.className = "labels";
                     newSpan.innerHTML = "Abonati analogici";
-                    newSpan.setAttribute("style", "float:right;margin-top:-14%;");
+                    newSpan.setAttribute("style", "float:right;margin-top:-10%;");
                     mainDiv.appendChild(newSpan);
                     var br = document.createElement("br");
                     mainDiv.appendChild(br);
@@ -130,6 +147,39 @@
                     var newSpan = document.createElement('label');
                     newSpan.className = "labels";
                     newSpan.innerHTML = "Plaja alocata totala";
+                    newSpan.setAttribute("style", "float:right;margin-top:-6%;");
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Conexiune:";
+                    newSpan.setAttribute("style", "float:left;margin-left:-70%;");
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Nr. ruta";
+                    newSpan.setAttribute("style", "margin-top:-26%;");
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Tip";
+                    newSpan.setAttribute("style", "float:right;margin-top:-0%;");
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Destinatie";
                     newSpan.setAttribute("style", "float:right;margin-top:-6%;");
                     mainDiv.appendChild(newSpan);
                     var br = document.createElement("br");
@@ -538,8 +588,7 @@
                                            option.text = valtext[1];
                                            newSpan.appendChild(option);
                                        }
-                                       var br = document.createElement("br");
-                                       mainDiv.appendChild(br);
+                                
 
 
                                        var mainDiv = document.getElementById('text_div');
@@ -560,6 +609,16 @@
                                        newSpan.className = "editors";
                                        mainDiv.appendChild(newSpan);
 
+                                       var br = document.createElement("br");
+                                       mainDiv.appendChild(br);
+                                       var br = document.createElement("br");
+                                       mainDiv.appendChild(br);
+
+                                       var br = document.createElement("br");
+                                       mainDiv.appendChild(br);
+
+                                       var hr = document.createElement("hr");
+                                       mainDiv.appendChild(hr);
 
 
                                        newSpan = document.createElement('input');
@@ -673,7 +732,7 @@
                                        newSpan.name = 'ab_DECT_dela:';
                                        newSpan.value = 'I';
                                        mainDiv.appendChild(newSpan);
-
+                                     
                                        newSpan = document.createElement('input');
                                        newSpan.type = "text";
                                        newSpan.id = 'ab_DECT_panala';
@@ -717,6 +776,85 @@
                                        newSpan.id = 'ab_total_panala:';
                                        newSpan.name = 'ab_total_panala:';
                                        newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+                                      
+                                       var br = document.createElement("br");
+                                       mainDiv.appendChild(br);
+                                       var br = document.createElement("br");
+                                       mainDiv.appendChild(br);
+                                       var br = document.createElement("br");
+                                       mainDiv.appendChild(br);
+
+                                       var hr = document.createElement("hr");
+                                       mainDiv.appendChild(hr);
+
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'nrruta';
+                                       newSpan.name = 'nrruta';
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "float:left;width:15%;height:10%;");
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'nrruta:';
+                                       newSpan.name = 'nrruta:';
+                                       newSpan.value = 'S';
+                                       mainDiv.appendChild(newSpan);
+                                      
+                                       newSpan = document.createElement('select');
+                                       newSpan.setAttribute("name", "tipconexiune");
+                                       newSpan.setAttribute("id", "tipconexiune");
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "float:left;width:15%;height:14%;");
+                                       mainDiv.appendChild(newSpan);
+
+                                       var option = document.createElement("option");
+                                       option.value = '';
+                                       option.text = '';
+                                       newSpan.appendChild(option);
+
+                                       var option = document.createElement("option");
+                                       option.value = 'IP-SIP';
+                                       option.text = 'IP-SIP';
+                                       newSpan.appendChild(option);
+
+                                       var option = document.createElement("option");
+                                       option.value = 'IP-H323';
+                                       option.text = 'IP-H323';
+                                       newSpan.appendChild(option);
+                                       var option = document.createElement("option");
+                                       option.value = 'ISDN-QSIG';
+                                       option.text = 'ISDN-QSIG';
+                                       newSpan.appendChild(option);
+                                       var option = document.createElement("option");
+                                       option.value = 'ISDN-PUBLIC';
+                                       option.text = 'ISDN-PUBLIC';
+                                       newSpan.appendChild(option);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'tipconexiune:';
+                                       newSpan.name = 'tipconexiune:';
+                                       newSpan.value = 'S';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'destinatie';
+                                       newSpan.name = 'destinatie';
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "float:left;width:15%;height:10%;");
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'destinatie:';
+                                       newSpan.name = 'destinatie:';
+                                       newSpan.value = 'S';
                                        mainDiv.appendChild(newSpan);
                                    }
                                });
