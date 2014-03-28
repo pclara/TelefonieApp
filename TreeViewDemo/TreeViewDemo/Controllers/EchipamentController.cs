@@ -132,6 +132,8 @@ namespace TreeViewDemo.Controllers
                         s = new echipament();
                         s.denumire = echipmodel["denumire"].ToString();
 
+                        int val_int;
+                        long val_long;
                         int x = 0;
                         if(int.TryParse(echipmodel["tipechipament"].ToString(), out x) == true)
                             s.tipID = int.Parse(echipmodel["tipechipament"].ToString());
@@ -145,7 +147,10 @@ namespace TreeViewDemo.Controllers
                         atribut a = new atribut();
                         a.val_string = null;
                         a.val_csv = null;
-                        a.val_int = int.Parse(echipmodel["tip_val"]);
+                        if( int.TryParse(echipmodel["tip_val"] , out val_int))
+                            a.val_int = int.Parse(echipmodel["tip_val"]) ;
+                        else 
+                            a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "Tip" select ta.id).FirstOrDefault();
                         db.AddToatributs(a);
@@ -160,7 +165,10 @@ namespace TreeViewDemo.Controllers
                         a = new atribut();
                         a.val_string = null;
                         a.val_csv = null;
-                        a.val_int = int.Parse(echipmodel["ver_val"].ToString());
+                        if (int.TryParse(echipmodel["ver_val"], out val_int))
+                            a.val_int = int.Parse(echipmodel["ver_val"]);
+                        else
+                            a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "Versiune" select ta.id).FirstOrDefault();
                         db.AddToatributs(a);
@@ -219,22 +227,7 @@ namespace TreeViewDemo.Controllers
                         ea.atributID = a.id;
                         db.AddToechipament_atribute(ea);
                         db.SaveChanges();
-                        ///
-                        /*
-                        a = new atribut();
-                        a.val_string = null;
-                        a.val_csv = null;
-                        a.val_int = int.Parse( echipmodel["ab_analogici_panala"].ToString());
-                        a.val_nr = null;
-                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati analogici pana la" select ta.id).FirstOrDefault();
-                        db.AddToatributs(a);
-
-                        ea = new echipament_atribute();
-                        ea.echipamentID = s.id;
-                        ea.atributID = a.id;
-                        db.AddToechipament_atribute(ea);
-                          db.SaveChanges();*/
-                        ////
+                        
                         a = new atribut();
                         a.val_string = null;
                         a.val_csv = echipmodel["ab_digitali_dela"].ToString() + "," + echipmodel["ab_digitali_panala"].ToString();
@@ -248,23 +241,7 @@ namespace TreeViewDemo.Controllers
                         ea.atributID = a.id;
                         db.AddToechipament_atribute(ea);
                         db.SaveChanges();
-                        ///
-                        /*
-                        a = new atribut();
-                        a.val_string = null;
-                        a.val_csv = null;
-                        a.val_int = int.Parse(echipmodel["ab_digitali_panala"].ToString());
-                        a.val_nr = null;
-                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati digitali pana la" select ta.id).FirstOrDefault();
-                        db.AddToatributs(a);
-                    
-                        ea = new echipament_atribute();
-                        ea.echipamentID = s.id;
-                        ea.atributID = a.id;
-                        db.AddToechipament_atribute(ea);
-
-                        db.SaveChanges();*/
-                        ////
+                       
                         a = new atribut();
                         a.val_string = null;
                         a.val_csv = echipmodel["ab_IP_dela"].ToString() + "," + echipmodel["ab_IP_panala"].ToString();
@@ -279,23 +256,7 @@ namespace TreeViewDemo.Controllers
                         db.AddToechipament_atribute(ea);
 
                         db.SaveChanges();
-                        //
-                        /*
-                        a = new atribut();
-                        a.val_string = null;
-                        a.val_csv = null;
-                        a.val_int = int.Parse(echipmodel["ab_IP_panala"].ToString());
-                        a.val_nr = null;
-                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati IP pana la" select ta.id).FirstOrDefault();
-                        db.AddToatributs(a);
-
-                        ea = new echipament_atribute();
-                        ea.echipamentID = s.id;
-                        ea.atributID = a.id;
-                        db.AddToechipament_atribute(ea);
-
-                        db.SaveChanges();*/
-                        ///
+                        
                         a = new atribut();
                         a.val_string = null;
                         a.val_csv = echipmodel["ab_DECT_dela"].ToString() + "," + echipmodel["ab_DECT_panala"].ToString();
@@ -310,23 +271,7 @@ namespace TreeViewDemo.Controllers
                         db.AddToechipament_atribute(ea);
 
                         db.SaveChanges();
-                        //
-                        /*
-                        a = new atribut();
-                        a.val_string = null;
-                        a.val_csv = null;
-                        a.val_int = int.Parse(echipmodel["ab_DECT_panala"].ToString());
-                        a.val_nr = null;
-                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati DECT pana la" select ta.id).FirstOrDefault();
-                        db.AddToatributs(a);
-
-                        ea = new echipament_atribute();
-                        ea.echipamentID = s.id;
-                        ea.atributID = a.id;
-                        db.AddToechipament_atribute(ea);
-
-                        db.SaveChanges();*/
-                        //
+                        
                         a = new atribut();
                         a.val_string = null;
                         a.val_csv = echipmodel["ab_total_dela"].ToString() + "," + echipmodel["ab_total_panala"].ToString();
@@ -386,24 +331,6 @@ namespace TreeViewDemo.Controllers
                         db.AddToechipament_atribute(ea);
 
                         db.SaveChanges();
-
-
-
-                        //
-                        /*
-                        a = new atribut();
-                        a.val_string = null;
-                        a.val_csv = null;
-                        a.val_int = int.Parse(echipmodel["ab_total_panala"].ToString());
-                        a.val_nr = null;
-                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati total pana la" select ta.id).FirstOrDefault();
-                        db.AddToatributs(a);
-
-                        ea = new echipament_atribute();
-                        ea.echipamentID = s.id;
-                        ea.atributID = a.id;
-                        db.AddToechipament_atribute(ea);
-                        db.SaveChanges();*/
 
                     }
                     else if (tipechip == "MSED")
@@ -543,7 +470,7 @@ namespace TreeViewDemo.Controllers
                     int i = 0;
                     foreach (var key in echipmodel.Keys)
                     {
-                        if (key.ToString() != "destinatie" && key.ToString() != "tipconexiune" && key.ToString() != "nrruta" && key.ToString() != "siteID" && key.ToString() != "ipces" && key.ToString() != "licenta" && key.ToString() != "locatieremote" && key.ToString() != "ipmanagement" && key.ToString() != "ipcesremote" && key.ToString() != "ipmanagementremote" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "numeechip" && key.ToString() != "ab_analogici_dela" && key.ToString() != "ab_digitali_dela" && key.ToString() != "ab_IP_dela" && key.ToString() != "ab_DECT_dela" && key.ToString() != "ab_total_dela" && key.ToString() != "ab_analogici_panala" && key.ToString() != "ab_digitali_panala" && key.ToString() != "ab_IP_panala" && key.ToString() != "ab_DECT_panala" && key.ToString() != "ab_total_panala" && key.ToString() != "tip_nou" && key.ToString() != "denumire" && key.ToString() != "tip_val" && key.ToString() != "val_nou" && key.ToString() != "id" && !key.ToString().EndsWith(":"))
+                        if (key.ToString() != "tipcnou" && key.ToString() != "destinatienou" && key.ToString() != "nrrutanou" && key.ToString() != "destinatie" && key.ToString() != "tipconexiune" && key.ToString() != "nrruta" && key.ToString() != "siteID" && key.ToString() != "ipces" && key.ToString() != "licenta" && key.ToString() != "locatieremote" && key.ToString() != "ipmanagement" && key.ToString() != "ipcesremote" && key.ToString() != "ipmanagementremote" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "numeechip" && key.ToString() != "ab_analogici_dela" && key.ToString() != "ab_digitali_dela" && key.ToString() != "ab_IP_dela" && key.ToString() != "ab_DECT_dela" && key.ToString() != "ab_total_dela" && key.ToString() != "ab_analogici_panala" && key.ToString() != "ab_digitali_panala" && key.ToString() != "ab_IP_panala" && key.ToString() != "ab_DECT_panala" && key.ToString() != "ab_total_panala" && key.ToString() != "tip_nou" && key.ToString() != "denumire" && key.ToString() != "tip_val" && key.ToString() != "val_nou" && key.ToString() != "id" && !key.ToString().EndsWith(":"))
                         {
                             string idechip_idatr = key.ToString();
                             int nr_split = idechip_idatr.Split('_').Count();
@@ -589,7 +516,9 @@ namespace TreeViewDemo.Controllers
                                   where ta.denumire == "Tip" && e.id == idechip
                                   select et.denumire).FirstOrDefault(); 
                             }
-
+                            
+                            int val_int;
+                            decimal val_long;
                             string cheie = echipmodel[key.ToString() + ":"];
                             if (tip.Contains("Abonati"))
                                 cheie = echipmodel[key.ToString().Substring(0, key.ToString().Length - 1) + ":"];
@@ -602,9 +531,15 @@ namespace TreeViewDemo.Controllers
                                    (key.ToString().EndsWith("licenta2") ? a.val_string : echipmodel[key.ToString()]);
                                     ;
                                             break;
-                                case "I": a.val_int = int.Parse(echipmodel[key.ToString()]);
+                                case "I": if (int.TryParse(echipmodel[key.ToString()], out val_int))
+                                                a.val_int = int.Parse(echipmodel[key.ToString()]);
+                                            else
+                                                a.val_int = null; 
                                             break;
-                                case "N" : a.val_nr = decimal.Parse(echipmodel[key.ToString()]);
+                                case "N": if (decimal.TryParse(echipmodel[key.ToString()], out val_long))
+                                                a.val_nr = decimal.Parse(echipmodel[key.ToString()]);
+                                            else
+                                                a.val_nr = null; 
                                             break;
                                 case "CSV": a.val_csv = (tip.Contains("Abonati") == true && key.ToString().EndsWith("1") ? echipmodel[key.ToString()] + "," + echipmodel[key.ToString().Substring(0,key.ToString().Length-1) + "2"] :
                                     (tip.Contains("Abonati") == true && key.ToString().EndsWith("2") ? a.val_csv : echipmodel[key.ToString()]));
@@ -614,8 +549,63 @@ namespace TreeViewDemo.Controllers
                             }
                             db.SaveChanges();
                         }
+                        else if (key.ToString() == "tip_nou" && echipmodel["tip_nou"].ToString() == "Conexiune")
+                        {
+                            int val_int;
+                            decimal val_long;
+                            atribut a = new atribut();
+                            var taid = (from ta in db.tip_atribut where ta.denumire == "Numar ruta" select new { ta.id, ta.tip_valoare }).FirstOrDefault();
+                            a.tipID = taid.id;
+                            a.val_string = echipmodel["nrrutanou"];
+                            a.val_csv = null;
+                            a.val_int = null;
+                            a.val_nr = null;
+
+                            echipament_atribute ea = new echipament_atribute();
+                            ea.atributID = a.id;
+                            ea.echipamentID = id;
+
+                            db.AddToatributs(a);
+                            db.AddToechipament_atribute(ea);
+                            db.SaveChanges();
+                            //
+                            a = new atribut();
+                            taid = (from ta in db.tip_atribut where ta.denumire == "Tip Conexiune" select new { ta.id, ta.tip_valoare }).FirstOrDefault();
+                            a.tipID = taid.id;
+                            a.val_string = echipmodel["tipcnou"];
+                            a.val_csv = null;
+                            a.val_int = null;
+                            a.val_nr = null;
+
+                            ea = new echipament_atribute();
+                            ea.atributID = a.id;
+                            ea.echipamentID = id;
+
+                            db.AddToatributs(a);
+                            db.AddToechipament_atribute(ea);
+                            db.SaveChanges();
+
+                            //
+                            a = new atribut();
+                            taid = (from ta in db.tip_atribut where ta.denumire == "Destinatie" select new { ta.id, ta.tip_valoare }).FirstOrDefault();
+                            a.tipID = taid.id;
+                            a.val_string = echipmodel["destinatienou"];
+                            a.val_csv = null;
+                            a.val_int = null;
+                            a.val_nr = null;
+
+                            ea = new echipament_atribute();
+                            ea.atributID = a.id;
+                            ea.echipamentID = id;
+
+                            db.AddToatributs(a);
+                            db.AddToechipament_atribute(ea);
+                            db.SaveChanges();
+                        }
                         else if (key.ToString() == "tip_nou" && echipmodel["val_nou"].ToString() != "")
                         {
+                            int val_int;
+                            decimal val_long;
                             atribut a = new atribut();
                             string tip_nou = echipmodel["tip_nou"];
                             var taid = (from ta in db.tip_atribut where ta.denumire == tip_nou select new { ta.id, ta.tip_valoare }).FirstOrDefault();
@@ -631,14 +621,20 @@ namespace TreeViewDemo.Controllers
                                 case "I":
                                     a.val_string = null;
                                     a.val_csv = null;
-                                    a.val_int = int.Parse(echipmodel["val_nou"].ToString());
+                                    if (int.TryParse(echipmodel["val_nou"].ToString(), out val_int))
+                                        a.val_int = int.Parse(echipmodel["val_nou"]);
+                                    else
+                                        a.val_int = null; 
                                     a.val_nr = null;
                                     break;
                                 case "N":
                                     a.val_string = null;
                                     a.val_csv = null;
                                     a.val_int = null;
-                                    a.val_nr = decimal.Parse(echipmodel["val_nou"].ToString());
+                                    if (decimal.TryParse(echipmodel["val_nou"].ToString(), out val_long))
+                                        a.val_nr = decimal.Parse(echipmodel["val_nou"]);
+                                    else
+                                        a.val_nr = null; 
                                     break;
                                 case "CSV":
                                     a.val_string = null;
@@ -662,6 +658,7 @@ namespace TreeViewDemo.Controllers
                             db.AddToechipament_atribute(ea);
                             db.SaveChanges();
                         }
+                        
                     }
                 }
                 var judet = (from j in db.judetes

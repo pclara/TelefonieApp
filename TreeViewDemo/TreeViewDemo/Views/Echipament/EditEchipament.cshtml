@@ -19,39 +19,55 @@
 
                 console.log("json deserializat lung:" + x.length);
                 for (i = 0; i < x.length; i++) {
-                    var mainDiv = document.getElementById('labels_div');
 
-                    var newSpan = document.createElement('label');
-                    newSpan.className = "labels";
-                    newSpan.innerHTML = x[i].nume_atr;
+                    if (x[i].nume_atr != 'Tip Conexiune' && x[i].nume_atr != 'Destinatie') {
+                        var newSpan = document.createElement('label');
 
-                    if ('@ViewBag.numeechip' == 'PABX') {
-                        if (i == 1) {
-                            newSpan.setAttribute("style", "margin-top:-5%;");
+                        if (x[i].nume_atr == 'Numar ruta') {
+                            newSpan.innerHTML = 'Conexiune';
                         }
-                        else if (i == 2)
-                            newSpan.setAttribute("style", "margin-top:-5%;");
-                        else if (i == 4)
-                            newSpan.setAttribute("style", "margin-top:-1%;");
-                        else if (i == 5)
-                            newSpan.setAttribute("style", "margin-top:-2%;");
-                        else if (i == 6)
-                            newSpan.setAttribute("style", "margin-top:-1%;");
-                    }
-                    else
-                        if ('@ViewBag.numeechip' == 'MSED') {
-                            if (i == 2) {
-                                newSpan.setAttribute("style", "margin-top:-2%;");
+                        else
+                            newSpan.innerHTML = x[i].nume_atr;
+
+                        var mainDiv = document.getElementById('labels_div');
+
+                       ;
+                        newSpan.className = "labels";
+                        
+                        
+                        if ('@ViewBag.numeechip' == 'PABX') {
+                            if (i == 0) {
+                                newSpan.setAttribute("style", "margin-top:5%;");
                             }
+                            else
+                            if (i == 1) {
+                                newSpan.setAttribute("style", "margin-top:-5%;");
+                            }
+                            else if (i == 2)
+                                newSpan.setAttribute("style", "margin-top:-5%;");
                             else if (i == 4)
                                 newSpan.setAttribute("style", "margin-top:-1%;");
-                            else if (i == 3)
+                            else if (i == 5)
+                                newSpan.setAttribute("style", "margin-top:-2%;");
+                            else if (i == 6)
                                 newSpan.setAttribute("style", "margin-top:-1%;");
                         }
-                    mainDiv.appendChild(newSpan);
+                        else
+                            if ('@ViewBag.numeechip' == 'MSED') {
+                                if (i == 2) {
+                                    newSpan.setAttribute("style", "margin-top:-2%;");
+                                }
+                                else if (i == 4)
+                                    newSpan.setAttribute("style", "margin-top:-1%;");
+                                else if (i == 3)
+                                    newSpan.setAttribute("style", "margin-top:-1%;");
+                            }
+                        
+                        mainDiv.appendChild(newSpan);
 
-                    var br = document.createElement("br");
-                    mainDiv.appendChild(br);
+                        var br = document.createElement("br");
+                        mainDiv.appendChild(br);
+                    }
                 }
             }
             else { //echipamentul nu exista
@@ -274,200 +290,244 @@
                console.log("nr atr:" + atr.length);
 
                for (i = 0; i < x.length; i++) {
-                   if (x[i].nume_atr == 'Versiune') {
-                       var mainDiv = document.getElementById('text_div');
-                       var newSpan = document.createElement('select');
-                       console.log(x[i]);
-                       var idsel = '@ViewBag.id' + "_" + x[i].id_atr;
-                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
-                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
-                       newSpan.className = "editors";
-                       mainDiv.appendChild(newSpan);
+                   if (x[i].nume_atr != 'Tip Conexiune' && x[i].nume_atr != 'Destinatie') {
+                       if (x[i].nume_atr == 'Versiune') {
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('select');
+                           console.log(x[i]);
+                           var idsel = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.setAttribute("style", "width:13%;height:5%;");
+                           newSpan.className = "editors";
+                           mainDiv.appendChild(newSpan);
 
-                       $.ajax({
-                           url: '@Url.Content("~/Echipament/GetVersiuni")',
-                           type: 'POST',
-                           data: { idver: x[i].val_atr.idver },
-                           success: function (response) {
-                               var tipuri = response.split(',');
-                               var option = document.createElement("option");
-                               option.value = '';
-                               option.text = '';
-
-                               var selvar = document.getElementById(idsel);
-                               selvar.appendChild(option);
-
-                               for (var j = 0; j < tipuri.length - 1 ; j++) {
+                           $.ajax({
+                               url: '@Url.Content("~/Echipament/GetVersiuni")',
+                               type: 'POST',
+                               data: { idver: x[i].val_atr.idver },
+                               success: function (response) {
+                                   var tipuri = response.split(',');
                                    var option = document.createElement("option");
-                                   var valtext = tipuri[j].split(':');
-                                   option.value = valtext[0];
-                                   option.text = valtext[1];
+                                   option.value = '';
+                                   option.text = '';
+
+                                   var selvar = document.getElementById(idsel);
                                    selvar.appendChild(option);
+
+                                   for (var j = 0; j < tipuri.length - 1 ; j++) {
+                                       var option = document.createElement("option");
+                                       var valtext = tipuri[j].split(':');
+                                       option.value = valtext[0];
+                                       option.text = valtext[1];
+                                       selvar.appendChild(option);
+                                   }
+
+                                   $("#" + idsel).val(tipuri[j]);
                                }
+                           });
+                       }
+                       else if (x[i].nume_atr == 'Tip') {
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan2 = document.createElement('select');
+                           console.log(x[i]);
+                           var idsel1 = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan2.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan2.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan2.className = "editors";
+                           newSpan2.setAttribute("style", "width:13%;height:5%;");
+                           mainDiv.appendChild(newSpan2);
 
-                               $("#" + idsel).val(tipuri[j]);
-                           }
-                       });
-                   }
-                   else if (x[i].nume_atr == 'Tip') {
-                       var mainDiv = document.getElementById('text_div');
-                       var newSpan2 = document.createElement('select');
-                       console.log(x[i]);
-                       var idsel1 = '@ViewBag.id' + "_" + x[i].id_atr;
-                       newSpan2.id = '@ViewBag.id' + "_" + x[i].id_atr;
-                       newSpan2.name = '@ViewBag.id' + "_" + x[i].id_atr;
-                       newSpan2.className = "editors";
-                       mainDiv.appendChild(newSpan2);
-
-                       $.ajax({
-                           url: '@Url.Content("~/Echipament/GetTip")',
-                           type: 'POST',
-                           data: { idsel: x[i].val_atr.idsel },
-                           success: function (response) {
-                               var tipuri = response.split(',');
-                               var option2 = document.createElement("option");
-                               option2.value = '';
-                               option2.text = '';
-
-                               var selvar1 = document.getElementById(idsel1);
-                               selvar1.appendChild(option2);
-
-                               for (var j = 0; j < tipuri.length - 1 ; j++) {
+                           $.ajax({
+                               url: '@Url.Content("~/Echipament/GetTip")',
+                               type: 'POST',
+                               data: { idsel: x[i].val_atr.idsel },
+                               success: function (response) {
+                                   var tipuri = response.split(',');
                                    var option2 = document.createElement("option");
-                                   var valtext = tipuri[j].split(':');
-                                   option2.value = valtext[0];
-                                   option2.text = valtext[1];
+                                   option2.value = '';
+                                   option2.text = '';
+
+                                   var selvar1 = document.getElementById(idsel1);
                                    selvar1.appendChild(option2);
+
+                                   for (var j = 0; j < tipuri.length - 1 ; j++) {
+                                       var option2 = document.createElement("option");
+                                       var valtext = tipuri[j].split(':');
+                                       option2.value = valtext[0];
+                                       option2.text = valtext[1];
+                                       selvar1.appendChild(option2);
+                                   }
+                                   $("#" + idsel1).val(tipuri[j]);
                                }
-                               $("#" + idsel1).val(tipuri[j]);
-                           }
-                       });
-                   } else if (x[i].nume_atr == "Abonati analogici" || x[i].nume_atr == "Abonati digitali" ||
-                       x[i].nume_atr == "Abonati IP" || x[i].nume_atr == "Abonati DECT" ||
-                       x[i].nume_atr == "Abonati total") {
-                       var mainDiv = document.getElementById('text_div');
-                       var newSpan = document.createElement('input');
-                       newSpan.type = "text";
-                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "1";
-                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "1";
-                       newSpan.className = "editors";
-                       newSpan.setAttribute("style", "float:left;width:50px;");
-                       newSpan.value = x[i].val_atr.split(',')[0];
-                       mainDiv.appendChild(newSpan);
+                           });
+                       } else if (x[i].nume_atr == "Abonati analogici" || x[i].nume_atr == "Abonati digitali" ||
+                           x[i].nume_atr == "Abonati IP" || x[i].nume_atr == "Abonati DECT" ||
+                           x[i].nume_atr == "Abonati total") {
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "1";
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "1";
+                           newSpan.className = "editors";
+                           newSpan.setAttribute("style", "float:left;width:7%;height:5%;");
+                           newSpan.value = x[i].val_atr.split(',')[0];
+                           mainDiv.appendChild(newSpan);
 
 
-                       var newSpan = document.createElement('input');
-                       newSpan.type = "text";
-                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "2";
-                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "2";
-                       newSpan.className = "editors";
-                       newSpan.setAttribute("style", "float:right;width:50px;");
-                       newSpan.value = x[i].val_atr.split(',')[1];
-                       mainDiv.appendChild(newSpan);
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "2";
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "2";
+                           newSpan.className = "editors";
+                           newSpan.setAttribute("style", "float:right;width:7%;height:5%;");
+                           newSpan.value = x[i].val_atr.split(',')[1];
+                           mainDiv.appendChild(newSpan);
 
-                   }
-                   else if (x[i].nume_atr == "Licenta" && ('@ViewBag.tipCentrala' == "MD" || '@ViewBag.tipCentrala' == "MX-ONE"  ))
-                   {
-                       console.log("tip CENTRALA:" + '@ViewBag.tipCentrala');
-                       var mainDiv = document.getElementById('text_div');
-                       var newSpan = document.createElement('input');
-                       newSpan.type = "text";
-                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1";
-                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1";
-                       newSpan.className = "editors";
-                       newSpan.setAttribute("style", "float:left;width:50px;");
-                       //newSpan.value = x[i].val_atr.substr(0, 2);
-                       var licenta1 = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1";
-                       mainDiv.appendChild(newSpan);
+                       }
+                       else if (x[i].nume_atr == "Licenta" && ('@ViewBag.tipCentrala' == "MD" || '@ViewBag.tipCentrala' == "MX-ONE")) {
+                           console.log("tip CENTRALA:" + '@ViewBag.tipCentrala');
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1";
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1";
+                           newSpan.className = "editors";
+                           newSpan.setAttribute("style", "float:left;width:7%;height:5%;margin-right:0;");
+                           //newSpan.value = x[i].val_atr.substr(0, 2);
+                           var licenta1 = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1";
+                           mainDiv.appendChild(newSpan);
 
-                       var mainDiv = document.getElementById('text_div');
-                       var newSpan = document.createElement('input');
-                       newSpan.type = "hidden";
-                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1:";
-                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1:";
-                       newSpan.value = "S";
-                       mainDiv.appendChild(newSpan);
-
-
-                       var mainDiv = document.getElementById('text_div');
-                       var newSpan = document.createElement('input');
-                       newSpan.type = "text";
-                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2";
-                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2";
-                       newSpan.className = "editors";
-                       newSpan.setAttribute("style", "float:right;width:50px;");
-                       //newSpan.value = x[i].val_atr.substr(2);
-                       var licenta2 = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2";
-                       mainDiv.appendChild(newSpan);
-
-                       var mainDiv = document.getElementById('text_div');
-                       var newSpan = document.createElement('input');
-                       newSpan.type = "hidden";
-                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2:";
-                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2:";
-                       newSpan.value = "S";
-                       mainDiv.appendChild(newSpan);
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "hidden";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1:";
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1:";
+                           newSpan.value = "S";
+                           mainDiv.appendChild(newSpan);
 
 
-                       if ('@ViewBag.tipCentrala' == "MD")
-                       {
-                           $("#" + licenta1).val(x[i].val_atr.substr(0, 2));
-                           $("#" + licenta2).val(x[i].val_atr.substr(2));
-                           console.log("E MD , SE ADAUGA EVENTURI:");
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.value = "-";
+                           newSpan.setAttribute("style", "float:left;width:1%;height:5%;background:transparent;border:none;readonly:readonly;margin-left:3.5%;margin-right:0;");
+                           mainDiv.appendChild(newSpan);
+
+
+
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2";
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2";
+                           newSpan.className = "editors";
+                           newSpan.setAttribute("style", "float:right;width:7%;height:5%;");
+                           //newSpan.value = x[i].val_atr.substr(2);
+                           var licenta2 = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2";
+                           mainDiv.appendChild(newSpan);
+
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "hidden";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2:";
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2:";
+                           newSpan.value = "S";
+                           mainDiv.appendChild(newSpan);
+
+
+                           if ('@ViewBag.tipCentrala' == "MD") {
+                               $("#" + licenta1).val(x[i].val_atr.substr(0, 2));
+                               $("#" + licenta2).val(x[i].val_atr.substr(2));
+                               console.log("E MD , SE ADAUGA EVENTURI:");
                                $("#" + licenta2).css({ 'visibility': 'visible' });
                                $("#" + licenta1).keyup(function () {
                                    $("#" + licenta1).val($("#" + licenta1).val().substr(0, 2));
                                });
-                               $("#"+licenta2).keyup(function () {
+                               $("#" + licenta2).keyup(function () {
                                    $("#" + licenta2).val($("#" + licenta2).val().substr(0, 4));
                                });
-                               
+
                                $("#" + licenta1).attr('readonly', false);
                            }
-                       else if ('@ViewBag.tipCentrala' == "MX-ONE") {
-                           $("#" + licenta1).val(x[i].val_atr.substr(0, 2));
-                           $("#" + licenta2).val(x[i].val_atr.substr(2));
-                           $("#" + licenta2).css({ 'visibility': 'visible' });
-                           /*$("#" + licenta1).val('SN');
-                           $("#" + licenta1).attr('readonly', true);*/
-                        }
+                           else if ('@ViewBag.tipCentrala' == "MX-ONE") {
+                               $("#" + licenta1).val(x[i].val_atr.substr(0, 2));
+                               $("#" + licenta2).val(x[i].val_atr.substr(2));
+                               $("#" + licenta2).css({ 'visibility': 'visible' });
+                               /*$("#" + licenta1).val('SN');
+                               $("#" + licenta1).attr('readonly', true);*/
+                           }
+                           else {
+                               $("#" + licenta1).val(x[i].val_atr);
+                               $("#" + licenta2).css({ 'visibility': 'hidden' });
+                               $("#" + licenta1).val('');
+                               $("#" + licenta1).attr('readonly', false);
+                           }
+                       }
+                       else if (x[i].nume_atr == "Numar ruta") {
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.setAttribute("style", "float:left;width:7%;height:5%;margin-right:0;");
+                           newSpan.className = "editors";
+                           newSpan.value = x[i].val_atr;
+                           mainDiv.appendChild(newSpan);
+                           i++;
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.setAttribute("style", "float:left;width:7%;height:5%;margin-right:0;margin-left:3.5%;");
+                           newSpan.className = "editors";
+                           newSpan.value = x[i].val_atr;
+                           mainDiv.appendChild(newSpan);
+                           i++;
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.setAttribute("style", "float:right;width:7%;height:5%;margin-left:0;");
+                           newSpan.className = "editors";
+                           newSpan.value = x[i].val_atr;
+                           mainDiv.appendChild(newSpan);
+                       }
+
                        else {
-                           $("#" + licenta1).val(x[i].val_atr);
-                           $("#" + licenta2).css({ 'visibility': 'hidden' });
-                            $("#" + licenta1).val('');
-                            $("#" + licenta1).attr('readonly', false);
-                        }
-                   }
-                   else {
-                       var mainDiv = document.getElementById('text_div');
-                       var newSpan = document.createElement('input');
-                       newSpan.type = "text";
-                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
-                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
-                       newSpan.className = "editors";
-                       newSpan.value = x[i].val_atr;
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.setAttribute("style", "width:13%;height:5%;");
+                           newSpan.className = "editors";
+                           newSpan.value = x[i].val_atr;
+                           mainDiv.appendChild(newSpan);
+                       }
+
+
+
+                       newSpan = document.createElement('input');
+                       newSpan.type = "hidden";
+                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + ":";
+                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + ":";
+                       newSpan.value = x[i].tip_val;
                        mainDiv.appendChild(newSpan);
+
+                       var br = document.createElement("br");
+                       mainDiv.appendChild(br);
+
+
+                       var newSpan = document.createElement('input');
+                       newSpan.type = "hidden";
+                       newSpan.id = 'siteID';
+                       newSpan.name = 'siteID';
+                       newSpan.value = '@ViewBag.siteID';
+                       document.getElementById('text_div').appendChild(newSpan);
                    }
-
-
-
-                   newSpan = document.createElement('input');
-                   newSpan.type = "hidden";
-                   newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + ":";
-                   newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + ":";
-                   newSpan.value = x[i].tip_val;
-                   mainDiv.appendChild(newSpan);
-
-                   var br = document.createElement("br");
-                   mainDiv.appendChild(br);
-
-
-                   var newSpan = document.createElement('input');
-                   newSpan.type = "hidden";
-                   newSpan.id = 'siteID';
-                   newSpan.name = 'siteID';
-                   newSpan.value = '@ViewBag.siteID';
-                   document.getElementById('text_div').appendChild(newSpan);
                }
            }
            else {   //nu exista echip
@@ -966,9 +1026,8 @@
             <label class="labels">Tip:</label>
 
             <select class="editors" id="tip_nou" name="tip_nou">
-                <option value="Tip">Tip</option>
                 <option value="IP">IP</option>
-                <option value="Versiune">Versiune</option>
+                <option value="Conexiune">Conexiune</option>
                 @*
                 <option value="Abonati analogici">Abonati analogici</option>
                 <option value="Abonati digitali">Abonati digitali</option>
@@ -976,8 +1035,26 @@
                 <option value="Abonati DECT">Abonati DECT</option>
                 <option value="Abonati total">Plaja alocata totala</option>*@
             </select>
+            
+            <div id="atribut_nou_val">
             <label class="labels">Valoare:</label>
             <input type="text" id="val_nou" name="val_nou" />
+            </div>
+
+            <div id="ptconexiune" name="ptconexiune" style="display:none" >
+                <label class="labels">Nr. ruta:</label>
+                <input id="nrrutanou" name="nrrutanou" />
+                <label class="labels">Tip:</label>
+                <select id="tipcnou" name="tipcnou" >
+                    <option value=""></option>
+                    <option value="IP-SIP">IP-SIP</option>
+                    <option value="IP-H323">IP-H323</option>
+                    <option value="ISDN-QSIG">ISDN-QSIG</option>
+                    <option value="ISDN-PUBLIC">ISDN-PUBLIC</option>
+                </select>
+                <label class="labels">Destinatie:</label>
+                <input id="destinatienou" name="destinatienou" />
+            </div>
             <br />
             <input type="button" value ="Adauga" class="buton" onclick="submit_form()"/>
         </div>
@@ -990,6 +1067,17 @@
         function addatribut() {
             $("#atribut_nou_div").css({ 'display': 'block' });
         }
+
+        $("#tip_nou").change(function (event, data) {
+            if ($("#tip_nou option:selected").val() == "Conexiune") {
+                $("#ptconexiune").css({ 'display': 'block' });
+                $("#atribut_nou_val").css({ 'display': 'none' });
+            }
+            else {
+                $("#ptconexiune").css({ 'display': 'none' });
+                $("#atribut_nou_val").css({ 'display': 'block' });
+            }
+        });
 
         $(":input").addClass("editors");
         $("#submit_1").removeClass("editors");

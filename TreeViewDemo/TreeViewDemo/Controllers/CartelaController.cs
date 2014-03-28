@@ -93,6 +93,7 @@ namespace TreeViewDemo.Controllers
                         case "IPLU":
                         case "NIU":
                         case "AAU2":
+                        case "Management alimentare":
                             {
                                 atribut a = new atribut();
                                 a.val_string = cartelamodel["bpos"];
@@ -213,7 +214,7 @@ namespace TreeViewDemo.Controllers
                         else if (key.ToString() == "mask" || key.ToString() == "ip" || key.ToString() == "bpos" || key.ToString() == "gateway" )
                         {
                             atribut a = new atribut();
-                            string tip_nou = cartelamodel[key.ToString()];
+                            string tip_nou = key.ToString().ToUpper();// cartelamodel[key.ToString()];
                             var taid = (from ta in db.tip_atribut where ta.denumire == tip_nou select new { ta.id, ta.tip_valoare }).FirstOrDefault();
                             a.tipID = taid.id;
                             switch (taid.tip_valoare)
