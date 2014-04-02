@@ -366,7 +366,7 @@ namespace TreeViewDemo.Controllers
 
 
 
-                         a = new atribut();
+                        a = new atribut();
                         a.val_string = echipmodel["ipces"];
                         a.val_csv = null;
                         a.val_int = null;
@@ -374,7 +374,7 @@ namespace TreeViewDemo.Controllers
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "IP CES" select ta.id).FirstOrDefault();
                         db.AddToatributs(a);
 
-                         ea = new echipament_atribute();
+                        ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
                         db.AddToechipament_atribute(ea);
@@ -457,6 +457,65 @@ namespace TreeViewDemo.Controllers
 
                         db.SaveChanges();
 
+
+                    }
+                    else if (tipechip == "MC" || tipechip == "Concentratoare" || tipechip == "Routere" || tipechip == "Switch-uri")
+                    {
+                        s = new echipament();
+                        s.denumire = echipmodel["denumire"].ToString();
+
+                        int x = 0;
+                        if (int.TryParse(echipmodel["tipechipament"].ToString(), out x) == true)
+                            s.tipID = int.Parse(echipmodel["tipechipament"].ToString());
+                        else
+                            s.tipID = int.Parse(echipmodel["tipechipament"].ToString().Split('_')[0]);
+
+
+                        s.siteID = long.Parse(echipmodel["siteID"].ToString()); /// ???
+                        db.AddToechipaments(s);
+
+
+                        atribut a = new atribut();
+                        a.val_string = echipmodel["IP"];
+                        a.val_csv = null;
+                        a.val_int = null;
+                        a.val_nr = null;
+                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "IP" select ta.id).FirstOrDefault();
+                        db.AddToatributs(a);
+
+                        echipament_atribute ea = new echipament_atribute();
+                        ea.echipamentID = s.id;
+                        ea.atributID = a.id;
+                        db.AddToechipament_atribute(ea);
+                        db.SaveChanges();
+
+                        a = new atribut();
+                        a.val_string = echipmodel["MASK"];
+                        a.val_csv = null;
+                        a.val_int = null;
+                        a.val_nr = null;
+                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "MASK" select ta.id).FirstOrDefault();
+                        db.AddToatributs(a);
+
+                        ea = new echipament_atribute();
+                        ea.echipamentID = s.id;
+                        ea.atributID = a.id;
+                        db.AddToechipament_atribute(ea);
+                        db.SaveChanges();
+
+                        a = new atribut();
+                        a.val_string = echipmodel["GATEWAY"];
+                        a.val_csv = null;
+                        a.val_int = null;
+                        a.val_nr = null;
+                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "GATEWAY" select ta.id).FirstOrDefault();
+                        db.AddToatributs(a);
+
+                        ea = new echipament_atribute();
+                        ea.echipamentID = s.id;
+                        ea.atributID = a.id;
+                        db.AddToechipament_atribute(ea);
+                        db.SaveChanges();
 
                     }
                     else

@@ -109,6 +109,37 @@ namespace TreeViewDemo.Business
                                                                 && e2.siteID == idparam && te1.denumire == "MSED"
                                                                 where e2.id < e1.id
                                                                 select e2.id).Count()
+
+                                                  let nrmc = (from e2 in _orgDb.echipaments
+                                                                join te1 in _orgDb.tip_echipament
+                                                                on e2.tipID equals te1.id
+                                                                where te1.id == idroot
+                                                                && e2.siteID == idparam && te1.denumire == "MC"
+                                                                where e2.id < e1.id
+                                                                select e2.id).Count()
+                                                  let nrrouter = (from e2 in _orgDb.echipaments
+                                                              join te1 in _orgDb.tip_echipament
+                                                              on e2.tipID equals te1.id
+                                                              where te1.id == idroot
+                                                              && e2.siteID == idparam && te1.denumire == "Routere"
+                                                              where e2.id < e1.id
+                                                              select e2.id).Count()
+                                                  let nrswitch = (from e2 in _orgDb.echipaments
+                                                                  join te1 in _orgDb.tip_echipament
+                                                                  on e2.tipID equals te1.id
+                                                                  where te1.id == idroot
+                                                                  && e2.siteID == idparam && te1.denumire == "Switch-uri"
+                                                                  where e2.id < e1.id
+                                                                  select e2.id).Count()
+                                                  let nrcon = (from e2 in _orgDb.echipaments
+                                                                  join te1 in _orgDb.tip_echipament
+                                                                  on e2.tipID equals te1.id
+                                                                  where te1.id == idroot
+                                                                  && e2.siteID == idparam && te1.denumire == "Concentratoare"
+                                                                  where e2.id < e1.id
+                                                                  select e2.id).Count()
+    
+    
                                                   let titlu = te.denumire == "PABX" ?
                                                         (from a in _orgDb.atributs
                                                          join ea in _orgDb.echipament_atribute on a.id equals ea.atributID
@@ -117,7 +148,14 @@ namespace TreeViewDemo.Business
                                                          join te1 in _orgDb.echipament_tip on a.val_int equals te1.id 
                                                          where e.id == e1.id && ta.denumire == "Tip"
                                                          select te1.denumire).FirstOrDefault() :
-                                                         (te.denumire == "MSED" ? "MSED" + SqlFunctions.StringConvert((double)nrmsed).Trim() : null)
+                                                         (te.denumire == "MSED" ? "MSED" + SqlFunctions.StringConvert((double)nrmsed).Trim() : 
+                                                         (te.denumire == "MC" ? "MC" + SqlFunctions.StringConvert((double)nrmc).Trim() :
+                                                         (te.denumire == "Routere" ? "Routere" + SqlFunctions.StringConvert((double)nrrouter).Trim() : (
+                                                         te.denumire == "Switch-uri" ? "Switch-uri" + SqlFunctions.StringConvert((double)nrswitch).Trim() : (
+                                                         te.denumire == "Concentratoare" ? "Concentratoare" + SqlFunctions.StringConvert((double)nrcon).Trim() : null)
+                                                         )) 
+                                                         )
+                                                         )
                                                   let copii = (from car in _orgDb.cartelas
                                                                join ech in _orgDb.echipaments on car.echipamentID equals ech.id
                                                                where ech.id == e1.id
