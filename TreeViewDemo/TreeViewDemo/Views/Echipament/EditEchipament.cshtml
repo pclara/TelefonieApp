@@ -31,38 +31,44 @@
 
                         var mainDiv = document.getElementById('labels_div');
 
-                       ;
                         newSpan.className = "labels";
-                        
-                        
+
+
                         if ('@ViewBag.numeechip' == 'PABX') {
                             if (i == 0) {
-                                newSpan.setAttribute("style", "margin-top:5%;");
+                                newSpan.setAttribute("style", "margin-top:1%;height:20px;");
                             }
                             else
-                            if (i == 1) {
-                                newSpan.setAttribute("style", "margin-top:-5%;");
-                            }
-                            else if (i == 2)
-                                newSpan.setAttribute("style", "margin-top:-5%;");
-                            else if (i == 4)
-                                newSpan.setAttribute("style", "margin-top:-1%;");
-                            else if (i == 5)
-                                newSpan.setAttribute("style", "margin-top:-2%;");
-                            else if (i == 6)
-                                newSpan.setAttribute("style", "margin-top:-1%;");
+                                if (i == 1) {
+                                    newSpan.setAttribute("style", "margin-top:-5%;height:20px");
+                                }
+                                else if (i == 2)
+                                    newSpan.setAttribute("style", "margin-top:0%;height:20px");
+                                else if (i == 3)
+                                    newSpan.setAttribute("style", "margin-top:-2%;height:20px");
+                                else if (i == 4)
+                                    newSpan.setAttribute("style", "margin-top:-1%;height:20px");
+                                else if (i == 5)
+                                    newSpan.setAttribute("style", "margin-top:-2%;height:20px");
+                                else if (i == 6)
+                                    newSpan.setAttribute("style", "margin-top:-1%;height:20px");
+                                else
+                                    newSpan.setAttribute("style", "margin-top:0%;height:20px");
                         }
                         else
                             if ('@ViewBag.numeechip' == 'MSED') {
                                 if (i == 2) {
-                                    newSpan.setAttribute("style", "margin-top:-2%;");
+                                    newSpan.setAttribute("style", "margin-top:-2%;height:20px");
                                 }
                                 else if (i == 4)
-                                    newSpan.setAttribute("style", "margin-top:-1%;");
+                                    newSpan.setAttribute("style", "margin-top:-1%;height:20px");
                                 else if (i == 3)
-                                    newSpan.setAttribute("style", "margin-top:-1%;");
+                                    newSpan.setAttribute("style", "margin-top:-1%;height:20px");
+                                else
+                                    newSpan.setAttribute("style", "height:20px");
                             }
-                        
+
+                        //newSpan.setAttribute("style", "height:20px");
                         mainDiv.appendChild(newSpan);
 
                         var br = document.createElement("br");
@@ -91,7 +97,7 @@
                     mainDiv.appendChild(br);
 
 
-                    
+
 
 
 
@@ -102,16 +108,16 @@
                     mainDiv.appendChild(newSpan);
                     var br = document.createElement("br");
                     mainDiv.appendChild(br);
-                    
+
 
                     var newSpan = document.createElement('label');
                     newSpan.className = "labels";
                     newSpan.innerHTML = "Plan Numerotatie :";
-                 newSpan.setAttribute("style", "margin-left:-60%;");
+                    newSpan.setAttribute("style", "margin-left:-60%;");
                     mainDiv.appendChild(newSpan);
-                 //   var br = document.createElement("br");
-                   // mainDiv.appendChild(br);
-             
+                    //   var br = document.createElement("br");
+                    // mainDiv.appendChild(br);
+
                     var newSpan = document.createElement('label');
                     newSpan.className = "labels";
                     newSpan.innerHTML = "Licenta";
@@ -121,10 +127,10 @@
                     mainDiv.appendChild(br);
 
 
-                 //   var hr = document.createElement("hr");
-                  //  hr.setAttribute("style", "float:right;margin-top:-3%;");
-                  //  mainDiv.appendChild(hr);
-         
+                    //   var hr = document.createElement("hr");
+                    //  hr.setAttribute("style", "float:right;margin-top:-3%;");
+                    //  mainDiv.appendChild(hr);
+
 
 
 
@@ -220,7 +226,7 @@
                     var br = document.createElement("br");
                     mainDiv.appendChild(br);
 
-                   
+
                     var newSpan = document.createElement('label');
                     newSpan.className = "labels";
                     newSpan.innerHTML = "IP MANAGEMENT";
@@ -275,7 +281,7 @@
                 }
 
             }
-            
+
         </script> 
         
         </div>
@@ -510,9 +516,9 @@
 
 
 
-                       newSpan = document.createElement('input');
-                       newSpan.type = "hidden";
-                       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + ":";
+       newSpan = document.createElement('input');
+       newSpan.type = "hidden";
+       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + ":";
                        newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + ":";
                        newSpan.value = x[i].tip_val;
                        mainDiv.appendChild(newSpan);
@@ -600,7 +606,7 @@
 
 
 
-                             
+
 
 
 
@@ -623,7 +629,7 @@
 
 
 
-                               
+
 
                                $.ajax({
                                    url: '@Url.Content("~/Echipament/GetVersiuni")',
@@ -648,7 +654,7 @@
                                            option.text = valtext[1];
                                            newSpan.appendChild(option);
                                        }
-                                
+
 
 
                                        var mainDiv = document.getElementById('text_div');
@@ -698,9 +704,9 @@
                                        newSpan.value = 'I';
                                        mainDiv.appendChild(newSpan);
 
-                                    //   newSpan = document.createElement("label");
-                                     //  newSpan.innerHTML = "-";
-                                     //  mainDiv.appendChild(newSpan);
+                                       //   newSpan = document.createElement("label");
+                                       //  newSpan.innerHTML = "-";
+                                       //  mainDiv.appendChild(newSpan);
 
                                        newSpan = document.createElement('input');
                                        newSpan.type = "text";
@@ -793,7 +799,7 @@
                                        newSpan.name = 'ab_DECT_dela:';
                                        newSpan.value = 'I';
                                        mainDiv.appendChild(newSpan);
-                                     
+
                                        newSpan = document.createElement('input');
                                        newSpan.type = "text";
                                        newSpan.id = 'ab_DECT_panala';
@@ -839,7 +845,7 @@
                                        newSpan.value = 'I';
                                        mainDiv.appendChild(newSpan);
 
-                                      
+
                                        var br = document.createElement("br");
                                        mainDiv.appendChild(br);
                                        var br = document.createElement("br");
@@ -866,7 +872,7 @@
                                        newSpan.name = 'nrruta:';
                                        newSpan.value = 'S';
                                        mainDiv.appendChild(newSpan);
-                                      
+
                                        newSpan = document.createElement('select');
                                        newSpan.setAttribute("name", "tipconexiune");
                                        newSpan.setAttribute("id", "tipconexiune");
@@ -935,13 +941,13 @@
 
 
 
-                      
+
                    }
                    else if ('@ViewBag.numeechip' == 'MSED') {
 
                        var mainDiv = document.getElementById('text_div');
 
-                     
+
                        var newSpan = document.createElement('label');
                        newSpan.className = "labels";
                        newSpan.innerHTML = "IP CES <br/> REMOTE";
@@ -988,9 +994,9 @@
                        mainDiv.appendChild(newSpan);
 
                        var br = document.createElement("br");
-            
 
-                      
+
+
                    }
 
                    var mainDiv = document.getElementById('text_div');
@@ -1000,7 +1006,7 @@
                    newSpan.id = 'tipechipament';
                    newSpan.name = 'tipechipament';
                    newSpan.value = '@ViewBag.tipechipament';
-                       mainDiv.appendChild(newSpan);
+                   mainDiv.appendChild(newSpan);
 
 
                    var newSpan = document.createElement('input');
@@ -1008,7 +1014,7 @@
                    newSpan.id = 'siteID';
                    newSpan.name = 'siteID';
                    newSpan.value = '@ViewBag.siteID';
-                       document.getElementById('text_div').appendChild(newSpan);
+                   document.getElementById('text_div').appendChild(newSpan);
                    loaded++;
                }
            }
@@ -1085,6 +1091,7 @@
         $("#cartela_noua").removeClass("editors");
         $("#createechip").removeClass("editors");
         $("#create").removeClass("editors");
+        $("#stergeechipament").removeClass("editors");
 
         var getDetailsFunction = function () {
             return function (data, textStatus, jqXHR) {
@@ -1111,14 +1118,14 @@
                     $("#treeDemo").find(".jstree-checked").each(function () {
                         var id = this.id;
                         $.post('@Url.Content("~/Echipament/StergeEchipament")', "id=" + id, function (response) {
-                    var href = document.URL;
-                    var idechipament = href.substr(href.lastIndexOf("/") + 1, href.lastIndexOf("?") - href.lastIndexOf("/") - 1);
-                    window.location = href.replace(idechipament, response);
+                            var href = document.URL;
+                            var idechipament = href.substr(href.lastIndexOf("/") + 1, href.lastIndexOf("?") - href.lastIndexOf("/") - 1);
+                            window.location = href.replace(idechipament, response);
 
-                }, 'html');
-            });
+                        }, 'html');
+                    });
 
-        });
+                });
     </script>
 
         </div>
