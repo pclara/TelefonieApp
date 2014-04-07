@@ -349,6 +349,45 @@ namespace TreeViewDemo.Controllers
 
                         db.SaveChanges();
 
+
+
+                        a = new atribut();
+                        if(echipmodel["lim"] == "limmain")
+                            a.val_string = "0";
+                        else
+                            a.val_string = "0";
+                        a.val_csv = null;
+                        a.val_int = null;
+                        a.val_nr = null;
+                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "LIM MAIN" select ta.id).FirstOrDefault();
+                        db.AddToatributs(a);
+
+                        ea = new echipament_atribute();
+                        ea.echipamentID = s.id;
+                        ea.atributID = a.id;
+                        db.AddToechipament_atribute(ea);
+                        db.SaveChanges();
+
+
+                        a = new atribut();
+                        if (echipmodel["lim"] == "limdist")
+                            a.val_string = echipmodel["limdist-text"];
+                        else
+                            a.val_string = "0";
+
+                        a.val_csv = null;
+                        a.val_int = null;
+                        a.val_nr = null;
+                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "LIM DISTANT" select ta.id).FirstOrDefault();
+                        db.AddToatributs(a);
+
+                        ea = new echipament_atribute();
+                        ea.echipamentID = s.id;
+                        ea.atributID = a.id;
+                        db.AddToechipament_atribute(ea);
+
+                        db.SaveChanges();
+
                     }
                     else if (tipechip == "MSED")
                     {
@@ -563,7 +602,7 @@ namespace TreeViewDemo.Controllers
                     int i = 0;
                     foreach (var key in echipmodel.Keys)
                     {
-                        if (!key.ToString().EndsWith("-text") && key.ToString() != "tipcnou" && key.ToString() != "destinatienou" && key.ToString() != "nrrutanou" && key.ToString() != "destinatie" && key.ToString() != "tipconexiune" && key.ToString() != "nrruta" && key.ToString() != "siteID" && key.ToString() != "ipces" && key.ToString() != "licenta" && key.ToString() != "locatieremote" && key.ToString() != "ipmanagement" && key.ToString() != "ipcesremote" && key.ToString() != "ipmanagementremote" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "numeechip" && key.ToString() != "ab_analogici_dela" && key.ToString() != "ab_digitali_dela" && key.ToString() != "ab_IP_dela" && key.ToString() != "ab_DECT_dela" && key.ToString() != "ab_total_dela" && key.ToString() != "ab_analogici_panala" && key.ToString() != "ab_digitali_panala" && key.ToString() != "ab_IP_panala" && key.ToString() != "ab_DECT_panala" && key.ToString() != "ab_total_panala" && key.ToString() != "tip_nou" && key.ToString() != "denumire" && key.ToString() != "tip_val" && key.ToString() != "val_nou" && key.ToString() != "id" && !key.ToString().EndsWith(":"))
+                        if (!key.ToString().EndsWith("-text") && key.ToString() != "tipcnou"  && key.ToString() != "destinatienou" && key.ToString() != "nrrutanou" && key.ToString() != "destinatie" && key.ToString() != "tipconexiune" && key.ToString() != "nrruta" && key.ToString() != "siteID" && key.ToString() != "ipces" && key.ToString() != "licenta" && key.ToString() != "locatieremote" && key.ToString() != "ipmanagement" && key.ToString() != "ipcesremote" && key.ToString() != "ipmanagementremote" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "numeechip" && key.ToString() != "ab_analogici_dela" && key.ToString() != "ab_digitali_dela" && key.ToString() != "ab_IP_dela" && key.ToString() != "ab_DECT_dela" && key.ToString() != "ab_total_dela" && key.ToString() != "ab_analogici_panala" && key.ToString() != "ab_digitali_panala" && key.ToString() != "ab_IP_panala" && key.ToString() != "ab_DECT_panala" && key.ToString() != "ab_total_panala" && key.ToString() != "tip_nou" && key.ToString() != "denumire" && key.ToString() != "tip_val" && key.ToString() != "val_nou" && key.ToString() != "id" && !key.ToString().EndsWith(":"))
                         {
                             string idechip_idatr = key.ToString();
                             int nr_split = idechip_idatr.Split('_').Count();
