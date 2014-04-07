@@ -138,13 +138,14 @@ namespace TreeViewDemo.Controllers
 
         public ActionResult ListLocatiiContent(long? id, int rows, int page)
         {
+            var page1 = Request["page"];
             var name = (from s in db.sites join e in db.echipaments on s.id equals e.siteID join te in db.tip_echipament  on e.tipID equals te.id select new { e.id, te.denumire }).ToList().Distinct();
             int totalrecords = name.Count();
             var jsonData =
                            new
                            {
 
-                               page = page,
+                               page = page1,
                                total = (totalrecords + rows - 1) / rows,
                                rows = (from r in name
                                        select new

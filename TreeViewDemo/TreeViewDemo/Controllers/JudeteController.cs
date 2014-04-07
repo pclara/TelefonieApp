@@ -48,13 +48,14 @@ namespace TreeViewDemo.Controllers
 
         public ActionResult ListSites(long? id,int rows, int page)
         {
+            var page1 = Request["page"];
             var name = (from s in db.sites join j in db.judetes on s.judetID equals j.id where j.id == id select new { s.id, s.denumire }).ToList().Distinct();
             int totalrecords = name.Count();
             var jsonData =
                            new
                            {
                                
-                               page = page,
+                               page = page1,
                                total = (totalrecords + rows - 1) / rows,
                                rows = (from r in name
                                        select new
