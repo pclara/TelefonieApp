@@ -1,0 +1,294 @@
+﻿@{
+    ViewBag.Title = "EditCartela";
+}
+
+
+@using (Ajax.BeginForm("Edit", "Cartela", new AjaxOptions() { HttpMethod = "POST" }, new { id = "ajaxForm1" }))
+  
+{
+    <div id="labels_div"  style="float:left;margin-left:17%;margin-top:1%;margin-right:2%;">
+   <input type="hidden" value="@ViewBag.id" id="id" name="id" />
+        <input type="hidden" value="@ViewBag.tipcartela" id="tipcartela" name="tipcartela" />
+        <input type="hidden" value="@ViewBag.parentEchipament" id="parentE" name="parentE" />
+    
+        <div id="def1" style="display:none">
+            <label class="labels">BPOS:</label>
+            <br />
+       </div>
+             <div id="def2" style="display:none">
+            <label class="labels">BPOS:</label>
+                 <label class="labels">IP:</label>
+                 <label class="labels">MASK:</label>
+                 <label class="labels">GATEWAY:</label>
+            <br />
+             </div>         
+
+         <script>
+             
+             if ('@ViewBag.id' != -1) {
+                 @*if ('@ViewBag.tipcartela' == 'ESU' ||
+                     '@ViewBag.tipcartela' == 'ASU' || '@ViewBag.tipcartela' == 'NIU' || '@ViewBag.tipcartela' == 'AAU2' || '@ViewBag.tipcartela' == 'IPLU') {
+
+                 }*@
+
+                 var atr = '@Html.Raw(ViewBag.atribute)';
+                 var x = $.parseJSON(atr);
+
+                 for (i = 0; i < x.length; i++) {
+                     var mainDiv = document.getElementById('labels_div');
+
+                     var newSpan = document.createElement('label');
+                     newSpan.className = "labels";
+                     newSpan.innerHTML = x[i].nume_atr;
+                     mainDiv.appendChild(newSpan);
+
+                     var br = document.createElement("br");
+                     mainDiv.appendChild(br);
+                 }
+             }
+             else {
+                 var mainDiv = document.getElementById('labels_div');
+
+                 var newSpan = document.createElement('label');
+                 newSpan.className = "labels";
+                 newSpan.innerHTML = "Tip cartela:";
+                 mainDiv.appendChild(newSpan);
+
+                 var br = document.createElement("br");
+                 mainDiv.appendChild(br);
+             }
+         </script>
+
+ </div>
+
+   <div id="text_div" style="margin-top:1%;">
+       <input type="hidden" class="editors" id="denumire" name="denumire" value="@ViewBag.numeechip" />
+       <div id="def11" style="display:none">
+           <input type="text" id="bpos" name="bpos" class="editors" />
+           
+       </div>
+        <div id="def22" style="display:none">
+           <input type="text" id="bpos" name="bpos" class="editors" />
+            <input type="text" id="ip" name="ip" class="editors" />
+            <input type="text" id="mask" name="mask" class="editors" />
+            <input type="text" id="gateway" name="gateway" class="editors" />
+       </div>
+       <script>
+           if ('@ViewBag.id' != -1) {
+               $("#atribute_noi").css({ 'display': 'block' });
+
+               var atr = '@ViewBag.atribute';
+               console.log("nr atr:" + atr.length);
+
+               for (i = 0; i < x.length; i++) {
+
+                   var mainDiv = document.getElementById('text_div');
+                   var newSpan = document.createElement('input');
+                   newSpan.type = "text";
+                   newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                   newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                   newSpan.className = "editors";
+                   newSpan.value = x[i].val_atr;
+                   mainDiv.appendChild(newSpan);
+
+                   newSpan = document.createElement('input');
+                   newSpan.type = "hidden";
+                   newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + ":";
+                   newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + ":";
+                   newSpan.value = x[i].tip_val;
+                   mainDiv.appendChild(newSpan);
+
+                   var br = document.createElement("br");
+                   mainDiv.appendChild(br);
+
+               }
+           }
+           else {
+               $("#atribute_noi").css({ 'display': 'none' });
+               $.ajax({
+                   url: '@Url.Content("~/Cartela/GetTipCartele")',
+                   type: 'POST',
+                   success: function (response) {
+                       var mainDiv = document.getElementById('text_div');
+                       var newSpan = document.createElement('select');
+                       newSpan.id = 'tip_cartela';
+                       newSpan.name = 'tip_cartela';
+                       newSpan.className = "editors";
+                       mainDiv.appendChild(newSpan);
+                       var tipuri = response.split(',');
+                       var option = document.createElement("option");
+                       option.value = '';
+                       option.text = '';
+                       newSpan.appendChild(option);
+                       for (var i = 0; i < tipuri.length; i++) {
+                           var option = document.createElement("option");
+                           option.value = tipuri[i];
+                           option.text = tipuri[i];
+                           newSpan.appendChild(option);
+                       }
+
+                       $("#tip_cartela").change(function (event) {
+                           $("#tipcartela").val($("#tip_cartela option:selected").val());
+                           switch ($("#tip_cartela option:selected").val()) {
+                               case 'ESU': case 'ASU': case 'NIU': case 'AAU2': case 'IPLU': case 'Management alimentare':
+                                   {
+                                       $("#def2").css({ 'display': 'block' });
+                                       $("#def22").css({ 'display': 'block' });
+                                       $("#def1").css({ 'display': 'none' });
+                                       $("#def11").css({ 'display': 'none' });
+                                       /*
+                                       var mainDiv1 = document.getElementById('labels_div');
+                                       var newSpan1 = document.createElement('label');
+                                       newSpan1.className = "labels";
+                                       newSpan1.innerHTML = "BPOS:";
+                                       mainDiv1.appendChild(newSpan1);
+                                       var br = document.createElement("br");
+                                       mainDiv1.appendChild(br);
+
+                                       newSpan1 = document.createElement('label');
+                                       newSpan1.className = "labels";
+                                       newSpan1.innerHTML = "IP:";
+                                       mainDiv1.appendChild(newSpan1);
+                                       var br = document.createElement("br");
+                                       mainDiv1.appendChild(br);
+
+                                       newSpan1 = document.createElement('label');
+                                       newSpan1.className = "labels";
+                                       newSpan1.innerHTML = "GATEWAY:";
+                                       mainDiv1.appendChild(newSpan1);
+                                       var br = document.createElement("br");
+                                       mainDiv1.appendChild(br);
+
+                                       newSpan1 = document.createElement('label');
+                                       newSpan1.className = "labels";
+                                       newSpan1.innerHTML = "MASK:";
+                                       mainDiv1.appendChild(newSpan1);
+                                       var br = document.createElement("br");
+                                       mainDiv1.appendChild(br);
+
+                                       var mainDiv = document.getElementById('text_div');
+                                       var newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'bpos';
+                                       newSpan.name = 'bpos';
+                                       newSpan.className = "editors";
+                                       mainDiv.appendChild(newSpan);
+
+                                       var newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ip';
+                                       newSpan.name = 'ip';
+                                       newSpan.className = "editors";
+                                       mainDiv.appendChild(newSpan);
+
+                                       var newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'gateway';
+                                       newSpan.name = 'gateway';
+                                       newSpan.className = "editors";
+                                       mainDiv.appendChild(newSpan);
+
+                                       var newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'mask';
+                                       newSpan.name = 'mask';
+                                       newSpan.className = "editors";
+                                       mainDiv.appendChild(newSpan);
+                                       */
+                                       break;
+                                   }
+                               default: {
+                                   $("#def1").css({ 'display': 'block' });
+                                   $("#def11").css({ 'display': 'block' });
+                                   $("#def2").css({ 'display': 'none' });
+                                   $("#def22").css({ 'display': 'none' });
+                                   /*
+                                   var mainDiv1 = document.getElementById('labels_div');
+                                   var newSpan1 = document.createElement('label');
+                                   newSpan1.className = "labels";
+                                   newSpan1.innerHTML = "BPOS:";
+                                   mainDiv1.appendChild(newSpan1);
+                                   var br = document.createElement("br");
+                                   mainDiv1.appendChild(br);
+
+                                   var mainDiv = document.getElementById('text_div');
+                                   var newSpan = document.createElement('input');
+                                   newSpan.type = "text";
+                                   newSpan.id = 'bpos';
+                                   newSpan.name = 'bpos';
+                                   newSpan.className = "editors";
+                                   mainDiv.appendChild(newSpan);
+                                   */
+                                   break;
+                               }
+                           }
+                       });
+                   }
+               });
+              
+           }
+           </script>
+       </div>
+    
+     <div  id="atribute_noi" style="float:right;">
+        <input type="button" id="atr_nou" name="atr_nou" class="buton" value="Adauga atribut" onclick="addatributc()"/>
+        <br />
+        <div id="atribut_nou_div" style="display:none">
+            <label class="labels">Tip:</label>
+
+            <select class="editors" id="tip_nou" name="tip_nou">
+                <option value="IP">IP</option>
+                <option value="MASK">MASK</option>
+                <option value="GATEWAY">GATEWAY</option>
+                <option value="BPOS">BPOS</option>
+            </select>
+            <label class="labels">Valoare:</label>
+            <input type="text" id="val_nou" name="val_nou" />
+            <br />
+            <input type="button" value ="Adauga" class="buton" id="submit_2" onclick="submit_form()"/>
+        </div>
+    </div>
+    
+    <script>
+        function submit_form() {
+            $('#ajaxForm1').trigger('submit');
+        }
+        function addatributc() {
+            $("#atribut_nou_div").css({ 'display': 'block' });
+        }
+
+        $(":input").addClass("editors");
+        $("#submit_1").removeClass("editors");
+        $("#createechip").removeClass("editors");
+        $("#create").removeClass("editors");
+        $("#stergecartela").removeClass("editors");
+        $("#atr_nou").removeClass("editors");
+        $("#submit_2").removeClass("editors");
+    </script>
+    <br />
+    <div id="footer-form" style="margin-top:40%">
+   <input type="submit" value="Salveaza" class="buton" id="submit_1" />
+        <input type="button" value="Sterge cartela" class="buton" id="stergecartela" />
+        </div>
+    <script>
+        $("#stergecartela").click(function () {
+            $("#treeDemo").find(".jstree-checked").each(function () {
+                var id = this.id;
+                $.post('@Url.Content("~/Cartela/StergeCartela")', "id=" + id, function (response) {
+                    //http://localhost:60170/Judete/Index/24_cartela?name=Bucuresti
+                    var href = document.URL;
+                    var idcartela = href.substr(href.lastIndexOf("/") + 1, href.lastIndexOf("?") - href.lastIndexOf("/") - 1);
+                    window.location = href.replace(idcartela, response);
+
+                    console.log("IDCARTELA"+idcartela);
+                    /* $("#treeDemo").jstree("refresh");
+                    $("#treeDemo").jstree("close_all", -1);
+                    $("#treeDemo").jstree("uncheck_all", -1);
+                    */
+                    //open_tree(response);
+                }, 'html');
+                });
+
+        });
+    </script>
+}

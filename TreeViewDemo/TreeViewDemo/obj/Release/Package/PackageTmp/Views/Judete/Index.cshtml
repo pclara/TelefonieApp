@@ -1,0 +1,387 @@
+﻿@model TreeViewDemo.ViewModel.JsTreeModel
+@{
+
+    ViewBag.Title = "Index";
+}
+<br /><br />
+<script type="text/javascript">
+    $(function () {
+        $("#treeDemo").jstree("uncheck_all");
+        treeModel = @Html.Raw(ViewBag.variables);
+        //$('#treeDemo').jstree();
+        $('#treeDemo').jstree({
+            //"themes" : { "themes" : "Scripts/themes/default" },
+            "json_data": {
+                "data": treeModel,
+                "ajax": {
+                    "type": 'POST',
+                    "data": function (n) {
+                        return { id: n.attr ? n.attr("id") : 0, description: n.attr ? n.attr("description") : '' };
+                    },
+                    "url": function (node) {
+                        {
+                            console.log("IN JSTREE ");
+                            console.log("SELECTED ID:"+$("#" + node[0].id).attr('description'));
+
+                            if($("#" + node[0].id).attr('description') == "judet")
+                            {
+                                url = "Judete/EditJudet";
+                            }
+                            else 
+                                url = '';
+
+                            $.get(url, "id=" + node[0].id + '&description=' + $("#" + node[0].id).attr('description'),  getLoadTabDetails(), 'html');
+
+                            var getLoadTabDetails = function () {
+                                return function (data, textStatus, jqXHR) {
+                                    $("#details").html(data);
+                                };
+                            }
+
+                        }
+                    },
+                    "success": function (new_data) {
+                        return new_data;
+                    }
+                }
+            },
+            "progressive_render": true,
+            "search": {
+                "case_insensitive": true
+                 ,
+                "show_only_matches": true
+            },
+           
+            "rules":{multiple : false},
+            plugins: ["themes", "json_data", "ui", "sort", "search", "adv_search", "checkbox"],
+            "checkbox": {
+                "two_state": false,
+                "override_ui": true,
+                "real_checkboxes": true,
+                "real_checkboxes_names": function (n) {
+                    var t = n[0].attributes.description;
+
+                    if (typeof t !== 'undefined') {
+                        return [("check_" + (n[0].id || Math.ceil(Math.random() * 10000))), n[0].id];
+                    }
+                    else
+                        return [("check_" + (n[0].id || Math.ceil(Math.random() * 10000))), n[0].id];
+                }
+            }
+        }).bind('before.jstree', function (event, data) {
+            var selectedID = '@ViewBag.selectedID';
+
+            if (data.func === 'open_node' && ( selectedID != null && selectedID != '' && selectedID != 'undefined')) {
+                var checked_node = $(data.args[0]).parents('li').attr('id');
+                var opened_node   = data.args[0];
+
+                if(checked_node != '' && checked_node != null && checked_node != 'undefined')
+                    opened_node = checked_node;
+                
+                $("#"+opened_node).removeClass("jstree-closed");
+                $("#"+opened_node).addClass("jstree-open");
+
+                console.log("OPEN NODE"+opened_node);
+
+            }
+
+            if ((data.func === 'check_node') || (data.func === 'uncheck_node')) {
+                
+                var checked_node  = $(data.args[0]).parents('li').attr('id');
+                 
+                if( selectedID != null && selectedID != '' && selectedID != 'undefined')
+                {
+                    if(checked_node == '' || checked_node == null || checked_node == 'undefined')
+                        checked_node = data.args[0];
+                }
+                
+                console.log("CHECK NODE: "+checked_node);
+                if(checked_node!= 'undefined' && checked_node!= undefined  && checked_node!= null)
+                {
+                    if($("#"+checked_node).attr("class").indexOf("jstree-checked") <= -1 )
+                    {
+                        console.log("add checked:"+checked_node);
+                        $("#"+checked_node).addClass("jstree-checked");
+                        $("#"+checked_node).removeClass("jstree-unchecked");
+                        
+                        var eventArgs = {
+                            type: checked_node.split('_')[1],
+                            id: checked_node.split('_')[0],
+                            parentID : ( checked_node.split('_')[1] == 'tip' ? $("#"+checked_node).parent().parent().attr('id') +  ":" + $("#"+checked_node).parent().parent().parent().parent().attr('id') :
+                                (checked_node.split('_')[1] == 'site'|| checked_node.split('_')[1] == 'echipament' || checked_node.split('_')[1] == 'cartela' ? $("#"+checked_node).parent().parent().attr('id') : ''))
+                        };
+
+                        TreeEventController.onNodeSelect(eventArgs);
+                    }
+                    else
+                    {
+                        console.log("remove checked:"+checked_node);
+                        $("#"+checked_node).addClass("jstree-unchecked");
+                        $("#"+checked_node).removeClass("jstree-checked");
+                    }
+
+                    $("#treeDemo").find('.jstree-checked').each(function(){
+                        var idchild = this.id;
+                        if(idchild != checked_node)
+                        {
+                            console.log("remove checked:"+idchild);
+                            $("#"+idchild).addClass("jstree-unchecked");
+                            $("#"+idchild).removeClass("jstree-checked");     
+                        }
+                    });
+
+                    event.stopImmediatePropagation(); //stops changing select/deselect when clicked
+                }
+                return false;
+            }
+        });
+    });
+
+    var selectedID = '@ViewBag.selectedID';
+   
+    if( selectedID != null && selectedID != '' && selectedID != 'undefined')
+    {
+        console.log("nod selectat" + selectedID);
+        open_tree(selectedID);
+    }
+    else
+    {
+        console.log("NICIUN NOD SELECTAT!");
+    }
+
+    function open_tree(selectedID)
+    {
+        var tip = selectedID.split('_')[1];
+        var id = selectedID.split('_')[0];
+        if(tip == "site")
+        {
+            $.ajax({
+                url:'@Url.Content("~/Locatii/CaleNod")',
+                type:'POST',
+                data : {id : id},
+                success : function(response)
+                {
+                    console.log("CALE: "+response);
+                    var noduri = response.split(",");
+                    var lungime = noduri.length;
+                    deschide_tree(noduri, lungime,0);
+                }
+            });
+        }
+        else if(tip=="tip")
+        {
+            $.ajax({
+                url:'@Url.Content("~/TipEchipament/CaleNod")',
+                type:'POST',
+                data : {id : selectedID},
+                success : function(response)
+                {
+                    console.log("CALE: "+response);
+                    var noduri = response.split(",");
+                    var lungime = noduri.length;
+                    deschide_tree(noduri, lungime, 0);
+                }
+            });
+        }
+        else if(tip == "echipament")
+        {
+            $.ajax({
+                url:'@Url.Content("~/Echipament/CaleNod")',
+                type:'POST',
+                data : {id : selectedID},
+                success : function(response)
+                {
+                    console.log("CALE: "+response);
+                    var noduri = response.split(",");
+                    var lungime = noduri.length;
+                    deschide_tree(noduri, lungime, 0);
+                }
+            });
+        }
+        else if(tip == "cartela")
+        {
+            $.ajax({
+                url:'@Url.Content("~/Cartela/CaleNod")',
+                type:'POST',
+                data : {id : selectedID},
+                success : function(response)
+                {
+                    console.log("CALE: "+response);
+                    var noduri = response.split(",");
+                    var lungime = noduri.length;
+                    deschide_tree(noduri, lungime, 0);
+                }
+            });
+        }
+    }
+
+    function deschide_tree(noduri,lungime , index, tip)
+    {
+        if(index == lungime - 1)
+        {
+            console.log("check node " +noduri[index]);
+            $("#treeDemo").jstree("check_node",noduri[index]);
+        }
+        else
+        {
+            console.log("open node " +noduri[index]);
+            $("#treeDemo").jstree("open_node",noduri[index]);
+            deschide_tree(noduri, lungime, index +1);
+        }
+    }
+
+    var EventController = function (eventList) {
+        var _this = this;
+
+        $.each(eventList, function (index, event) {
+            _this[event.name] = event.callback;
+        });
+
+        _this.isRegistered = function (eventName) {
+            if (typeof _this[eventName] !== 'undefined') {
+                return true;
+            }
+
+            return false;
+        };
+
+        _this.registerEvent = function (event) {
+            _this[event.name] = event.callback;
+        };
+    }
+
+    window.EventController = EventController;
+
+    window.TreeEventController = new EventController([{
+        name: 'onNodeSelect',
+        callback: function (eventArgs) {
+            console.log(eventArgs);
+        }
+    }]);
+
+
+    window.FormEventController = new EventController([{
+        name: 'onNewBtnClick',
+        callback: function (eventArgs) {
+            console.log(eventArgs);
+        }
+    }]);
+
+    window.FormEventController = new EventController([{
+        name: 'onNewSite',
+        callback: function (eventArgs) {
+            console.log(eventArgs);
+        }
+    }]);
+
+    var getDetailsFunction = function () {
+        return function (data, textStatus, jqXHR) {
+            $("#details").html(data);
+        };
+    }
+
+    if (typeof TreeEventController === 'undefined') {
+        throw 'Event Controller for tree does not exist at this time.';
+    } else {
+        if (TreeEventController.isRegistered('onNodeSelect')) {
+
+            TreeEventController.onNodeSelect = (function (eventArgs) {
+                    
+                console.log("EnevtArgs:"+eventArgs.id + eventArgs.type);
+                   @* $("#details").html('<div id="loading-tab">Loading <img src="@Url.Content("~/Images/loading.gif")" /></div>');*@
+                if(eventArgs.type == 'judet')
+                {
+                    $("#titlu").html("Editeaza judet");
+                    $("#create").css({"display":"none"});
+                    $.get('@Url.Content("~/Judete/EditJudet")', "id=" + eventArgs.id,  getDetailsFunction(), 'html');
+                }
+                else
+                if(eventArgs.type == 'site')
+                {
+                    $("#titlu").html("Editeaza locatie");
+                    $("#create").val("Creeaza locatie");
+                    //$("#create").css({"display":"block"});
+
+                    $("#create").click(function(event, data)
+                    {
+                        $.get('@Url.Content("~/Locatii/EditLocatii")', "id=-1" + "&&parentID=" + eventArgs.parentID,  getDetailsFunction(), 'html');
+                    }
+                    );
+
+                    $.get('@Url.Content("~/Locatii/EditLocatii")', "id=" + eventArgs.id + "&&parentID=" + eventArgs.parentID,  getDetailsFunction(), 'html');
+                }
+                else
+                    if(eventArgs.type == 'tip')
+                    {
+                        $("#titlu").html("Editeaza tip echipament");
+                        $("#create").val("Creeaza tip echipament");
+                        //$("#create").css({"display":"block"});
+
+                        $("#create").bind("click",function(event, data)
+                        {
+                            $.get('@Url.Content("~/TipEchipament/EditEchipament")', "id=-1" + "&&parentID=" + eventArgs.parentID,  getDetailsFunction(), 'html');
+                       }
+                    );
+                        $.get('@Url.Content("~/TipEchipament/EditEchipament")', "id=" + eventArgs.id + "&&parentID=" + eventArgs.parentID,  getDetailsFunction(), 'html');
+                    }
+                    else
+                        if(eventArgs.type == 'echipament')
+                        {
+                            var numeechip = $("#"+eventArgs.id + "_echipament").parent().parent().find("a")[0].text.trim();
+                            $("#titlu").html("Editeaza "+numeechip);
+                            $("#create").val("Creeaza "+numeechip);
+                            //$("#create").css({"display":"block"});
+
+                            $("#create").click(function(event, data)
+                            {
+                                $.get('@Url.Content("~/Echipament/EditEchipament")', "id=-1" + "&&parentID=" + eventArgs.parentID,  getDetailsFunction(), 'html');
+                        }
+                    );
+                        $.get('@Url.Content("~/Echipament/EditEchipament")', "id=" + eventArgs.id + "&&parentID=" + eventArgs.parentID,  getDetailsFunction(), 'html');
+                        }
+                        else
+                            if(eventArgs.type == 'cartela')
+                            {
+                                var numeechip = $("#"+eventArgs.id + "_cartela").find("a")[0].text.trim();
+                                $("#titlu").html("Editeaza "+numeechip);
+                                $("#create").val("Creeaza "+numeechip);
+                                //$("#create").css({"display":"block"});
+
+                                $("#create").click(function(event, data)
+                                {
+                                    $.get('@Url.Content("~/Cartela/EditCartela")', "id=-1" + "&&parentID=" + eventArgs.parentID,  getDetailsFunction(), 'html');
+                            }
+                    );
+                            $.get('@Url.Content("~/Cartela/EditCartela")', "id=" + eventArgs.id + "&&parentID=" + eventArgs.parentID,  getDetailsFunction(), 'html');
+                        }
+                });
+            } else {
+                throw 'node select event not registered with tree event controller.';
+            }
+        }
+
+
+    </script>
+
+<div id="treeContainer" style="width:30%;float:left;">
+<div id="treeDemo">
+    <ul id="tree">
+        <li>
+            <a href="#">@Model.data.title</a>
+            @Html.Partial("ChildNode", Model.children)
+        </li>
+    </ul>
+</div>
+</div>
+
+
+<div style="width:65%;float:right;">
+    <div>
+    <div id="titlu" ></div>
+    <input class="buton" type="button" id="create" name="create" value="Creeaza" style="display:none;"/>
+    </div>
+    <br /><br /><br />
+    <div  id="details"  >
+
+    </div>
+</div>

@@ -1,0 +1,5 @@
+D:\GitHub\TelefonieApp\TreeViewDemo\TreeViewDemo\bin\TreeViewDemo.dll
+D:\GitHub\TelefonieApp\TreeViewDemo\TreeViewDemo\bin\TreeViewDemo.pdb
+D:\GitHub\TelefonieApp\TreeViewDemo\TreeViewDemo\obj\Release\TreeViewDemo.csprojResolveAssemblyReference.cache
+D:\GitHub\TelefonieApp\TreeViewDemo\TreeViewDemo\obj\Release\TreeViewDemo.dll
+D:\GitHub\TelefonieApp\TreeViewDemo\TreeViewDemo\obj\Release\TreeViewDemo.pdb

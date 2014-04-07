@@ -80,7 +80,7 @@ $.fn.extend({
 
 	scrollParent: function() {
 		var scrollParent;
-		if (($.browser.msie && (/(static|relative)/).test(this.css('position'))) || (/absolute/).test(this.css('position'))) {
+		if ((navigator.appName && (/(static|relative)/).test(this.css('position'))) || (/absolute/).test(this.css('position'))) {
 			scrollParent = this.parents().filter(function() {
 				return (/(relative|absolute|fixed)/).test($.curCSS(this,'position',1)) && (/(auto|scroll)/).test($.curCSS(this,'overflow',1)+$.curCSS(this,'overflow-y',1)+$.curCSS(this,'overflow-x',1));
 			}).eq(0);
@@ -678,7 +678,7 @@ $.widget("ui.mouse", {
 
 	_mouseMove: function(event) {
 		// IE mouseup check - mouseup happened when mouse was out of window
-		if ($.browser.msie && !(document.documentMode >= 9) && !event.button) {
+		if (navigator.appName && !(document.documentMode >= 9) && !event.button) {
 			return this._mouseUp(event);
 		}
 
@@ -1031,7 +1031,7 @@ $.widget("ui.draggable", $.ui.mouse, {
 		}
 
 		if((this.offsetParent[0] == document.body) //This needs to be actually done for all browsers, since pageX/pageY includes this information
-		|| (this.offsetParent[0].tagName && this.offsetParent[0].tagName.toLowerCase() == 'html' && $.browser.msie)) //Ugly IE fix
+		|| (this.offsetParent[0].tagName && this.offsetParent[0].tagName.toLowerCase() == 'html' && navigator.appName)) //Ugly IE fix
 			po = { top: 0, left: 0 };
 
 		return {
@@ -2122,7 +2122,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 		if (!trigger) return false;
 
 		// Calculate the attrs that will be change
-		var data = trigger.apply(this, [event, dx, dy]), ie6 = $.browser.msie && $.browser.version < 7, csdif = this.sizeDiff;
+		var data = trigger.apply(this, [event, dx, dy]), ie6 = navigator.appName && $.browser.version < 7, csdif = this.sizeDiff;
 
 		if (this._aspectRatio || event.shiftKey)
 			data = this._updateRatio(data, event);
@@ -2257,7 +2257,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 				});
 			}
 
-			if ($.browser.msie && !(!($(element).is(':hidden') || $(element).parents(':hidden').length)))
+			if (navigator.appName && !(!($(element).is(':hidden') || $(element).parents(':hidden').length)))
 				continue;
 
 			prel.css({
@@ -2279,7 +2279,7 @@ $.widget("ui.resizable", $.ui.mouse, {
 			this.helper = this.helper || $('<div style="overflow:hidden;"></div>');
 
 			// fix ie6 offset TODO: This seems broken
-			var ie6 = $.browser.msie && $.browser.version < 7, ie6offset = (ie6 ? 1 : 0),
+			var ie6 = navigator.appName && $.browser.version < 7, ie6offset = (ie6 ? 1 : 0),
 			pxyoffset = ( ie6 ? 2 : -1 );
 
 			this.helper.addClass(this._helper).css({
@@ -3727,7 +3727,7 @@ $.widget("ui.sortable", $.ui.mouse, {
 		}
 
 		if((this.offsetParent[0] == document.body) //This needs to be actually done for all browsers, since pageX/pageY includes this information
-		|| (this.offsetParent[0].tagName && this.offsetParent[0].tagName.toLowerCase() == 'html' && $.browser.msie)) //Ugly IE fix
+		|| (this.offsetParent[0].tagName && this.offsetParent[0].tagName.toLowerCase() == 'html' && navigator.appName)) //Ugly IE fix
 			po = { top: 0, left: 0 };
 
 		return {
@@ -5853,12 +5853,12 @@ $.widget( "ui.accordion", {
 			maxHeight;
 
 		if ( options.fillSpace ) {
-			if ( $.browser.msie ) {
+			if ( navigator.appName ) {
 				var defOverflow = this.element.parent().css( "overflow" );
 				this.element.parent().css( "overflow", "hidden");
 			}
 			maxHeight = this.element.parent().height();
-			if ($.browser.msie) {
+			if (navigator.appName) {
 				this.element.parent().css( "overflow", defOverflow );
 			}
 
@@ -8719,7 +8719,7 @@ $.extend(Datepicker.prototype, {
 			}
 			html += group;
 		}
-		html += buttonPanel + ($.browser.msie && parseInt($.browser.version,10) < 7 && !inst.inline ?
+		html += buttonPanel + (navigator.appName && parseInt($.browser.version,10) < 7 && !inst.inline ?
 			'<iframe src="javascript:false;" class="ui-datepicker-cover" frameborder="0"></iframe>' : '');
 		inst._keyEvent = false;
 		return html;
@@ -9731,7 +9731,7 @@ $.extend($.ui.dialog.overlay, {
 		var scrollHeight,
 			offsetHeight;
 		// handle IE 6
-		if ($.browser.msie && $.browser.version < 7) {
+		if (navigator.appName && $.browser.version < 7) {
 			scrollHeight = Math.max(
 				document.documentElement.scrollHeight,
 				document.body.scrollHeight
@@ -9756,7 +9756,7 @@ $.extend($.ui.dialog.overlay, {
 		var scrollWidth,
 			offsetWidth;
 		// handle IE 6
-		if ($.browser.msie && $.browser.version < 7) {
+		if (navigator.appName && $.browser.version < 7) {
 			scrollWidth = Math.max(
 				document.documentElement.scrollWidth,
 				document.body.scrollWidth
@@ -11284,7 +11284,7 @@ $.widget( "ui.tabs", {
 			// and remove dotted border from clicked link. This is controlled via CSS
 			// in modern browsers; blur() removes focus from address bar in Firefox
 			// which can become a usability and annoying problem with tabs('rotate').
-			if ( $.browser.msie ) {
+			if ( navigator.appName ) {
 				this.blur();
 			}
 		});

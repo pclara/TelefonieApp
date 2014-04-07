@@ -291,9 +291,12 @@
                    @* $("#details").html('<div id="loading-tab">Loading <img src="@Url.Content("~/Images/loading.gif")" /></div>');*@
                 if(eventArgs.type == 'judet')
                 {
-                    $("#titlu").html("Editeaza judet");
+                    $("#titlu").html("<input type='button' id='editjudet' class='buton' onclick=\"editeazajudet('"+eventArgs.id+"')\" style=\"font-size:15px\" value='Editeaza judet' />"); // Editeaza judet
+                    $("#cauta").html("<input type='button' id='cautajudet' class='buton'  onclick=\"cautajudet('"+eventArgs.id+"')\"  style=\"font-size:15px\" value='Cauta judet' />"); // Editeaza judet
                     $("#create").css({"display":"none"});
                     $.get('@Url.Content("~/Judete/EditJudet")', "id=" + eventArgs.id,  getDetailsFunction(), 'html');
+                    
+                   
                 }
                 else
                 if(eventArgs.type == 'site')
@@ -360,7 +363,14 @@
             }
         }
 
-
+    function editeazajudet(id)
+    {
+        $.get('@Url.Content("~/Judete/EditJudet")', "id=" + id,  getDetailsFunction(), 'html');
+     }
+     function cautajudet(id)
+     {
+         $.get('@Url.Content("~/Judete/CautaJudet")', "id=" + id,  getDetailsFunction(), 'html');
+                    }
     </script>
 
 <div id="treeContainer" style="width:30%;float:left;">
@@ -378,9 +388,10 @@
 <div style="width:65%;float:right;">
     <div>
     <div id="titlu" ></div>
+    <div id="cauta"></div>
     <input class="buton" type="button" id="create" name="create" value="Creeaza" style="display:none;"/>
     </div>
-    <br /><br /><br />
+    <br />
     <div  id="details"  >
 
     </div>

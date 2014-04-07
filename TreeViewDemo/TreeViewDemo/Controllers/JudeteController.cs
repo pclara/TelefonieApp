@@ -39,5 +39,14 @@ namespace TreeViewDemo.Controllers
             ViewBag.id = id;
             return PartialView();
         }
+        public ActionResult CautaJudet(long? id)
+        {
+            var name = (from j in db.judetes where j.id == id select j.denumire).FirstOrDefault();
+            ViewBag.nume = name.ToString();
+            ViewBag.id = id;
+            return PartialView();
+        }
+
+        
     }
 }
