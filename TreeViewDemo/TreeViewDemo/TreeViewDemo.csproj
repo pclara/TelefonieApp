@@ -218,6 +218,12 @@
   <ItemGroup>
     <Content Include="Views\Cartela\EditCartela.cshtml" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Judete\CautaJudet.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Locatii\CautaLocatie.cshtml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

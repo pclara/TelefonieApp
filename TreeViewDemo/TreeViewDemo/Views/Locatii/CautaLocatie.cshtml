@@ -1,0 +1,44 @@
+﻿@{
+    ViewBag.Title = "CautaLocatie";
+}
+
+<script  src="@Url.Content("~/Scripts/Flexigrid/js/flexigrid.js")" type="text/javascript"></script>
+<link href="../../Scripts/Flexigrid/css/flexigrid.css" rel="stylesheet" type="text/css" />
+
+<table id="flex1" ></table>
+
+<script>
+$("#flex1").flexigrid({
+    url: "Locatii/ListLocatiiContent?id=" +@ViewBag.id +"&&rows=15&&page=1",
+    type:'POST',
+	dataType: 'json',
+	colModel : [
+		{display: 'Denumire', name : 'denumire', width : 40, sortable : true, align: 'center'}
+		/*{display: 'Name', name : 'name', width : 180, sortable : true, align: 'left'},
+		{display: 'Printable Name', name : 'printable_name', width : 120, sortable : true, align: 'left'},
+		{display: 'ISO3', name : 'iso3', width : 130, sortable : true, align: 'left', hide: true},
+		{display: 'Number Code', name : 'numcode', width : 80, sortable : true, align: 'right'}*/
+	],
+    /*
+	buttons : [
+		{name: 'Add', bclass: 'add'},
+		{name: 'Delete', bclass: 'delete'},
+		{separator: true}
+		],*/
+	searchitems : [
+		{display: 'Denumire', name : 'denumire'}/*,
+		{display: 'Name', name : 'name', isdefault: true}*/
+		],
+	sortname: "denumire",
+	sortorder: "asc",
+	usepager: true,
+	title: 'Site-uri',
+	useRp: true,
+	rp: 15,
+	showTableToggleBtn: true,
+	width: 700,
+	height: 200
+});
+
+   
+    </script>

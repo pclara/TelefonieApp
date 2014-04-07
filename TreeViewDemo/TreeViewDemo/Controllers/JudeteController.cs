@@ -39,5 +39,34 @@ namespace TreeViewDemo.Controllers
             ViewBag.id = id;
             return PartialView();
         }
+
+        public ActionResult CautaJudet(long? id)
+        {
+            ViewBag.id = id;
+            return PartialView();
+        }
+
+        public ActionResult ListSites(long? id,int rows, int page)
+        {
+            var name = (from s in db.sites join j in db.judetes on s.judetID equals j.id where j.id == id select new { s.id, s.denumire }).ToList().Distinct();
+            int totalrecords = name.Count();
+            var jsonData =
+                           new
+                           {
+                               
+                               page = page,
+                               total = (totalrecords + rows - 1) / rows,
+                               rows = (from r in name
+                                       select new
+                                       {
+                                           id = r.id,
+                                           cell = new[]
+                                        {
+                                            r.denumire.ToString()
+                                        }
+                                       })
+                           };
+            return Json(jsonData, JsonRequestBehavior.AllowGet); ;
+        }
     }
 }

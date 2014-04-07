@@ -129,5 +129,34 @@ namespace TreeViewDemo.Controllers
 
             return RedirectToAction("Index", "Judete", new { name = idjudet.denumire, id = idjudet.judetID.ToString() + "_judet" });
         }
+
+        public ActionResult CautaLocatie(long? id, string parentID = "")
+        {
+            ViewBag.id = id;
+            return PartialView();
+        }
+
+        public ActionResult ListLocatiiContent(long? id, int rows, int page)
+        {
+            var name = (from s in db.sites join e in db.echipaments on s.id equals e.siteID join te in db.tip_echipament  on e.tipID equals te.id select new { e.id, te.denumire }).ToList().Distinct();
+            int totalrecords = name.Count();
+            var jsonData =
+                           new
+                           {
+
+                               page = page,
+                               total = (totalrecords + rows - 1) / rows,
+                               rows = (from r in name
+                                       select new
+                                       {
+                                           id = r.id,
+                                           cell = new[]
+                                        {
+                                            r.denumire.ToString()
+                                        }
+                                       })
+                           };
+            return Json(jsonData, JsonRequestBehavior.AllowGet); ;
+        }
     }
 }
