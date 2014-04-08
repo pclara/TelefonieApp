@@ -8,12 +8,12 @@
 
 <script>
 $("#flex1").flexigrid({
-    url: "Judete/ListSites?id="+@ViewBag.id+"&&rows=15&&page=1",
+    url: '@Url.Content("~/Judete/ListSites?id="+ViewBag.id)',
     type:'POST',
 	dataType: 'json',
 	colModel : [
-		{display: 'Denumire', name : 'denumire', width : 40, sortable : true, align: 'center'}
-		/*{display: 'Name', name : 'name', width : 180, sortable : true, align: 'left'},
+		{display: 'Denumire', name : 'denumire', width : 40, sortable : true, align: 'center'},
+	    /*{display: 'Editare', name : 'edit', width : 180, sortable : true, align: 'left'},
 		{display: 'Printable Name', name : 'printable_name', width : 120, sortable : true, align: 'left'},
 		{display: 'ISO3', name : 'iso3', width : 130, sortable : true, align: 'left', hide: true},
 		{display: 'Number Code', name : 'numcode', width : 80, sortable : true, align: 'right'}*/
@@ -36,6 +36,39 @@ $("#flex1").flexigrid({
 	rp: 15,
 	showTableToggleBtn: true,
 	width: 700,
-	height: 200
+	height: 200,
+	
+        @*
+	    var ids = $("#flex1").flexigrid('getDataIDs');
+	    console.log(ids);
+	    for (var i = 0; i <= ids.length; i++) {
+	        var temp = $("#flex1").getRowData(ids[i]);
+	        op = '<a style="color:#000000; margin-right:10px; "   class = "editLink" id="linkEdit_' + $("#flex1").getCell(ids[i], 'ID') + '" href="#" > Editare </a >';
+
+	    }*@
+	
 });
+
+    var getDetailsFunction2 = function () {
+        return function (data, textStatus, jqXHR) {
+            console.log("data = " + data);
+            $("#details").html(data);
+        };
+    }
+
+    $('#flex1').click(function (event) {
+        $('.trSelected', this).each(function () {
+            var numejudet = '@ViewBag.nume';
+
+            var href = window.location.href.replace(window.location.href.substring(window.location.href.substring(8).indexOf("/") + 8), "/Judete?name=" + numejudet + "&&id=" + $(this).attr('id').substr(3) + "_site");//Judete?name=Alba&&id=15_site
+            console.log(href);
+            window.location.href = href;
+
+
+            console.log(
+                '  rowId: ' + $(this).attr('id').substr(3) +
+                '  name: ' + $('td[abbr="denumire"] >div', this).html()
+            );
+        });
+    });
     </script>

@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data;
 using TreeViewDemo.Models;
+using System.Data.Objects.SqlClient;
 
 namespace TreeViewDemo.Controllers
 {
@@ -133,27 +134,53 @@ namespace TreeViewDemo.Controllers
         public ActionResult CautaLocatie(long? id, string parentID = "")
         {
             ViewBag.id = id;
+            var numejudet = (from j in db.judetes join s in db.sites on j.id equals s.judetID where s.id == id select j.denumire).FirstOrDefault();
+            ViewBag.numejudet = numejudet;
             return PartialView();
         }
 
-        public ActionResult ListLocatiiContent(long? id, int rows, int page)
+        public ActionResult ListLocatiiContent(long? id)
         {
             var page1 = Request["page"];
+            int rows = 15;
             var name = (from s in db.sites join e in db.echipaments on s.id equals e.siteID join te in db.tip_echipament  on e.tipID equals te.id select new { e.id, te.denumire }).ToList().Distinct();
-            int totalrecords = name.Count();
+            var detalii = (from e in db.echipaments join ea in db.echipament_atribute on e.id equals ea.echipamentID join
+                          at in db.atributs on ea.atributID equals at.id join ta in db.tip_atribut on at.tipID equals ta.id join te in db.tip_echipament
+                          on e.tipID equals te.id
+                           where e.siteID == id
+                           let nrmsed = (from e2 in db.echipaments
+                                         join te1 in db.tip_echipament
+                                         on e2.tipID equals te1.id
+                                         where te1.id == te.id
+                                         && e2.siteID == id && te1.denumire == "MSED"
+                                         where e2.id < e.id
+                                         select e2.id).Count()
+                           
+                           select new
+                           {
+                               id = e.id,
+                               denumire = te.denumire + SqlFunctions.StringConvert((double)nrmsed).Trim(),
+                               tipdenumire = ta.denumire,
+                           valoare = (ta.tip_valoare == "S" ? at.val_string : (ta.tip_valoare == "I" ? SqlFunctions.StringConvert((double)at.val_int).Trim() : (ta.tip_valoare == "N" ? SqlFunctions.StringConvert((double)at.val_nr).Trim() : (ta.tip_valoare == "CSV" ? at.val_csv : null)))) 
+                          //    valcsv = at.val_csv, valint = at.val_int, valnr = at.val_nr, valstr = at.val_string 
+                          }).ToList().Distinct();
+
+            int totalrecords = detalii.Count();
             var jsonData =
                            new
                            {
 
                                page = page1,
                                total = (totalrecords + rows - 1) / rows,
-                               rows = (from r in name
+                               rows = (from r in detalii
                                        select new
                                        {
                                            id = r.id,
                                            cell = new[]
                                         {
-                                            r.denumire.ToString()
+                                            r.denumire.ToString(),
+                                            r.tipdenumire.ToString(),
+                                            r.valoare.ToString()
                                         }
                                        })
                            };
