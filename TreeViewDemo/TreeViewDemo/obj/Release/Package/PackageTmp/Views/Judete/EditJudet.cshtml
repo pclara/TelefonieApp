@@ -1,0 +1,29 @@
+﻿@{
+    ViewBag.Title = "";
+}
+
+    <input type="button" style="float:right;" class="buton" value="Creeaza locatie" onclick="creeaza_site()" />
+
+
+<div>
+<input type="hidden" id="id" value="@ViewBag.id" />
+<label class="labels" style="float:left;margin-right:3%">
+    Nume Judet:
+</label>
+<input type="text" class="editors" id="nume" name="nume" value="@ViewBag.nume" />
+    </div>
+
+
+
+<script>
+        
+    function creeaza_site() {
+        $.get('@Url.Content("~/Locatii/EditLocatii")', "id=-1" + "&&parentID=" + "@ViewBag.id", getDetailsFunction(), 'html');
+    }
+    var getDetailsFunction = function () {
+        return function (data, textStatus, jqXHR) {
+            console.log("data = " + data);
+            $("#details").html(data);
+        };
+    }
+</script>

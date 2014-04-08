@@ -42,13 +42,18 @@ namespace TreeViewDemo.Controllers
 
         public ActionResult CautaJudet(long? id)
         {
+            var name = (from j in db.judetes where j.id == id select j.denumire).FirstOrDefault();
+            ViewBag.nume = name;
             ViewBag.id = id;
             return PartialView();
         }
 
-        public ActionResult ListSites(long? id,int rows, int page)
+        public ActionResult ListSites(long? id)
         {
             var page1 = Request["page"];
+            int rows;
+            if (!Int32.TryParse(Request["rows"], out rows))
+                rows = 15;
             var name = (from s in db.sites join j in db.judetes on s.judetID equals j.id where j.id == id select new { s.id, s.denumire }).ToList().Distinct();
             int totalrecords = name.Count();
             var jsonData =
@@ -69,5 +74,6 @@ namespace TreeViewDemo.Controllers
                            };
             return Json(jsonData, JsonRequestBehavior.AllowGet); ;
         }
+
     }
 }

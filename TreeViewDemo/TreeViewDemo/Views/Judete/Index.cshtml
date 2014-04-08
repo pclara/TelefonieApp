@@ -292,7 +292,7 @@
                 if(eventArgs.type == 'judet')
                 {
                     $("#titlu").html("<input type='button' id='editjudet' class='buton' onclick=\"editeazajudet('"+eventArgs.id+"')\" style=\"font-size:15px\" value='Editeaza judet' />"); // Editeaza judet
-                    $("#cauta").html("<input type='button' id='cautajudet' class='buton'  onclick=\"cautajudet('"+eventArgs.id+"')\"  style=\"font-size:15px\" value='Cauta judet' />"); // Editeaza judet
+                    $("#cauta").html("<input type='button' id='cautajudet' class='buton'  onclick=\"cautajudet('"+eventArgs.id+"')\"  style=\"font-size:15px\" value='Cauta locatie' />"); // Editeaza judet
 
                     $("#create").css({"display":"none"});
                     $.get('@Url.Content("~/Judete/EditJudet")', "id=" + eventArgs.id,  getDetailsFunction(), 'html');
@@ -301,7 +301,7 @@
                 if(eventArgs.type == 'site')
                 {
                     $("#titlu").html("<input type='button' id='editjudet' class='buton' onclick=\"editeazalocatie('"+eventArgs.id+"','"+eventArgs.parentID+"')\" style=\"font-size:15px\" value='Editeaza locatie' />"); // Editeaza judet
-                    $("#cauta").html("<input type='button' id='cautajudet' class='buton'  onclick=\"cautalocatie('"+eventArgs.id+"','"+eventArgs.parentID+"')\"  style=\"font-size:15px\" value='Cauta locatie' />"); // Editeaza judet
+                    $("#cauta").html("<input type='button' id='cautajudet' class='buton'  onclick=\"cautalocatie('"+eventArgs.id+"','"+eventArgs.parentID+"')\"  style=\"font-size:15px\" value='Cauta echipament' />"); // Editeaza judet
 
                     $("#create").val("Creeaza locatie");
                     $("#create").css({"display":"none"});

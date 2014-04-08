@@ -1,0 +1,1479 @@
+﻿@{
+    ViewBag.Title = "EditEchipament";
+}
+
+
+@using (Ajax.BeginForm("Edit", "Echipament", new AjaxOptions() { HttpMethod = "POST" }, new { id = "ajaxForm" }))
+  
+{
+   
+    
+    <div id="labels_div"  style="float:left;margin-left:17%;margin-top:1%;margin-right:2%;">
+   <input type="hidden" value="@ViewBag.id" id="id" name="id" />
+        <input type="hidden" value="@ViewBag.numeechip" id="numeechip" name="numeechip" />
+    <label   class="labels" style="display:none">Denumire</label>
+        <script>
+            if ('@ViewBag.id' != -1) { //echip care exista
+                var atr = '@Html.Raw(ViewBag.atribute)';
+                var x = $.parseJSON(atr);
+
+                console.log("json deserializat lung:" + x.length);
+                for (i = 0; i < x.length; i++) {
+
+                    if (x[i].nume_atr == "LIM MAIN" || x[i].nume_atr == "LIM DISTANT") {
+                    }
+                    else {
+                        if (x[i].nume_atr != 'Tip Conexiune' && x[i].nume_atr != 'Destinatie') {
+                            var newSpan = document.createElement('label');
+
+                            if (x[i].nume_atr == 'Numar ruta') {
+                                newSpan.innerHTML = 'Conexiune';
+                            }
+                            else if (x[i].nume_atr == 'Port') {
+                                newSpan.innerHTML = 'Port' + (i - 2).toString();
+                            }
+                            else
+                                newSpan.innerHTML = x[i].nume_atr;
+
+                            var mainDiv = document.getElementById('labels_div');
+
+                            newSpan.className = "labels";
+
+
+                            if ('@ViewBag.numeechip' == 'PABX') {
+                                if (i == 0) {
+                                    newSpan.setAttribute("style", "margin-top:1%;height:20px;");
+                                }
+
+                                else
+                                    if (i == 1) {
+                                        newSpan.setAttribute("style", "margin-top:-5%;height:20px");
+                                    }
+                                    else if (i == 2)
+                                        newSpan.setAttribute("style", "margin-top:0%;height:20px");
+                                    else if (i == 3)
+                                        newSpan.setAttribute("style", "margin-top:-2%;height:20px");
+                                    else if (i == 4)
+                                        newSpan.setAttribute("style", "margin-top:-1%;height:20px");
+                                    else if (i == 5)
+                                        newSpan.setAttribute("style", "margin-top:-2%;height:20px");
+                                    else if (i == 6)
+                                        newSpan.setAttribute("style", "margin-top:-1%;height:20px");
+                                    else
+                                        newSpan.setAttribute("style", "margin-top:0%;height:20px");
+                            }
+                            else
+                                if ('@ViewBag.numeechip' == 'MSED') {
+                                    if (i == 2) {
+                                        newSpan.setAttribute("style", "margin-top:-2%;height:20px");
+                                    }
+                                    else if (i == 4)
+                                        newSpan.setAttribute("style", "margin-top:-1%;height:20px");
+                                    else if (i == 3)
+                                        newSpan.setAttribute("style", "margin-top:-1%;height:20px");
+                                    else
+                                        newSpan.setAttribute("style", "height:20px");
+                                }
+                                else if (x[i].nume_atr == 'Port') {
+                                    newSpan.setAttribute("style", "margin-top:0%;height:20px;");
+                                }
+
+                            //newSpan.setAttribute("style", "height:20px");
+                            mainDiv.appendChild(newSpan);
+
+                            var br = document.createElement("br");
+                            mainDiv.appendChild(br);
+                        }
+                    }
+                }
+            }
+            else { //echipamentul nu exista
+                if ('@ViewBag.numeechip' == 'PABX') {
+                    var mainDiv = document.getElementById('labels_div');
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Tip";
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "IP";
+                    newSpan.setAttribute("style", "margin-top:-14.5%;");
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.setAttribute("style", "margin-top:-13%;");
+                    newSpan.innerHTML = "Versiune";
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Contract";
+                    newSpan.setAttribute("style", "margin-top:-13%;");
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+                    
+                    //   var br = document.createElement("br");
+                    // mainDiv.appendChild(br);
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Licenta";
+                    newSpan.setAttribute("style", "margin-top:-13%;");
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Plan Numerotatie :";
+                    newSpan.setAttribute("style", "margin-left:-60%;margin-top:-16%;height:10%;");
+                    mainDiv.appendChild(newSpan);
+
+
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Abonati analogici";
+                    newSpan.setAttribute("style", "float:right;margin-top:0%;");
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Abonati digitali";
+                    newSpan.setAttribute("style", "float:right;margin-top:-6%;");
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Abonati IP";
+                    newSpan.setAttribute("style", "float:right;margin-top:-6%;");
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Abonati DECT";
+                    newSpan.setAttribute("style", "float:right;margin-top:-6%;");
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Plaja alocata totala";
+                    newSpan.setAttribute("style", "float:right;margin-top:-6%;");
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Conexiune:";
+                    newSpan.setAttribute("style", "float:left;margin-left:-70%;");
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Nr. ruta";
+                    newSpan.setAttribute("style", "margin-top:-26%;");
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Tip";
+                    newSpan.setAttribute("style", "float:right;margin-top:-13%;");
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Destinatie";
+                    newSpan.setAttribute("style", "float:right;margin-top:-6%;");
+                    mainDiv.appendChild(newSpan);
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+                }
+                else if ('@ViewBag.numeechip' == 'MSED') {
+                    var mainDiv = document.getElementById('labels_div');
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "IP CES";
+                    newSpan.setAttribute("style", "margin-left:-40%;float:left;");
+                    mainDiv.appendChild(newSpan);
+
+                    newSpan = document.createElement('input');
+                    newSpan.type = "text";
+                    newSpan.id = 'ipces';
+                    newSpan.name = 'ipces';
+                    newSpan.setAttribute("style", "float:right;width:50%");
+                    mainDiv.appendChild(newSpan);
+
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "IP MANAGEMENT";
+                    newSpan.setAttribute("style", "margin-left:-40%;margin-top:5%;float:left;");
+                    mainDiv.appendChild(newSpan);
+
+                    newSpan = document.createElement('input');
+                    newSpan.type = "text";
+                    newSpan.id = 'ipmanagement:';
+                    newSpan.name = 'ipmanagement';
+                    newSpan.setAttribute("style", "float:right;width:50%");
+                    mainDiv.appendChild(newSpan);
+
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "MASK:";
+                    newSpan.setAttribute("style", "margin-left:-40%;margin-top:3%;float:left;");
+                    mainDiv.appendChild(newSpan);
+
+                    newSpan = document.createElement('input');
+                    newSpan.type = "text";
+                    newSpan.id = 'mask';
+                    newSpan.name = 'mask';
+                    newSpan.setAttribute("style", "float:right;width:50%");
+                    mainDiv.appendChild(newSpan);
+
+                    var br = document.createElement("br");
+                    mainDiv.appendChild(br);
+
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "GATEWAY:";
+                    newSpan.setAttribute("style", "margin-left:-40%;margin-top:5%;float:left;");
+                    mainDiv.appendChild(newSpan);
+
+                    newSpan = document.createElement('input');
+                    newSpan.type = "text";
+                    newSpan.id = 'gateway';
+                    newSpan.name = 'gateway';
+                    newSpan.setAttribute("style", "float:right;width:50%");
+                    mainDiv.appendChild(newSpan);
+                }
+                else if ('@ViewBag.numeechip' == 'MC' || '@ViewBag.numeechip' == 'Routere' || '@ViewBag.numeechip' == 'Switch-uri' || '@ViewBag.numeechip' == 'Concentratoare')
+                {
+                    var mainDiv = document.getElementById('labels_div');
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "IP:";
+                    //newSpan.setAttribute("style", "margin-left:-40%;margin-top:5%;float:left;");
+                    mainDiv.appendChild(newSpan);
+
+                    
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "MASK:";
+                    //newSpan.setAttribute("style", "margin-left:-40%;margin-top:3%;float:left;");
+                    mainDiv.appendChild(newSpan);
+
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "GATEWAY:";
+                    //newSpan.setAttribute("style", "margin-left:-40%;margin-top:5%;float:left;");
+                    mainDiv.appendChild(newSpan);
+
+                    if ('@ViewBag.numeechip' == 'Concentratoare') {
+                        for (k = 1; k <= 10; k++) {
+                            var newSpan = document.createElement('label');
+                            newSpan.className = "labels";
+                            newSpan.innerHTML = "PORT "+k+":";
+                            mainDiv.appendChild(newSpan);
+                        }
+                    }
+                  }
+            }
+
+        </script> 
+        
+        </div>
+
+   <div id="text_div" style="margin-top:1%;">
+       <input type="hidden" class="editors" id="denumire" name="denumire" value="@ViewBag.numeechip" />
+       <script>
+           loaded = 0;
+           if ('@ViewBag.id' != -1) {   //exista deja
+
+               var atr = '@ViewBag.atribute';
+               console.log("nr atr:" + atr.length);
+
+               for (i = 0; i < x.length; i++) {
+                   if (x[i].nume_atr != 'Tip Conexiune' && x[i].nume_atr != 'Destinatie') {
+                       if (x[i].nume_atr == 'Versiune') {
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('select');
+                           console.log(x[i]);
+                           var idsel = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.setAttribute("style", "width:13%;height:5%;");
+                           newSpan.className = "editors";
+                           mainDiv.appendChild(newSpan);
+
+                           $.ajax({
+                               url: '@Url.Content("~/Echipament/GetVersiuni")',
+                               type: 'POST',
+                               data: { idver: x[i].val_atr.idver },
+                               success: function (response) {
+                                   var tipuri = response.split(',');
+                                   var option = document.createElement("option");
+                                   option.value = '';
+                                   option.text = '';
+
+                                   var selvar = document.getElementById(idsel);
+                                   selvar.appendChild(option);
+
+                                   for (var j = 0; j < tipuri.length - 1 ; j++) {
+                                       var option = document.createElement("option");
+                                       var valtext = tipuri[j].split(':');
+                                       option.value = valtext[0];
+                                       option.text = valtext[1];
+                                       selvar.appendChild(option);
+                                   }
+
+                                   $("#" + idsel).val(tipuri[j]);
+                               }
+                           });
+                       }
+                       else if (x[i].nume_atr == 'Tip') {
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan2 = document.createElement('select');
+                           console.log(x[i]);
+                           var idsel1 = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan2.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan2.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan2.className = "editors";
+                           newSpan2.setAttribute("style", "width:13%;height:5%;");
+                           mainDiv.appendChild(newSpan2);
+
+                           $.ajax({
+                               url: '@Url.Content("~/Echipament/GetTip")',
+                               type: 'POST',
+                               data: { idsel: x[i].val_atr.idsel },
+                               success: function (response) {
+                                   var tipuri = response.split(',');
+                                   var option2 = document.createElement("option");
+                                   option2.value = '';
+                                   option2.text = '';
+
+                                   var selvar1 = document.getElementById(idsel1);
+                                   selvar1.appendChild(option2);
+
+                                   for (var j = 0; j < tipuri.length - 1 ; j++) {
+                                       var option2 = document.createElement("option");
+                                       var valtext = tipuri[j].split(':');
+                                       option2.value = valtext[0];
+                                       option2.text = valtext[1];
+                                       selvar1.appendChild(option2);
+                                   }
+                                   $("#" + idsel1).val(tipuri[j]);
+                               }
+                           });
+                       } else if (x[i].nume_atr == "Abonati analogici" || x[i].nume_atr == "Abonati digitali" ||
+                           x[i].nume_atr == "Abonati IP" || x[i].nume_atr == "Abonati DECT" ||
+                           x[i].nume_atr == "Abonati total") {
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "1";
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "1";
+                           newSpan.className = "editors";
+                           newSpan.setAttribute("style", "float:left;width:7%;height:5%;");
+                           newSpan.value = x[i].val_atr.split(',')[0];
+                           mainDiv.appendChild(newSpan);
+
+
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "2";
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "2";
+                           newSpan.className = "editors";
+                           newSpan.setAttribute("style", "float:right;width:7%;height:5%;");
+                           newSpan.value = x[i].val_atr.split(',')[1];
+                           mainDiv.appendChild(newSpan);
+
+                       }
+                       else if (x[i].nume_atr == "Contract") {
+                           //
+                           var idcontract = '@ViewBag.id' + "_" + x[i].id_atr;
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan2 = document.createElement('select');
+                           newSpan2.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan2.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan2.className = "editors";
+                           newSpan2.setAttribute("style", "width:13%;height:5%;float:left;margin-right:10%;");
+                           mainDiv.appendChild(newSpan2);
+
+                           
+
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "-text";
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "-text";
+                           newSpan.className = "editors";
+                           newSpan.setAttribute("style", "width:7%;height:5%;float:right;visibility:hidden");
+                           mainDiv.appendChild(newSpan);
+
+
+                           var option2 = document.createElement("option");
+                           option2.value = 'K1';
+                           option2.text = 'K1';
+                           newSpan2.appendChild(option2);
+                           var option2 = document.createElement("option");
+                           option2.value = 'K2';
+                           option2.text = 'K2';
+                           newSpan2.appendChild(option2);
+                           var option2 = document.createElement("option");
+                           option2.value = 'K3';
+                           option2.text = 'K3';
+                           newSpan2.appendChild(option2);
+                           var option2 = document.createElement("option");
+                           option2.value = 'Etapa 4';
+                           option2.text = 'Etapa 4';
+                           newSpan2.appendChild(option2);
+                           var option2 = document.createElement("option");
+                           option2.value = 'Schengen 3.1';
+                           option2.text = 'Schengen 3.1';
+                           newSpan2.appendChild(option2);
+                           var option2 = document.createElement("option");
+                           option2.value = 'Altul';
+                           option2.text = 'Altul';
+                           newSpan2.appendChild(option2);
+                           
+
+                           if (x[i].val_atr != 'K1' && x[i].val_atr != 'K2' && x[i].val_atr != 'K3' && x[i].val_atr != 'Etapa 4' && x[i].val_atr != 'Schengen 3.1') {
+                               $("#" + idcontract + " option[value='Altul']").prop('selected', true);
+                               $("#" + idcontract + "-text").css({ 'visibility': 'visible' });
+                               $("#" + idcontract + "-text").val(x[i].val_atr);
+                           }
+
+                           $("#" + idcontract + " option[value='" + x[i].val_atr + "']").prop('selected', true);
+
+                           $("#" + idcontract).change(function () {
+                               if ($("#" + idcontract + " option:selected").val() == "Altul")
+                                   $("#" + idcontract + "-text").css({ 'visibility': 'visible' });
+                               else
+                                   $("#" + idcontract + "-text").css({ 'visibility': 'hidden' });
+                           });
+                           //alert(x[i].val_atr);
+                       }
+                           else
+                       if (x[i].nume_atr == "Licenta" && ('@ViewBag.tipCentrala' == "MD" || '@ViewBag.tipCentrala' == "MX-ONE")) {
+                           console.log("tip CENTRALA:" + '@ViewBag.tipCentrala');
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1";
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1";
+                           newSpan.className = "editors";
+                           newSpan.setAttribute("style", "float:left;width:7%;height:5%;margin-right:0;");
+                           //newSpan.value = x[i].val_atr.substr(0, 2);
+                           var licenta1 = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1";
+                           mainDiv.appendChild(newSpan);
+
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "hidden";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1:";
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1:";
+                           newSpan.value = "S";
+                           mainDiv.appendChild(newSpan);
+
+
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.value = "-";
+                           newSpan.setAttribute("style", "float:left;width:1%;height:5%;background:transparent;border:none;readonly:readonly;margin-left:3.5%;margin-right:0;");
+                           mainDiv.appendChild(newSpan);
+
+
+
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2";
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2";
+                           newSpan.className = "editors";
+                           newSpan.setAttribute("style", "float:right;width:7%;height:5%;");
+                           //newSpan.value = x[i].val_atr.substr(2);
+                           var licenta2 = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2";
+                           mainDiv.appendChild(newSpan);
+
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "hidden";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2:";
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2:";
+                           newSpan.value = "S";
+                           mainDiv.appendChild(newSpan);
+
+
+                           if ('@ViewBag.tipCentrala' == "MD") {
+                               $("#" + licenta1).val(x[i].val_atr.substr(0, 2));
+                               $("#" + licenta2).val(x[i].val_atr.substr(2));
+                               console.log("E MD , SE ADAUGA EVENTURI:");
+                               $("#" + licenta2).css({ 'visibility': 'visible' });
+                               $("#" + licenta1).keyup(function () {
+                                   $("#" + licenta1).val($("#" + licenta1).val().substr(0, 2));
+                               });
+                               $("#" + licenta2).keyup(function () {
+                                   $("#" + licenta2).val($("#" + licenta2).val().substr(0, 4));
+                               });
+
+                               $("#" + licenta1).attr('readonly', false);
+                           }
+                           else if ('@ViewBag.tipCentrala' == "MX-ONE") {
+                               $("#" + licenta1).val(x[i].val_atr.substr(0, 2));
+                               $("#" + licenta2).val(x[i].val_atr.substr(2));
+                               $("#" + licenta2).css({ 'visibility': 'visible' });
+                               /*$("#" + licenta1).val('SN');
+                               $("#" + licenta1).attr('readonly', true);*/
+                           }
+                           else {
+                               $("#" + licenta1).val(x[i].val_atr);
+                               $("#" + licenta2).css({ 'visibility': 'hidden' });
+                               $("#" + licenta1).val('');
+                               $("#" + licenta1).attr('readonly', false);
+                           }
+                       }
+                       else if (x[i].nume_atr == "Numar ruta") {
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.setAttribute("style", "float:left;width:7%;height:5%;margin-right:0;");
+                           newSpan.className = "editors";
+                           newSpan.value = x[i].val_atr;
+                           mainDiv.appendChild(newSpan);
+                           i++;
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.setAttribute("style", "float:left;width:7%;height:5%;margin-right:0;margin-left:3.5%;");
+                           newSpan.className = "editors";
+                           newSpan.value = x[i].val_atr;
+                           mainDiv.appendChild(newSpan);
+                           i++;
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.setAttribute("style", "float:right;width:7%;height:5%;margin-left:0;");
+                           newSpan.className = "editors";
+                           newSpan.value = x[i].val_atr;
+                           mainDiv.appendChild(newSpan);
+                       }
+
+                       else if (x[i].nume_atr == "Port") {
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                           if (i == 3)
+                               newSpan.setAttribute("style", "margin-top:5%;width:13%;height:5%;");
+                           else
+                               newSpan.setAttribute("style", "margin-top:1%;width:13%;height:5%;");
+                           newSpan.className = "editors";
+                           newSpan.value = x[i].val_atr;
+                           mainDiv.appendChild(newSpan);
+                       }
+                       else if (x[i].nume_atr == "LIM MAIN" || x[i].nume_atr == "LIM DISTANT") {
+
+                           var mainDiv = document.getElementById('text_div');
+                           tabel = document.createElement('table');
+                           tabel.setAttribute("style", "width:15%;margin-top:0%;margin-left:30%;");
+                           mainDiv.appendChild(tabel);
+                           iRowCount = 0;
+                           var row = tabel.insertRow(iRowCount);
+                           row.setAttribute("style", "width:20px;");
+                           iRowCount++;
+                           var cell0 = row.insertCell(0);
+                           cell0.setAttribute("style", "width:10px;");
+                           var cell1 = row.insertCell(1);
+                           cell1.setAttribute("style", "width:10px;");
+
+                           var cell2 = row.insertCell(2);
+                           cell2.setAttribute("style", "width:10px;");
+                           var cell3 = row.insertCell(3);
+                           cell3.setAttribute("style", "width:10px;");
+                           var cell4 = row.insertCell(4);
+                           cell4.setAttribute("style", "width:10px;");
+
+                           if(x[i].nume_atr == "LIM MAIN" && x[i].val_atr == "1")
+                               cell1.innerHTML = "<label class='labels'  style='width:20px;'>LIM MAIN</label>";
+                           else
+                              if (x[i].nume_atr == "LIM DISTANT" && x[i].val_atr != "")
+                                  cell3.innerHTML = "<label class='labels'  style='width:20px;'>LIM DISTANT: " + x[i].val_atr + "</label>";
+
+                       }
+                       else {
+
+                           var mainDiv = document.getElementById('text_div');
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                           if (i == 0)
+                               newSpan.setAttribute("style", "margin-top:2%;width:13%;height:5%;");
+                           else
+                               if ((x[i].nume_atr == "IP" || x[i].nume_atr == "Contract") && '@ViewBag.numeechip' == 'PABX')
+                                   newSpan.setAttribute("style", "width:13%;height:5%;");
+                               else
+                                   newSpan.setAttribute("style", "margin-top:5%;width:13%;height:5%;");
+                           newSpan.className = "editors";
+                           newSpan.value = x[i].val_atr;
+                           mainDiv.appendChild(newSpan);
+                       }
+
+
+
+       newSpan = document.createElement('input');
+       newSpan.type = "hidden";
+       newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + ":";
+                       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + ":";
+                       newSpan.value = x[i].tip_val;
+                       mainDiv.appendChild(newSpan);
+
+                       var br = document.createElement("br");
+                       mainDiv.appendChild(br);
+
+
+                       var newSpan = document.createElement('input');
+                       newSpan.type = "hidden";
+                       newSpan.id = 'siteID';
+                       newSpan.name = 'siteID';
+                       newSpan.value = '@ViewBag.siteID';
+                       document.getElementById('text_div').appendChild(newSpan);
+                   }
+               }
+           }
+           else {   //nu exista echip
+               if (loaded == 0) {
+                   loaded++;
+                   if ('@ViewBag.numeechip' == 'PABX') {
+
+                       $.ajax({
+                           url: '@Url.Content("~/Echipament/GetTip")',
+                           type: 'POST',
+                           success: function (response) {
+                               var mainDiv = document.getElementById('text_div');
+                               var newSpan = document.createElement('select');
+
+                               newSpan.id = 'tip_val';
+                               newSpan.name = 'tip_val'
+                               newSpan.className = "editors";
+                               mainDiv.appendChild(newSpan);
+                               var tipuri = response.split(',');
+                               var option = document.createElement("option");
+                               option.value = '';
+                               option.text = '';
+                               newSpan.appendChild(option);
+                               for (var i = 0; i < tipuri.length; i++) {
+                                   var option = document.createElement("option");
+                                   var valtext = tipuri[i].split(':');
+                                   option.value = valtext[0];
+                                   option.text = valtext[1];
+                                   newSpan.appendChild(option);
+                               }
+
+
+                               $("#tip_val").change(function (event, k) {
+
+                                   if ($("#tip_val option:selected").text() == "MD") {
+                                       $("#licenta2").css({ 'visibility': 'visible' });
+                                       $("#licenta1").keyup(function () {
+                                           $("#licenta1").val($("#licenta1").val().substr(0, 2));
+                                       });
+                                       $("#licenta2").keyup(function () {
+                                           $("#licenta2").val($("#licenta2").val().substr(0, 4));
+                                       });
+                                       $("#licenta1").val('');
+                                       $("#licenta1").attr('readonly', false);
+                                   }
+                                   else
+                                       if ($("#tip_val option:selected").text() == "MX-ONE") {
+                                           $("#licenta2").css({ 'visibility': 'visible' });
+                                           $("#licenta1").val('SN');
+                                           $("#licenta1").attr('readonly', true);
+                                       }
+                                       else {
+                                           $("#licenta1").unbind('keyup');
+                                           $("#licenta2").unbind('keyup');
+                                           $("#licenta2").css({ 'visibility': 'hidden' });
+                                           $("#licenta1").val('');
+                                           $("#licenta1").attr('readonly', false);
+                                       }
+                               });
+
+
+                               newSpan = document.createElement('input');
+                               newSpan.type = "hidden";
+                               newSpan.id = 'tip_val:';
+                               newSpan.name = 'tip_val:';
+                               newSpan.value = 'I';
+
+                               mainDiv.appendChild(newSpan);
+
+
+
+
+
+
+
+
+                               var br = document.createElement("br");
+                               mainDiv.appendChild(br);
+
+                               var newSpan = document.createElement('input');
+                               newSpan.type = "text";
+                               newSpan.id = 'ip_val';
+                               newSpan.name = 'ip_val'
+                               newSpan.className = "editors";
+                               mainDiv.appendChild(newSpan);
+
+                               newSpan = document.createElement('input');
+                               newSpan.type = "hidden";
+                               newSpan.id = 'ip_val:';
+                               newSpan.name = 'ip_val:';
+                               newSpan.value = 'S';
+                               mainDiv.appendChild(newSpan);
+
+
+
+
+
+                               $.ajax({
+                                   url: '@Url.Content("~/Echipament/GetVersiuni")',
+                                   type: 'POST',
+                                   success: function (response) {
+                                       var mainDiv = document.getElementById('text_div');
+                                       var newSpan = document.createElement('select');
+
+                                       newSpan.id = 'ver_val';
+                                       newSpan.name = 'ver_val'
+                                       newSpan.className = "editors";
+                                       mainDiv.appendChild(newSpan);
+                                       var tipuri = response.split(',');
+                                       var option = document.createElement("option");
+                                       option.value = '';
+                                       option.text = '';
+                                       newSpan.appendChild(option);
+                                       for (var i = 0; i < tipuri.length; i++) {
+                                           var option = document.createElement("option");
+                                           var valtext = tipuri[i].split(':');
+                                           option.value = valtext[0];
+                                           option.text = valtext[1];
+                                           newSpan.appendChild(option);
+                                       }
+
+
+                                       ///CONTRACT
+                                       var newSpan = document.createElement('select');
+                                       newSpan.id = 'contract';
+                                       newSpan.name = 'contract'
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "float:left;width:13%;margin-right:10%;");
+                                       mainDiv.appendChild(newSpan);
+                                       var option = document.createElement("option");
+                                       option.value = 'K1';
+                                       option.text = 'K1';
+                                       newSpan.appendChild(option);
+                                       var option = document.createElement("option");
+                                       option.value = 'K2';
+                                       option.text = 'K2';
+                                       newSpan.appendChild(option);
+                                       var option = document.createElement("option");
+                                       option.value = 'K3';
+                                       option.text = 'K3';
+                                       newSpan.appendChild(option);
+                                       var option = document.createElement("option");
+                                       option.value = 'Etapa 4';
+                                       option.text = 'Etapa 4';
+                                       newSpan.appendChild(option);
+                                       var option = document.createElement("option");
+                                       option.value = 'Schengen 3.1';
+                                       option.text = 'Schengen 3.1';
+                                       newSpan.appendChild(option);
+                                       var option = document.createElement("option");
+                                       option.value = 'Altul';
+                                       option.text = 'Altul';
+                                       newSpan.appendChild(option);
+
+
+                                       var newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = "contract-text";
+                                       newSpan.name = "contract-text";
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "width:7%;height:5%;float:right;visibility:hidden");
+                                       mainDiv.appendChild(newSpan);
+
+
+                                       $("#contract").change(function () {
+                                           if ($("#contract option:selected").val() == "Altul")
+                                               $("#contract-text").css({ 'visibility': 'visible' });
+                                           else
+                                               $("#contract-text").css({ 'visibility': 'hidden' });
+                                       });
+
+
+
+                                       var newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'licenta1';
+                                       newSpan.name = 'licenta1';
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "float:left;width:7%;height:5%;");
+                                       mainDiv.appendChild(newSpan);
+
+                                       var mainDiv = document.getElementById('text_div');
+                                       var newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'licenta2';
+                                       newSpan.name = 'licenta2';
+                                       newSpan.setAttribute("style", "float:right;width:7%;height:5%;visibility:hidden;");
+                                       newSpan.className = "editors";
+                                       mainDiv.appendChild(newSpan);
+
+
+                                       
+
+
+                                       var br = document.createElement("br");
+                                       mainDiv.appendChild(br);
+                                       var br = document.createElement("br");
+                                       mainDiv.appendChild(br);
+
+                                       var br = document.createElement("br");
+                                       mainDiv.appendChild(br);
+
+
+
+                                       
+
+
+
+                                       var hr = document.createElement("hr");
+                                       hr.setAttribute("style", "margin-left:50%;position:relative;width:48%;");
+                                       mainDiv.appendChild(hr);
+
+                                       
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_analogici_dela';
+                                       newSpan.name = 'ab_analogici_dela';
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "float:left;width:7%;height:5%;");
+
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_analogici_dela:';
+                                       newSpan.name = 'ab_analogici_dela:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+                                       //   newSpan = document.createElement("label");
+                                       //  newSpan.innerHTML = "-";
+                                       //  mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_analogici_panala';
+                                       newSpan.name = 'ab_analogici_panala';
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "float:right;width:7%;height:5%");
+
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_analogici_panala:';
+                                       newSpan.name = 'ab_analogici_panala:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_digitali_dela';
+                                       newSpan.name = 'ab_digitali_dela';
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "float:left;width:7%;height:5%;");
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_digitali_dela:';
+                                       newSpan.name = 'ab_digitali_dela:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_digitali_panala';
+                                       newSpan.name = 'ab_digitali_panala';
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "float:right;width:7%;height:5%;");
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_digitali_panala:';
+                                       newSpan.name = 'ab_digitali_panala:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_IP_dela';
+                                       newSpan.name = 'ab_IP_dela';
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "float:left;width:7%;height:5%;");
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_IP_dela:';
+                                       newSpan.name = 'ab_IP_dela:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_IP_panala';
+                                       newSpan.name = 'ab_IP_panala';
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "float:right;width:7%;height:5%;");
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_IP_panala:';
+                                       newSpan.name = 'ab_IP_panala:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_DECT_dela';
+                                       newSpan.name = 'ab_DECT_dela';
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "float:left;width:7%;height:5%;");
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_DECT_dela:';
+                                       newSpan.name = 'ab_DECT_dela:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_DECT_panala';
+                                       newSpan.name = 'ab_DECT_panala';
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "float:right;width:7%;height:5%;");
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_DECT_panala:';
+                                       newSpan.name = 'ab_DECT_panala:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_total_dela';
+                                       newSpan.name = 'ab_total_dela';
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "float:left;width:7%;height:5%;");
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_total_dela:';
+                                       newSpan.name = 'ab_total_dela:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'ab_total_panala';
+                                       newSpan.name = 'ab_total_panala';
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "float:right;width:7%;height:10%;");
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'ab_total_panala:';
+                                       newSpan.name = 'ab_total_panala:';
+                                       newSpan.value = 'I';
+                                       mainDiv.appendChild(newSpan);
+
+
+                                       var br = document.createElement("br");
+                                       mainDiv.appendChild(br);
+                                       var br = document.createElement("br");
+                                       mainDiv.appendChild(br);
+                                       var br = document.createElement("br");
+                                       mainDiv.appendChild(br);
+
+                                       var hr = document.createElement("hr");
+                                       hr.setAttribute("style", "margin-left:50%;position:relative;width:48%;");
+                                       mainDiv.appendChild(hr);
+
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'nrruta';
+                                       newSpan.name = 'nrruta';
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "float:left;width:15%;height:10%;");
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'nrruta:';
+                                       newSpan.name = 'nrruta:';
+                                       newSpan.value = 'S';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('select');
+                                       newSpan.setAttribute("name", "tipconexiune");
+                                       newSpan.setAttribute("id", "tipconexiune");
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "float:left;width:15%;height:14%;");
+                                       mainDiv.appendChild(newSpan);
+
+                                       var option = document.createElement("option");
+                                       option.value = '';
+                                       option.text = '';
+                                       newSpan.appendChild(option);
+
+                                       var option = document.createElement("option");
+                                       option.value = 'IP-SIP';
+                                       option.text = 'IP-SIP';
+                                       newSpan.appendChild(option);
+
+                                       var option = document.createElement("option");
+                                       option.value = 'IP-H323';
+                                       option.text = 'IP-H323';
+                                       newSpan.appendChild(option);
+                                       var option = document.createElement("option");
+                                       option.value = 'ISDN-QSIG';
+                                       option.text = 'ISDN-QSIG';
+                                       newSpan.appendChild(option);
+                                       var option = document.createElement("option");
+                                       option.value = 'ISDN-PUBLIC';
+                                       option.text = 'ISDN-PUBLIC';
+                                       newSpan.appendChild(option);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'tipconexiune:';
+                                       newSpan.name = 'tipconexiune:';
+                                       newSpan.value = 'S';
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'destinatie';
+                                       newSpan.name = 'destinatie';
+                                       newSpan.className = "editors";
+                                       newSpan.setAttribute("style", "float:left;width:15%;height:10%;");
+                                       mainDiv.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'destinatie:';
+                                       newSpan.name = 'destinatie:';
+                                       newSpan.value = 'S';
+                                       mainDiv.appendChild(newSpan);
+
+
+                                       var br = document.createElement("br");
+                                       mainDiv.appendChild(br);
+                                       var br = document.createElement("br");
+                                       mainDiv.appendChild(br);
+                                       
+
+                                       tabel = document.createElement('table');
+                                       tabel.setAttribute("style", "width:15%;margin-top:10%;");
+                                       mainDiv.appendChild(tabel);
+                                       iRowCount = 0;
+                                       var row = tabel.insertRow(iRowCount);
+                                       row.setAttribute("style", "width:20px;");
+                                       iRowCount++;
+                                       var cell0 = row.insertCell(0);
+                                       cell0.setAttribute("style", "width:10px;");
+                                       var cell1 = row.insertCell(1);
+                                       cell1.setAttribute("style", "width:10px;");
+
+                                       var cell2 = row.insertCell(2);
+                                       cell2.setAttribute("style", "width:10px;");
+                                       var cell3 = row.insertCell(3);
+                                       cell3.setAttribute("style", "width:10px;");
+                                       var cell4 = row.insertCell(4);
+                                       cell4.setAttribute("style", "width:10px;");
+
+                                       cell0.innerHTML = "<input type='radio' name='lim' id='limmain' value='limmain' checked='checked'  style='width:15px;'  onchange='verifcalim()' />";
+                                       cell1.innerHTML = "<label class='labels'  style='width:10px;'>LIM MAIN</label>";
+                                       cell2.innerHTML = "<input type='radio' name='lim' id='limdist' value='limdist' style='width:15px;' onchange='verifcalim()' />";
+                                       cell3.innerHTML = "<label class='labels'  style='width:10px;'>LIM DISTANT</label>";
+                                       cell4.innerHTML = "<input class='editors'  style='display:none;width:20px;margin-left:20px;' id='limdist-text' name= 'limdist-text'>";
+
+                                   }
+                               });
+
+                               newSpan = document.createElement('input');
+                               newSpan.type = "hidden";
+                               newSpan.id = 'ver_val:';
+                               newSpan.name = 'ver_val:';
+                               newSpan.value = 'I';
+                               mainDiv.appendChild(newSpan);
+
+
+
+                           }
+                       });
+
+
+
+
+                   }
+                   else if ('@ViewBag.numeechip' == 'MSED') {
+
+                       var mainDiv = document.getElementById('text_div');
+
+
+                       var newSpan = document.createElement('label');
+                       newSpan.className = "labels";
+                       newSpan.innerHTML = "IP CES <br/> REMOTE";
+                       newSpan.setAttribute("style", "margin-left:-8%;float:left;width:5%");
+                       mainDiv.appendChild(newSpan);
+
+                       newSpan = document.createElement('input');
+                       newSpan.type = "text";
+                       newSpan.id = 'ipcesremote';
+                       newSpan.name = 'ipcesremote';
+                       newSpan.setAttribute("style", "float:right;width:15%");
+                       mainDiv.appendChild(newSpan);
+
+                       var br = document.createElement("br");
+                       mainDiv.appendChild(br);
+                       mainDiv.appendChild(br);
+
+                       var newSpan = document.createElement('label');
+                       newSpan.className = "labels";
+                       newSpan.innerHTML = "<br/>IP MANAG. <br/> REMOTE";
+                       newSpan.setAttribute("style", "margin-left:-8%;margin-top:4%;float:left;width:5%");
+                       mainDiv.appendChild(newSpan);
+
+                       newSpan = document.createElement('input');
+                       newSpan.type = "text";
+                       newSpan.id = 'ipmanagementremote';
+                       newSpan.name = 'ipmanagementremote';
+                       newSpan.setAttribute("style", "float:right;width:15%");
+                       mainDiv.appendChild(newSpan);
+
+                       var br = document.createElement("br");
+
+                       var newSpan = document.createElement('label');
+                       newSpan.className = "labels";
+                       newSpan.innerHTML = "<br/>Locatie <br/> REMOTE";
+                       newSpan.setAttribute("style", "margin-left:-8%;margin-top:4%;float:left;width:5%");
+                       mainDiv.appendChild(newSpan);
+
+                       newSpan = document.createElement('input');
+                       newSpan.type = "text";
+                       newSpan.id = 'locatieremote';
+                       newSpan.name = 'locatieremote';
+                       newSpan.setAttribute("style", "float:right;width:15%;margin-top:3%");
+                       mainDiv.appendChild(newSpan);
+
+                       var br = document.createElement("br");
+
+
+
+                   }
+                   else if ('@ViewBag.numeechip' == 'MC' || '@ViewBag.numeechip' == 'Routere' || '@ViewBag.numeechip' == 'Switch-uri' || '@ViewBag.numeechip' == 'Concentratoare') {
+
+                       var mainDiv = document.getElementById('text_div');
+                       newSpan = document.createElement('input');
+                       newSpan.type = "text";
+                       newSpan.id = 'IP';
+                       newSpan.name = 'IP';
+                       newSpan.className = "editors";
+                       newSpan.setAttribute("style", "margin-top:2%;width:10%;height:5%;");
+                       mainDiv.appendChild(newSpan);
+
+                       var br = document.createElement("br");
+                       mainDiv.appendChild(br);
+
+                       newSpan = document.createElement('input');
+                       newSpan.type = "hidden";
+                       newSpan.id = 'IP:';
+                       newSpan.name = 'IP:';
+                       newSpan.value = 'S';
+                       mainDiv.appendChild(newSpan);
+
+
+                       var br = document.createElement("br");
+                       mainDiv.appendChild(br);
+
+                       newSpan = document.createElement('input');
+                       newSpan.type = "text";
+                       newSpan.id = 'MASK';
+                       newSpan.name = 'MASK';
+                       newSpan.className = "editors";
+                       newSpan.setAttribute("style", "margin-top:2%;width:10%;height:5%;");
+                       mainDiv.appendChild(newSpan);
+
+                       var br = document.createElement("br");
+                       mainDiv.appendChild(br);
+
+                       newSpan = document.createElement('input');
+                       newSpan.type = "hidden";
+                       newSpan.id = 'MASK:';
+                       newSpan.name = 'MASK:';
+                       newSpan.value = 'S';
+                       mainDiv.appendChild(newSpan);
+
+
+                       var br = document.createElement("br");
+                       mainDiv.appendChild(br);
+                       newSpan = document.createElement('input');
+                       newSpan.type = "text";
+                       newSpan.id = 'GATEWAY';
+                       newSpan.name = 'GATEWAY';
+                       newSpan.className = "editors";
+                       newSpan.setAttribute("style", "margin-top:2%;width:10%;height:5%;");
+                       mainDiv.appendChild(newSpan);
+
+                       var br = document.createElement("br");
+                       mainDiv.appendChild(br);
+
+                       newSpan = document.createElement('input');
+                       newSpan.type = "hidden";
+                       newSpan.id = 'GATEWAY:';
+                       newSpan.name = 'GATEWAY:';
+                       newSpan.value = 'S';
+                       mainDiv.appendChild(newSpan);
+
+                       if ('@ViewBag.numeechip' == 'Concentratoare') {
+                           for (k = 1; k <= 10; k++) {
+                               var br = document.createElement("br");
+                               mainDiv.appendChild(br);
+                               newSpan = document.createElement('input');
+                               newSpan.type = "text";
+                               newSpan.id = 'port' + k;
+                               newSpan.name = 'port' + k;
+                               newSpan.className = "editors";
+                               newSpan.setAttribute("style", "margin-top:1.75%;width:10%;height:5%;");
+                               mainDiv.appendChild(newSpan);
+
+                               var br = document.createElement("br");
+                               mainDiv.appendChild(br);
+
+                               newSpan = document.createElement('input');
+                               newSpan.type = "hidden";
+                               newSpan.id = 'port' + k + ':';
+                               newSpan.name = 'port' + k + ':';
+                               newSpan.value = 'S';
+                               mainDiv.appendChild(newSpan);
+                           }
+                       }
+
+                   }
+
+
+                   var mainDiv = document.getElementById('text_div');
+
+                   newSpan = document.createElement('input');
+                   newSpan.type = "hidden";
+                   newSpan.id = 'tipechipament';
+                   newSpan.name = 'tipechipament';
+                   newSpan.value = '@ViewBag.tipechipament';
+                   mainDiv.appendChild(newSpan);
+
+
+                   var newSpan = document.createElement('input');
+                   newSpan.type = "hidden";
+                   newSpan.id = 'siteID';
+                   newSpan.name = 'siteID';
+                   newSpan.value = '@ViewBag.siteID';
+                   document.getElementById('text_div').appendChild(newSpan);
+                   loaded++;
+               }
+           }
+        </script> 
+
+       
+   </div>
+    <br /><br /><br />
+    
+    <div style="float:right;">
+        <script>
+            @*if ('@ViewBag.numeechip' == 'PABX' *@
+
+        </script>
+        <input type="button" class="buton" id="cartela_noua" name="cartela_noua" value="Adauga cartela" />
+
+        <input type="button" class="buton" id="atr_nou" name="atr_nou" value="Adauga atribut" onclick="addatribut()"/>
+        <br />
+        <div id="atribut_nou_div" style="display:none">
+            <label class="labels">Tip:</label>
+
+            <select class="editors" id="tip_nou" name="tip_nou">
+                <option value="IP">IP</option>
+                <option value="Conexiune">Conexiune</option>
+                @*
+                <option value="Abonati analogici">Abonati analogici</option>
+                <option value="Abonati digitali">Abonati digitali</option>
+                <option value="Abonati IP">Abonati IP</option>
+                <option value="Abonati DECT">Abonati DECT</option>
+                <option value="Abonati total">Plaja alocata totala</option>*@
+            </select>
+            
+            <div id="atribut_nou_val">
+            <label class="labels">Valoare:</label>
+            <input type="text" id="val_nou" name="val_nou" />
+            </div>
+
+            <div id="ptconexiune" name="ptconexiune" style="display:none" >
+                <label class="labels">Nr. ruta:</label>
+                <input id="nrrutanou" name="nrrutanou" />
+                <label class="labels">Tip:</label>
+                <select id="tipcnou" name="tipcnou" >
+                    <option value=""></option>
+                    <option value="IP-SIP">IP-SIP</option>
+                    <option value="IP-H323">IP-H323</option>
+                    <option value="ISDN-QSIG">ISDN-QSIG</option>
+                    <option value="ISDN-PUBLIC">ISDN-PUBLIC</option>
+                </select>
+                <label class="labels">Destinatie:</label>
+                <input id="destinatienou" name="destinatienou" />
+            </div>
+            <br />
+            <input type="button" value ="Adauga" class="buton" onclick="submit_form()"/>
+        </div>
+    </div>
+    
+    <script>
+        function submit_form() {
+            $('#ajaxForm').trigger('submit');
+        }
+        function addatribut() {
+            $("#atribut_nou_div").css({ 'display': 'block' });
+        }
+
+        $("#tip_nou").change(function (event, data) {
+            if ($("#tip_nou option:selected").val() == "Conexiune") {
+                $("#ptconexiune").css({ 'display': 'block' });
+                $("#atribut_nou_val").css({ 'display': 'none' });
+            }
+            else {
+                $("#ptconexiune").css({ 'display': 'none' });
+                $("#atribut_nou_val").css({ 'display': 'block' });
+            }
+        });
+
+        $(":input").addClass("editors");
+        $("#submit_1").removeClass("editors");
+        $("#atr_nou").removeClass("editors");
+        $("#cartela_noua").removeClass("editors");
+        $("#createechip").removeClass("editors");
+        $("#create").removeClass("editors");
+        $("#stergeechipament").removeClass("editors");
+
+        var getDetailsFunction = function () {
+            return function (data, textStatus, jqXHR) {
+                console.log("data = " + data);
+                $("#details").html(data);
+            };
+        }
+
+        $("#cartela_noua").click(function () {
+            $("#treeDemo").find(".jstree-checked").each(function (index) {
+                tip_echip = $(this).attr('id').split("_")[0];
+                $.get('@Url.Content("~/Cartela/EditCartela")', "id=-1" + "&&parentID=" + tip_echip, getDetailsFunction(), 'html');
+            });
+        });
+    </script>
+    <br />
+    <div id="footer-form" style="margin-top:40%">
+   <input type="submit" value="Salveaza" class="buton" id="submit_1" />
+   <input type="button" value="Sterge echipament" class="buton" id="stergeechipament" />
+
+
+            <script>
+                function verifcalim() {
+                    var lim = $('input:radio[name=lim]:checked').val();
+                    if (lim == "limmain") {
+                        $("#limdist-text").css({ 'display': 'none' });
+                    }
+                    else {
+                        $("#limdist-text").css({ 'display': 'block' });
+                    }
+                }
+
+                $("#stergeechipament").click(function () {
+                    $("#treeDemo").find(".jstree-checked").each(function () {
+                        var id = this.id;
+                        $.post('@Url.Content("~/Echipament/StergeEchipament")', "id=" + id, function (response) {
+                            var href = document.URL;
+                            var idechipament = href.substr(href.lastIndexOf("/") + 1, href.lastIndexOf("?") - href.lastIndexOf("/") - 1);
+                            window.location = href.replace(idechipament, response);
+
+                        }, 'html');
+                    });
+
+                });
+    </script>
+
+        </div>
+}

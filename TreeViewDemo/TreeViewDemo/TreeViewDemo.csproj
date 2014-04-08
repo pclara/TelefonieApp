@@ -127,6 +127,37 @@
     <Content Include="Images\orderedList7.png" />
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
+    <Content Include="Scripts\Flexigrid\css\flexigrid.css" />
+    <Content Include="Scripts\Flexigrid\css\flexigrid.pack.css" />
+    <Content Include="Scripts\Flexigrid\css\images\bg.gif" />
+    <Content Include="Scripts\Flexigrid\css\images\btn-sprite.gif" />
+    <Content Include="Scripts\Flexigrid\css\images\ddn.png" />
+    <Content Include="Scripts\Flexigrid\css\images\dn.png" />
+    <Content Include="Scripts\Flexigrid\css\images\fhbg.gif" />
+    <Content Include="Scripts\Flexigrid\css\images\first.gif" />
+    <Content Include="Scripts\Flexigrid\css\images\hl.png" />
+    <Content Include="Scripts\Flexigrid\css\images\last.gif" />
+    <Content Include="Scripts\Flexigrid\css\images\line.gif" />
+    <Content Include="Scripts\Flexigrid\css\images\load.gif" />
+    <Content Include="Scripts\Flexigrid\css\images\load.png" />
+    <Content Include="Scripts\Flexigrid\css\images\magnifier.png" />
+    <Content Include="Scripts\Flexigrid\css\images\next.gif" />
+    <Content Include="Scripts\Flexigrid\css\images\prev.gif" />
+    <Content Include="Scripts\Flexigrid\css\images\up.png" />
+    <Content Include="Scripts\Flexigrid\css\images\uup.png" />
+    <Content Include="Scripts\Flexigrid\css\images\wbg.gif" />
+    <Content Include="Scripts\Flexigrid\demo\conflict-test.html" />
+    <Content Include="Scripts\Flexigrid\demo\images\accept.png" />
+    <Content Include="Scripts\Flexigrid\demo\images\add.png" />
+    <Content Include="Scripts\Flexigrid\demo\images\close.png" />
+    <Content Include="Scripts\Flexigrid\demo\images\coffee.png" />
+    <Content Include="Scripts\Flexigrid\demo\images\edit.png" />
+    <Content Include="Scripts\Flexigrid\demo\images\flash.png" />
+    <Content Include="Scripts\Flexigrid\demo\index.html" />
+    <Content Include="Scripts\Flexigrid\demo\sample.html" />
+    <Content Include="Scripts\Flexigrid\demo\style.css" />
+    <Content Include="Scripts\Flexigrid\js\flexigrid.js" />
+    <Content Include="Scripts\Flexigrid\js\flexigrid.pack.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery.js" />
     <Content Include="Scripts\jstree.js" />
@@ -223,6 +254,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Locatii\CautaLocatie.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\Flexigrid\css\flexigrid.less" />
+    <Content Include="Scripts\Flexigrid\demo\countryArray.inc.php" />
+    <Content Include="Scripts\Flexigrid\demo\example4.php" />
+    <Content Include="Scripts\Flexigrid\demo\old-format.json" />
+    <Content Include="Scripts\Flexigrid\demo\post-json.php" />
+    <Content Include="Scripts\Flexigrid\demo\post-xml.php" />
+    <Content Include="Scripts\Flexigrid\README.md" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\tel.pubxml" />
+    <None Include="Properties\PublishProfiles\tel1.pubxml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
