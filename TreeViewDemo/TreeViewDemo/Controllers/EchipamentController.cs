@@ -567,7 +567,7 @@ namespace TreeViewDemo.Controllers
 
 
                     }
-                    else if (tipechip == "MC" || tipechip == "Concentratoare" || tipechip == "Routere" || tipechip == "Switch-uri")
+                    else if (tipechip == "MC" || tipechip == "Concentrator" || tipechip == "Router" || tipechip == "Switch")
                     {
                         s = new echipament();
                         s.denumire = echipmodel["denumire"].ToString();
@@ -625,7 +625,7 @@ namespace TreeViewDemo.Controllers
                         db.AddToechipament_atribute(ea);
                         db.SaveChanges();
 
-                        if (tipechip == "Concentratoare")
+                        if (tipechip == "Concentrator")
                         {
                             for (int k = 1; k <= 10; k++)
                             {

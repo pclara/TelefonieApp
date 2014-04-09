@@ -70,12 +70,13 @@ namespace TreeViewDemo.Business
                 {
                     string siteID = rootNode.attr.id.Split('_')[0];
                     string judetID = rootNode.attr.parentJudet;
-
+                    long sitID = long.Parse(siteID);
                     List<JsTreeModel> children = (from e1 in _orgDb.tip_echipament
                                                   let copii = (from j in _orgDb.judetes join s in _orgDb.sites on j.id equals s.judetID
                                                                    join e in _orgDb.echipaments on s.id equals e.siteID
                                                                    join te in _orgDb.tip_echipament on e.tipID equals te.id
                                                                    where te.id == e1.id
+                                                                   && s.id == sitID
                                                                    select e.id).Count()
                                                   select new JsTreeModel()
                                                   {
@@ -121,21 +122,21 @@ namespace TreeViewDemo.Business
                                                               join te1 in _orgDb.tip_echipament
                                                               on e2.tipID equals te1.id
                                                               where te1.id == idroot
-                                                              && e2.siteID == idparam && te1.denumire == "Routere"
+                                                              && e2.siteID == idparam && te1.denumire == "Router"
                                                               where e2.id < e1.id
                                                               select e2.id).Count()
                                                   let nrswitch = (from e2 in _orgDb.echipaments
                                                                   join te1 in _orgDb.tip_echipament
                                                                   on e2.tipID equals te1.id
                                                                   where te1.id == idroot
-                                                                  && e2.siteID == idparam && te1.denumire == "Switch-uri"
+                                                                  && e2.siteID == idparam && te1.denumire == "Switch"
                                                                   where e2.id < e1.id
                                                                   select e2.id).Count()
                                                   let nrcon = (from e2 in _orgDb.echipaments
                                                                   join te1 in _orgDb.tip_echipament
                                                                   on e2.tipID equals te1.id
                                                                   where te1.id == idroot
-                                                                  && e2.siteID == idparam && te1.denumire == "Concentratoare"
+                                                                  && e2.siteID == idparam && te1.denumire == "Concentrator"
                                                                   where e2.id < e1.id
                                                                   select e2.id).Count()
     
@@ -150,9 +151,9 @@ namespace TreeViewDemo.Business
                                                          select te1.denumire).FirstOrDefault() :
                                                          (te.denumire == "MSED" ? "MSED" + SqlFunctions.StringConvert((double)nrmsed).Trim() : 
                                                          (te.denumire == "MC" ? "MC" + SqlFunctions.StringConvert((double)nrmc).Trim() :
-                                                         (te.denumire == "Routere" ? "Routere" + SqlFunctions.StringConvert((double)nrrouter).Trim() : (
-                                                         te.denumire == "Switch-uri" ? "Switch-uri" + SqlFunctions.StringConvert((double)nrswitch).Trim() : (
-                                                         te.denumire == "Concentratoare" ? "Concentratoare" + SqlFunctions.StringConvert((double)nrcon).Trim() : null)
+                                                         (te.denumire == "Router" ? "Router" + SqlFunctions.StringConvert((double)nrrouter).Trim() : (
+                                                         te.denumire == "Switch" ? "Switch" + SqlFunctions.StringConvert((double)nrswitch).Trim() : (
+                                                         te.denumire == "Concentrator" ? "Concentrator" + SqlFunctions.StringConvert((double)nrcon).Trim() : null)
                                                          )) 
                                                          )
                                                          )

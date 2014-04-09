@@ -21,14 +21,14 @@
         if ('@ViewBag.id' != -1) { //echip care exista
             var atr = '@Html.Raw(ViewBag.atribute)';
             var x = $.parseJSON(atr);
-
+            
             console.log("json deserializat lung:" + x.length);
             var table = document.getElementById("tabel_detalii");
 
             var rowCount = table.rows.length;
             var y = 0;
             if ('@ViewBag.numeechip' == 'PABX') {
-
+                $("#cartela_noua").css({ 'display': 'block' });
                 for (i = 0; i < x.length; i++)
                 {
                     if ((x[i].nume_atr == "LIM MAIN" || x[i].nume_atr == "LIM DISTANT") && y == 0) {
@@ -418,11 +418,12 @@
                 var row = table.insertRow(rowCount);
                 rowCount++;
                 var cell1 = row.insertCell(0);
-                cell1.innerHTML = "<input type='button' value='Adauga conexiune' class='button' onclick='addconexiune()' />";
+                cell1.innerHTML = "<input type='button' value='Adauga conexiune' id='addcon' class='buton' onclick='addconexiune()' />";
             }
             else
             if ('@ViewBag.numeechip' == 'MSED')
             {
+                $("#cartela_noua").css({ 'display': 'none' });
                 var table = document.getElementById("tabel_detalii");
 
                 var rowCount = table.rows.length;
@@ -544,7 +545,8 @@
             }
             else
             for (i = 0; i < x.length; i++) {
-                if ('@ViewBag.numeechip' == 'MC' || '@ViewBag.numeechip' == 'Routere' || '@ViewBag.numeechip' == 'Switch-uri' || '@ViewBag.numeechip' == 'Concentratoare') {
+                if ('@ViewBag.numeechip' == 'MC' || '@ViewBag.numeechip' == 'Router' || '@ViewBag.numeechip' == 'Switch' || '@ViewBag.numeechip' == 'Concentrator') {
+                    $("#cartela_noua").css({ 'display': 'none' });
                     if (x[i].nume_atr == "Port") {
                         var row = table.insertRow(rowCount);
                         rowCount++;
@@ -602,7 +604,8 @@
                    cell1.appendChild(newSpan);
         }
         else {  //echip care nu exista
-            if ('@ViewBag.numeechip' == 'MC' || '@ViewBag.numeechip' == 'Routere' || '@ViewBag.numeechip' == 'Switch-uri' || '@ViewBag.numeechip' == 'Concentratoare') {
+            $("#cartela_noua").css({ 'display': 'none' });
+            if ('@ViewBag.numeechip' == 'MC' || '@ViewBag.numeechip' == 'Router' || '@ViewBag.numeechip' == 'Switch' || '@ViewBag.numeechip' == 'Concentrator') {
                 var table = document.getElementById("tabel_detalii");
 
                 var rowCount = table.rows.length;
@@ -674,7 +677,7 @@
 
 
 
-                if ('@ViewBag.numeechip' == 'Concentratoare') {
+                if ('@ViewBag.numeechip' == 'Concentrator') {
                     for (k = 1; k <= 10; k++) {
                         var row1 = table.insertRow(rowCount + k + 1);
 
@@ -1351,7 +1354,7 @@
                                        cell1.appendChild(newSpan);
 
                                        var cell1 = row.insertCell(3);
-                                       cell1.innerHTML = "<input type='button' value='Adauga conexiune' class='button' onclick='addconexiune()' />";
+                                       cell1.innerHTML = "<input type='button' value='Adauga conexiune' id ='addcon' class='buton' onclick='addconexiune()' />";
 
             }
             var tabel = document.getElementById('tabel_detalii');
@@ -1462,6 +1465,8 @@
             newSpan.value = 'S';
             cell1.appendChild(newSpan);
         }
+
+        $("#addcon").removeClass("editors");
     </script>
     <style>
         
@@ -1482,7 +1487,7 @@
             @*if ('@ViewBag.numeechip' == 'PABX' *@
 
         </script>
-        <input type="button" class="buton" id="cartela_noua" name="cartela_noua" value="Adauga cartela" />
+        <input type="button" class="buton" id="cartela_noua" name="cartela_noua" value="Adauga cartela" style="display:none"/>
 
         <!--input type="button" class="buton" id="atr_nou" name="atr_nou" value="Adauga atribut" onclick="addatribut()"/>
         <br />
@@ -1550,6 +1555,7 @@
         $("#createechip").removeClass("editors");
         $("#create").removeClass("editors");
         $("#stergeechipament").removeClass("editors");
+        $("#addcon").removeClass("editors");
 
         var getDetailsFunction = function () {
             return function (data, textStatus, jqXHR) {
