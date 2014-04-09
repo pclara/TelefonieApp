@@ -1,4 +1,7 @@
 
+.jstree-default li a {
+font-size:17px;
+}
 
 .jstree-default  li, 
 .jstree-default  ins { background-image:url("d.png"); background-repeat:no-repeat; background-color:transparent; }
