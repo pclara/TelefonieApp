@@ -11,11 +11,13 @@
 
 <script>
 $("#flex1").flexigrid({
-    url: "Locatii/ListLocatiiContent?id=" +@ViewBag.id +"&&rows=15&&page=1",
+    url: '@Url.Content("~/Locatii/ListLocatiiContent?id=" +@ViewBag.id)',
     type:'POST',
 	dataType: 'json',
-	colModel : [
-		{display: 'Denumire', name : 'denumire', width : 40, sortable : true, align: 'center'}
+	colModel: [
+	{display: 'Denumire', name : 'denumire', width : 100, sortable : true, align: 'center'},
+	{display: 'Atribut', name : 'tipdenumire', width : 100, sortable : true, align: 'center'},
+    {display: 'Valoare', name : 'valoare', width : 100, sortable : true, align: 'center'}
 		/*{display: 'Name', name : 'name', width : 180, sortable : true, align: 'left'},
 		{display: 'Printable Name', name : 'printable_name', width : 120, sortable : true, align: 'left'},
 		{display: 'ISO3', name : 'iso3', width : 130, sortable : true, align: 'left', hide: true},
@@ -42,5 +44,20 @@ $("#flex1").flexigrid({
 	height: 200
 });
 
+    $('#flex1').click(function (event) {
+        $('.trSelected', this).each(function () {
+            var numejudet = '@ViewBag.numejudet';
+
+            var href = window.location.href.replace(window.location.href.substring(window.location.href.substring(8).indexOf("/") + 8), "/Judete?name=" + numejudet + "&&id=" + $(this).attr('id').substr(3) + "_echipament");// return RedirectToAction("Index", "Judete", new { name = judet.denumire.ToString() , id = s.id.ToString() + "_echipament" });
+            console.log(href);
+            window.location.href = href;
+
+
+            console.log(
+                '  rowId: ' + $(this).attr('id').substr(3) +
+                '  name: ' + $('td[abbr="denumire"] >div', this).html()
+            );
+        });
+    });
    
     </script>

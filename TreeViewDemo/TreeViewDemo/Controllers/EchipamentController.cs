@@ -351,42 +351,94 @@ namespace TreeViewDemo.Controllers
 
 
 
-                        a = new atribut();
-                        if(echipmodel["lim"] == "limmain")
-                            a.val_string = "0";
+                        foreach (string key in echipmodel.Keys)
+                        {
+                            if (key.StartsWith("nrrutanou") && !key.EndsWith(":"))
+                            {
+                                a = new atribut();
+                                a.val_string = echipmodel[key];
+                                a.val_csv = null;
+                                a.val_int = null;
+                                a.val_nr = null;
+                                a.tipID = (from ta in db.tip_atribut where ta.denumire == "Numar ruta" select ta.id).FirstOrDefault();
+                                db.AddToatributs(a);
+
+                                ea = new echipament_atribute();
+                                ea.echipamentID = s.id;
+                                ea.atributID = a.id;
+                                db.AddToechipament_atribute(ea);
+                                db.SaveChanges();
+                            }
+                            else if (key.StartsWith("tipcnou") && !key.EndsWith(":"))
+                            {
+                                a = new atribut();
+                                a.val_string = echipmodel[key];
+                                a.val_csv = null;
+                                a.val_int = null;
+                                a.val_nr = null;
+                                a.tipID = (from ta in db.tip_atribut where ta.denumire == "Tip Conexiune" select ta.id).FirstOrDefault();
+                                db.AddToatributs(a);
+
+                                ea = new echipament_atribute();
+                                ea.echipamentID = s.id;
+                                ea.atributID = a.id;
+                                db.AddToechipament_atribute(ea);
+
+                                db.SaveChanges();
+                            }
+                            else if (key.StartsWith("destinatienou") && !key.EndsWith(":"))
+                            {
+                                a = new atribut();
+                                a.val_string = echipmodel[key];
+                                a.val_csv = null;
+                                a.val_int = null;
+                                a.val_nr = null;
+                                a.tipID = (from ta in db.tip_atribut where ta.denumire == "Destinatie" select ta.id).FirstOrDefault();
+                                db.AddToatributs(a);
+
+                                ea = new echipament_atribute();
+                                ea.echipamentID = s.id;
+                                ea.atributID = a.id;
+                                db.AddToechipament_atribute(ea);
+
+                                db.SaveChanges();
+                            }
+                        }
+
+
+                        if (echipmodel["lim"] == "limmain")
+                        {
+                            a = new atribut();
+                            a.val_string = "1";
+                            a.val_csv = null;
+                            a.val_int = null;
+                            a.val_nr = null;
+                            a.tipID = (from ta in db.tip_atribut where ta.denumire == "LIM MAIN" select ta.id).FirstOrDefault();
+                            db.AddToatributs(a);
+
+                            ea = new echipament_atribute();
+                            ea.echipamentID = s.id;
+                            ea.atributID = a.id;
+                            db.AddToechipament_atribute(ea);
+                            db.SaveChanges();
+                        }
                         else
-                            a.val_string = "0";
-                        a.val_csv = null;
-                        a.val_int = null;
-                        a.val_nr = null;
-                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "LIM MAIN" select ta.id).FirstOrDefault();
-                        db.AddToatributs(a);
-
-                        ea = new echipament_atribute();
-                        ea.echipamentID = s.id;
-                        ea.atributID = a.id;
-                        db.AddToechipament_atribute(ea);
-                        db.SaveChanges();
-
-
-                        a = new atribut();
-                        if (echipmodel["lim"] == "limdist")
+                        {
+                            a = new atribut();
                             a.val_string = echipmodel["limdist-text"];
-                        else
-                            a.val_string = "0";
+                            a.val_csv = null;
+                            a.val_int = null;
+                            a.val_nr = null;
+                            a.tipID = (from ta in db.tip_atribut where ta.denumire == "LIM DISTANT" select ta.id).FirstOrDefault();
+                            db.AddToatributs(a);
 
-                        a.val_csv = null;
-                        a.val_int = null;
-                        a.val_nr = null;
-                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "LIM DISTANT" select ta.id).FirstOrDefault();
-                        db.AddToatributs(a);
+                            ea = new echipament_atribute();
+                            ea.echipamentID = s.id;
+                            ea.atributID = a.id;
+                            db.AddToechipament_atribute(ea);
 
-                        ea = new echipament_atribute();
-                        ea.echipamentID = s.id;
-                        ea.atributID = a.id;
-                        db.AddToechipament_atribute(ea);
-
-                        db.SaveChanges();
+                            db.SaveChanges();
+                        }
 
                     }
                     else if (tipechip == "MSED")
@@ -573,21 +625,24 @@ namespace TreeViewDemo.Controllers
                         db.AddToechipament_atribute(ea);
                         db.SaveChanges();
 
-                        for(int k=1;k<=10;k++)
+                        if (tipechip == "Concentratoare")
                         {
-                            a = new atribut();
-                        a.val_string = echipmodel["port"+k.ToString()];
-                        a.val_csv = null;
-                        a.val_int = null;
-                        a.val_nr = null;
-                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Port" select ta.id).FirstOrDefault();
-                        db.AddToatributs(a);
+                            for (int k = 1; k <= 10; k++)
+                            {
+                                a = new atribut();
+                                a.val_string = echipmodel["port" + k.ToString()];
+                                a.val_csv = null;
+                                a.val_int = null;
+                                a.val_nr = null;
+                                a.tipID = (from ta in db.tip_atribut where ta.denumire == "Port" select ta.id).FirstOrDefault();
+                                db.AddToatributs(a);
 
-                        ea = new echipament_atribute();
-                        ea.echipamentID = s.id;
-                        ea.atributID = a.id;
-                        db.AddToechipament_atribute(ea);
-                        db.SaveChanges();
+                                ea = new echipament_atribute();
+                                ea.echipamentID = s.id;
+                                ea.atributID = a.id;
+                                db.AddToechipament_atribute(ea);
+                                db.SaveChanges();
+                            }
                         }
 
                     }
@@ -602,7 +657,7 @@ namespace TreeViewDemo.Controllers
                     int i = 0;
                     foreach (var key in echipmodel.Keys)
                     {
-                        if (!key.ToString().EndsWith("-text") && key.ToString() != "tipcnou"  && key.ToString() != "destinatienou" && key.ToString() != "nrrutanou" && key.ToString() != "destinatie" && key.ToString() != "tipconexiune" && key.ToString() != "nrruta" && key.ToString() != "siteID" && key.ToString() != "ipces" && key.ToString() != "licenta" && key.ToString() != "locatieremote" && key.ToString() != "ipmanagement" && key.ToString() != "ipcesremote" && key.ToString() != "ipmanagementremote" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "numeechip" && key.ToString() != "ab_analogici_dela" && key.ToString() != "ab_digitali_dela" && key.ToString() != "ab_IP_dela" && key.ToString() != "ab_DECT_dela" && key.ToString() != "ab_total_dela" && key.ToString() != "ab_analogici_panala" && key.ToString() != "ab_digitali_panala" && key.ToString() != "ab_IP_panala" && key.ToString() != "ab_DECT_panala" && key.ToString() != "ab_total_panala" && key.ToString() != "tip_nou" && key.ToString() != "denumire" && key.ToString() != "tip_val" && key.ToString() != "val_nou" && key.ToString() != "id" && !key.ToString().EndsWith(":"))
+                        if (key.ToString()!="lim" && !key.ToString().StartsWith("nrrutanou") && !key.ToString().StartsWith("tipcnou")  && !key.ToString().StartsWith("destinatienou")  && !key.ToString().EndsWith("-text") && key.ToString() != "tipcnou"  && key.ToString() != "destinatienou" && key.ToString() != "nrrutanou" && key.ToString() != "destinatie" && key.ToString() != "tipconexiune" && key.ToString() != "nrruta" && key.ToString() != "siteID" && key.ToString() != "ipces" && key.ToString() != "licenta" && key.ToString() != "locatieremote" && key.ToString() != "ipmanagement" && key.ToString() != "ipcesremote" && key.ToString() != "ipmanagementremote" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "numeechip" && key.ToString() != "ab_analogici_dela" && key.ToString() != "ab_digitali_dela" && key.ToString() != "ab_IP_dela" && key.ToString() != "ab_DECT_dela" && key.ToString() != "ab_total_dela" && key.ToString() != "ab_analogici_panala" && key.ToString() != "ab_digitali_panala" && key.ToString() != "ab_IP_panala" && key.ToString() != "ab_DECT_panala" && key.ToString() != "ab_total_panala" && key.ToString() != "tip_nou" && key.ToString() != "denumire" && key.ToString() != "tip_val" && key.ToString() != "val_nou" && key.ToString() != "id" && !key.ToString().EndsWith(":"))
                         {
                             string idechip_idatr = key.ToString();
                             int nr_split = idechip_idatr.Split('_').Count();
@@ -682,6 +737,184 @@ namespace TreeViewDemo.Controllers
                             }
                             db.SaveChanges();
                         }
+                        else if (key.ToString() == "lim")
+                        {
+                            int val_int;
+                            decimal val_long;
+                            atribut a2 = (from a in db.atributs
+                                         join ea in db.echipament_atribute on a.id equals ea.atributID
+                                         join e in db.echipaments on ea.echipamentID equals e.id
+                                         join ta in db.tip_atribut on a.tipID equals ta.id
+                                         where e.id == id
+                                         && ta.denumire == "LIM MAIN"
+                                         select a).FirstOrDefault();
+                            atribut a1 = (from a in db.atributs
+                                         join ea in db.echipament_atribute on a.id equals ea.atributID
+                                         join e in db.echipaments on ea.echipamentID equals e.id
+                                         join ta in db.tip_atribut on a.tipID equals ta.id
+                                         where e.id == id
+                                         && ta.denumire == "LIM DISTANT"
+                                         select a).FirstOrDefault();
+
+                            if (echipmodel["lim"] == "limmain")
+                            {
+                                try
+                                {
+                                    if (a2 == null)
+                                    {
+                                        a2 = new atribut();
+                                        a2.tipID = (from ta in db.tip_atribut where ta.denumire == "LIM MAIN" select ta.id).FirstOrDefault();
+                                        a2.val_string = "1";
+                                        a2.val_csv = null;
+                                        a2.val_int = null;
+                                        a2.val_nr = null;
+
+                                        echipament_atribute ea = new echipament_atribute();
+                                        ea.atributID = a2.id;
+                                        ea.echipamentID = id;
+
+                                        db.AddToatributs(a2);
+                                        db.AddToechipament_atribute(ea);
+                                    }
+                                    else
+                                    {
+                                        a2.val_string = "1";
+                                        a2.val_csv = null;
+                                        a2.val_int = null;
+                                        a2.val_nr = null;
+
+                                    }
+                                    db.SaveChanges();
+                                }
+                                catch { }
+
+                                try
+                                {
+                                    if (a1 != null)
+                                    {
+                                        a1.val_string = null;
+                                        a1.val_csv = null;
+                                        a1.val_int = null;
+                                        a1.val_nr = null;
+                                        db.SaveChanges();
+                                    }
+                                }
+                                catch { }
+
+                            }
+                            else
+                            {
+                                try
+                                {
+                                    if (a2 != null)
+                                    {
+
+                                        a2.val_string = "0";
+                                        a2.val_csv = null;
+                                        a2.val_int = null;
+                                        a2.val_nr = null;
+                                        db.SaveChanges();
+                                    }
+                                }
+                                catch { }
+
+                                try
+                                {
+                                    if (a1 == null)
+                                    {
+                                        a1 = new atribut();
+                                        a1.tipID = (from ta in db.tip_atribut where ta.denumire == "LIM DISTANT" select ta.id).FirstOrDefault();
+
+                                        a1.val_string = echipmodel["limdist-text"];
+                                        a1.val_csv = null;
+                                        a1.val_int = null;
+                                        a1.val_nr = null;
+
+                                        echipament_atribute ea = new echipament_atribute();
+                                        ea.atributID = a1.id;
+                                        ea.echipamentID = id;
+
+                                        db.AddToatributs(a1);
+                                        db.AddToechipament_atribute(ea);
+                                    }
+                                    else
+                                    {
+                                        a1.val_string = echipmodel["limdist-text"];
+                                        a1.val_csv = null;
+                                        a1.val_int = null;
+                                        a1.val_nr = null;
+                                    }
+
+                                    db.SaveChanges();
+                                }
+                                catch{}
+                            }
+                        }
+                        else if (key.ToString().StartsWith("nrrutanou") && !key.ToString().EndsWith(":"))
+                        {
+                            int val_int;
+                            decimal val_long;
+                            atribut a = new atribut();
+                            var taid = (from ta in db.tip_atribut where ta.denumire == "Numar ruta" select new { ta.id, ta.tip_valoare }).FirstOrDefault();
+                            a.tipID = taid.id;
+                            a.val_string = echipmodel[key.ToString()];
+                            a.val_csv = null;
+                            a.val_int = null;
+                            a.val_nr = null;
+
+                            echipament_atribute ea = new echipament_atribute();
+                            ea.atributID = a.id;
+                            ea.echipamentID = id;
+
+                            db.AddToatributs(a);
+                            db.AddToechipament_atribute(ea);
+                            db.SaveChanges();
+                            //
+
+
+
+                        }
+                        else if (key.ToString().StartsWith("tipcnou") && !key.ToString().EndsWith(":"))
+                        {
+                            int val_int;
+                            decimal val_long;
+                            atribut a = new atribut();
+                            var taid = (from ta in db.tip_atribut where ta.denumire == "Tip Conexiune" select new { ta.id, ta.tip_valoare }).FirstOrDefault();
+                            a.tipID = taid.id;
+                            a.val_string = echipmodel[key.ToString()];
+                            a.val_csv = null;
+                            a.val_int = null;
+                            a.val_nr = null;
+
+                            echipament_atribute ea = new echipament_atribute();
+                            ea.atributID = a.id;
+                            ea.echipamentID = id;
+
+                            db.AddToatributs(a);
+                            db.AddToechipament_atribute(ea);
+                            db.SaveChanges();
+                        }
+                        else if (key.ToString().StartsWith("destinatienou") && !key.ToString().EndsWith(":"))
+                        {
+                            //
+                            int val_int;
+                            decimal val_long;
+                            atribut a = new atribut();
+                            var taid = (from ta in db.tip_atribut where ta.denumire == "Destinatie" select new { ta.id, ta.tip_valoare }).FirstOrDefault();
+                            a.tipID = taid.id;
+                            a.val_string = echipmodel[key.ToString()];
+                            a.val_csv = null;
+                            a.val_int = null;
+                            a.val_nr = null;
+
+                            echipament_atribute ea = new echipament_atribute();
+                            ea.atributID = a.id;
+                            ea.echipamentID = id;
+
+                            db.AddToatributs(a);
+                            db.AddToechipament_atribute(ea);
+                            db.SaveChanges();
+                        }
                         else if (key.ToString() == "tip_nou" && echipmodel["tip_nou"].ToString() == "Conexiune")
                         {
                             int val_int;
@@ -757,7 +990,7 @@ namespace TreeViewDemo.Controllers
                                     if (int.TryParse(echipmodel["val_nou"].ToString(), out val_int))
                                         a.val_int = int.Parse(echipmodel["val_nou"]);
                                     else
-                                        a.val_int = null; 
+                                        a.val_int = null;
                                     a.val_nr = null;
                                     break;
                                 case "N":
@@ -767,7 +1000,7 @@ namespace TreeViewDemo.Controllers
                                     if (decimal.TryParse(echipmodel["val_nou"].ToString(), out val_long))
                                         a.val_nr = decimal.Parse(echipmodel["val_nou"]);
                                     else
-                                        a.val_nr = null; 
+                                        a.val_nr = null;
                                     break;
                                 case "CSV":
                                     a.val_string = null;

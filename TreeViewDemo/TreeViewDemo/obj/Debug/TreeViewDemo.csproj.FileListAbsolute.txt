@@ -21,4 +21,3 @@ C:\Users\GEORGE\Documents\GitHub\TelefonieApp\TreeViewDemo\TreeViewDemo\bin\Tree
 C:\Users\GEORGE\Documents\GitHub\TelefonieApp\TreeViewDemo\TreeViewDemo\obj\Debug\TreeViewDemo.csprojResolveAssemblyReference.cache
 C:\Users\GEORGE\Documents\GitHub\TelefonieApp\TreeViewDemo\TreeViewDemo\obj\Debug\TreeViewDemo.dll
 C:\Users\GEORGE\Documents\GitHub\TelefonieApp\TreeViewDemo\TreeViewDemo\obj\Debug\TreeViewDemo.pdb
-D:\GitHub\TelefonieApp\TreeViewDemo\TreeViewDemo\obj\Debug\TreeViewDemo.csprojResolveAssemblyReference.cache
