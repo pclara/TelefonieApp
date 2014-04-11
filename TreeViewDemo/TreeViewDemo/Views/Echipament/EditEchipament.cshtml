@@ -88,24 +88,41 @@
                             var cell1 = row.insertCell(2);
                             var newSpan = document.createElement('input');
                             newSpan.type = "text";
+                            var index = 0;
                             for (j = 0; j < x.length; j++)
-                                if (x[j].nume_atr == "Tip Conexiune") {
+                                if (x[j].nume_atr == "Numar ruta" && j<=i) {
+                                    index++;
+                                }
+
+                            var index1 = 1 ;
+                            for (j = 0; j < x.length; j++)
+                                if (x[j].nume_atr == "Tip Conexiune" && index1 == index) {
                                     newSpan.id = '@ViewBag.id' + "_" + x[j].id_atr;
                                     newSpan.name = '@ViewBag.id' + "_" + x[j].id_atr;
                                     newSpan.className = "editors";
                                     newSpan.value = x[j].val_atr;
+                                    index1++;
+                                }
+                                else if (x[j].nume_atr == "Tip Conexiune" ){
+                                    index1++;
                                 }
                             cell1.appendChild(newSpan);
                             
                             var cell1 = row.insertCell(3);
                             var newSpan = document.createElement('input');
                             newSpan.type = "text";
+
+                            var index2 = 1;
                             for (j = 0; j < x.length; j++)
-                                if (x[j].nume_atr == "Destinatie") {
+                                if (x[j].nume_atr == "Destinatie" && index2 == index) {
                                     newSpan.id = '@ViewBag.id' + "_" + x[j].id_atr;
                                     newSpan.name = '@ViewBag.id' + "_" + x[j].id_atr;
                                     newSpan.className = "editors";
                                     newSpan.value = x[j].val_atr;
+                                    index2++;
+                                }
+                                else if (x[j].nume_atr == "Destinatie"){
+                                    index2++;
                                 }
                             newSpan.setAttribute("readonly", "true");
                             newSpan.className = "editors";
@@ -125,7 +142,6 @@
                         cell1.appendChild(newSpan);
                         var cell1 = row.insertCell(1);
                         var newSpan = document.createElement('select');
-                        console.log(x[i]);
                         var idsel = '@ViewBag.id' + "_" + x[i].id_atr;
                            newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
                         newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
@@ -168,7 +184,6 @@
                            cell1.appendChild(newSpan);
                            var cell1 = row.insertCell(1);
                            var newSpan2 = document.createElement('select');
-                           console.log(x[i]);
                            var idsel1 = '@ViewBag.id' + "_" + x[i].id_atr;
                            newSpan2.id = '@ViewBag.id' + "_" + x[i].id_atr;
                            newSpan2.name = '@ViewBag.id' + "_" + x[i].id_atr;
@@ -596,11 +611,15 @@
                 
             }
 
+            var row = table.insertRow(rowCount);
+            rowCount++;
+            var cell1 = row.insertCell(0);
             var newSpan = document.createElement('input');
             newSpan.type = "hidden";
             newSpan.id = 'siteID';
             newSpan.name = 'siteID';
             newSpan.value = '@ViewBag.siteID';
+            row.setAttribute("display","none");
                    cell1.appendChild(newSpan);
         }
         else {  //echip care nu exista
@@ -1559,7 +1578,6 @@
 
         var getDetailsFunction = function () {
             return function (data, textStatus, jqXHR) {
-                console.log("data = " + data);
                 $("#details").html(data);
             };
         }
@@ -1592,9 +1610,16 @@
                         var id = this.id;
                         $.post('@Url.Content("~/Echipament/StergeEchipament")', "id=" + id, function (response) {
                             var href = document.URL;
-                            var idechipament = href.substr(href.lastIndexOf("/") + 1, href.lastIndexOf("?") - href.lastIndexOf("/") - 1);
-                            window.location = href.replace(idechipament, response);
+                            //var idechipament = href.substr(href.lastIndexOf("/") + 1, href.lastIndexOf("?") - href.lastIndexOf("/") - 1);
+                            var href1 = href.substr(0, href.lastIndexOf("Index") + 5);
 
+                            if (href1.length <= 4)
+                                href1 = href.substr(0, href.lastIndexOf("Judete") + 6);
+
+                            //window.location = href.replace(idechipament, response);
+                            var stringuri = response.split(',');
+                            var href2 = href1 + "?name=" + stringuri[0] + "&&id=" + stringuri[1];
+                            window.location = href2;
                         }, 'html');
                     });
 

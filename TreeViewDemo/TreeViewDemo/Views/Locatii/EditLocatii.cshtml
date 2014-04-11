@@ -8,7 +8,7 @@
 @using (Ajax.BeginForm("Edit", "Locatii", new AjaxOptions() { HttpMethod = "POST" }))
   
 {
-    <div id="labels_div"  style="float:left;margin-left:17%;margin-top:1%">
+    <div id="labels_div"  style="float:left;margin-left:17%;margin-top:2%;margin-right:2%;">
     @Html.HiddenFor(model => model.id)
     @Html.LabelFor(model => model.denumire, "Denumire Locatie",new  {@class = "labels" })
 
@@ -18,10 +18,10 @@
     
         </div>
 
-   <div id="text_div" style="float:right;margin-top:1%">
+   <div id="text_div" style="float:left;margin-top:1%;margin-left:2%;">
        @Html.EditorFor( model => model.denumire,   new { @class = "editors" })
        
-        <select name="judet" id="judet">
+        <select disabled="disabled" name="judet" id="judet">
             @{foreach (TreeViewDemo.Models.Site.Judet j in Model.lista)
               {
                       <option value="@j.id">@j.denumire</option>

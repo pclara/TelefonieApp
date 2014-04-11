@@ -267,6 +267,7 @@
   <ItemGroup>
     <None Include="Properties\PublishProfiles\tel.pubxml" />
     <None Include="Properties\PublishProfiles\tel1.pubxml" />
+    <Content Include="Views\Cartela\AfiseazaCartele.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

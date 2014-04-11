@@ -103,15 +103,29 @@
                         console.log("add checked:"+checked_node);
                         $("#"+checked_node).addClass("jstree-checked");
                         $("#"+checked_node).removeClass("jstree-unchecked");
-                        
-                        var eventArgs = {
-                            type: checked_node.split('_')[1],
-                            id: checked_node.split('_')[0],
-                            parentID : ( checked_node.split('_')[1] == 'tip' ? $("#"+checked_node).parent().parent().attr('id') +  ":" + $("#"+checked_node).parent().parent().parent().parent().attr('id') :
-                                (checked_node.split('_')[1] == 'site'|| checked_node.split('_')[1] == 'echipament' || checked_node.split('_')[1] == 'cartela' ? $("#"+checked_node).parent().parent().attr('id') : ''))
-                        };
 
-                        TreeEventController.onNodeSelect(eventArgs);
+                        /*if(checked_node == "cartele")
+                        {
+                            console.log("   checked cartele");
+                            var eventArgs = {
+                                type: "cartele",
+                                id: 0,
+                                parentID : $("#"+checked_node).parent().parent().attr('id')
+                            };
+
+                            TreeEventController.onNodeSelect(eventArgs);
+                        }
+                        else*/
+                        {
+                            var eventArgs = {
+                                type: checked_node.split('_')[1],
+                                id: checked_node.split('_')[0],
+                                parentID : ( checked_node.split('_')[1] == 'tip' ? $("#"+checked_node).parent().parent().attr('id') +  ":" + $("#"+checked_node).parent().parent().parent().parent().attr('id') :
+                                    (checked_node.split('_')[1] == 'site'|| checked_node.split('_')[1] == 'echipament' || checked_node.split('_')[1] == 'cartele' ? $("#"+checked_node).parent().parent().attr('id') : ''))
+                            };
+
+                            TreeEventController.onNodeSelect(eventArgs);
+                        }
                     }
                     else
                     {
@@ -187,6 +201,21 @@
         {
             $.ajax({
                 url:'@Url.Content("~/Echipament/CaleNod")',
+                type:'POST',
+                data : {id : selectedID},
+                success : function(response)
+                {
+                    console.log("CALE: "+response);
+                    var noduri = response.split(",");
+                    var lungime = noduri.length;
+                    deschide_tree(noduri, lungime, 0);
+                }
+            });
+        }
+        else if(tip == "cartele")
+        {
+            $.ajax({
+                url:'@Url.Content("~/Cartela/CaleNod")',
                 type:'POST',
                 data : {id : selectedID},
                 success : function(response)
@@ -344,20 +373,30 @@
                         $.get('@Url.Content("~/Echipament/EditEchipament")', "id=" + eventArgs.id + "&&parentID=" + eventArgs.parentID,  getDetailsFunction(), 'html');
                         }
                         else
-                            if(eventArgs.type == 'cartela')
+                            if(eventArgs.type == 'cartele')
                             {
-                                var numeechip = $("#"+eventArgs.id + "_cartela").find("a")[0].text.trim();
-                                $("#titlu").html("Editeaza "+numeechip);
-                                $("#create").val("Creeaza "+numeechip);
-                                //$("#create").css({"display":"block"});
+                                //var numeechip = $("#"+eventArgs.id + "_cartela").find("a")[0].text.trim();
+                                $("#titlu").html("Editeaza cartele");
+                                //$("#create").val("Creeaza carte");
+                                $("#create").css({"display":"none"});
 
-                                $("#create").click(function(event, data)
-                                {
-                                    $.get('@Url.Content("~/Cartela/EditCartela")', "id=-1" + "&&parentID=" + eventArgs.parentID,  getDetailsFunction(), 'html');
+                                $.get('@Url.Content("~/Cartela/AfiseazaCartele")', "id=" + eventArgs.id + "&&parentID=" + eventArgs.parentID,  getDetailsFunction(), 'html');
                             }
-                    );
-                            $.get('@Url.Content("~/Cartela/EditCartela")', "id=" + eventArgs.id + "&&parentID=" + eventArgs.parentID,  getDetailsFunction(), 'html');
-                        }
+                            else
+                                if(eventArgs.type == 'cartela')
+                                {
+                                    var numeechip = $("#"+eventArgs.id + "_cartela").find("a")[0].text.trim();
+                                    $("#titlu").html("Editeaza "+numeechip);
+                                    $("#create").val("Creeaza "+numeechip);
+                                    //$("#create").css({"display":"block"});
+
+                                    $("#create").click(function(event, data)
+                                    {
+                                        $.get('@Url.Content("~/Cartela/EditCartela")', "id=-1" + "&&parentID=" + eventArgs.parentID,  getDetailsFunction(), 'html');
+                                    }
+                        );
+                                    $.get('@Url.Content("~/Cartela/EditCartela")', "id=" + eventArgs.id + "&&parentID=" + eventArgs.parentID,  getDetailsFunction(), 'html');
+                                }
                 });
             } else {
                 throw 'node select event not registered with tree event controller.';
@@ -388,7 +427,7 @@
     $("#addcon").removeClass("editors");
     </script>
 
-<div id="treeContainer" style="width:30%;float:left;">
+<div id="treeContainer" style="width:20%;float:left;">
 <div id="treeDemo">
     <ul id="tree">
         <li>
@@ -400,7 +439,7 @@
 </div>
 
 
-<div style="width:65%;float:right;">
+<div style="width:75%;float:right;">
     <div>
     <div id="titlu" ></div>
             <div id="cauta"></div>

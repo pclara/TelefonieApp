@@ -128,7 +128,7 @@ namespace TreeViewDemo.Controllers
             db.sites.DeleteObject(v);
             db.SaveChanges();
 
-            return RedirectToAction("Index", "Judete", new { name = idjudet.denumire, id = idjudet.judetID.ToString() + "_judet" });
+            return RedirectToAction("Index", "Judete", new { name = idjudet.denumire});
         }
 
         public ActionResult CautaLocatie(long? id, string parentID = "")

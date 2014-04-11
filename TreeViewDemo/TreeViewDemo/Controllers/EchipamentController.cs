@@ -1091,7 +1091,12 @@ namespace TreeViewDemo.Controllers
         public string StergeEchipament(string id)
         {
             long idechipament = long.Parse(id.Split('_')[0]);
-
+            var namejudet = (from j in db.judetes join s in db.sites on j.id equals s.judetID join e in db.echipaments on s.id equals e.siteID where e.id == idechipament select j.denumire).FirstOrDefault();
+            var listaindex = (from e in db.echipaments
+                              join s in db.sites on e.siteID equals s.id
+                              join j in db.judetes on s.judetID equals j.id
+                              where e.id == idechipament
+                              select new { jid = j.id, sid = s.id }).FirstOrDefault();
            // long idcentrala = (from c in db.cartelas where c.id == idcartela select c.echipamentID).FirstOrDefault();
             long tip_id = (from e in db.echipaments where e.id == idechipament select e.tipID).FirstOrDefault();
 
@@ -1169,11 +1174,10 @@ namespace TreeViewDemo.Controllers
 
                      //}
 
-                var listaindex = (from e in db.echipaments 
-                                 join s in db.sites on e.siteID equals s.id
-                                 join j in db.judetes on s.judetID equals j.id select new {jid = j.id,sid = s.id}).FirstOrDefault();
+                
 
-                return tip_id.ToString() + "_tip_echipament_" + listaindex.sid.ToString() + "_" + listaindex.jid.ToString();
+                
+                return namejudet +"," + tip_id.ToString() + "_tip_echipament_" + listaindex.sid.ToString() + "_" + listaindex.jid.ToString();
 
             //return RedirectToAction("Index", "Judete", new { name = judet.denumire.ToString(), id = idcentrala.ToString() + "_echipament" });
         }

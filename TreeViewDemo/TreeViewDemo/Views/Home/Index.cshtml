@@ -25,7 +25,6 @@ function getJudet(name) {
 
 var getLoadTabCbkFunction = function () {
     return function (data, textStatus, jqXHR) {
-        console.log("data = " + data);
         $("#body").html(data);
     };
 }

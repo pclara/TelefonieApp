@@ -19,12 +19,13 @@ namespace TreeViewDemo.Business
         {
             JsTreeModel root = (from e1 in _orgDb.judetes
                                 where e1.denumire == name
+                                let nrsites = (from j in _orgDb.judetes join s in _orgDb.sites on j.id equals s.judetID where j.denumire == name select s.id).Count()
                                 select new JsTreeModel()
                                 {
                                     data = new JsTreeData(){ title = e1.denumire, icon = "" },
-                                    attr = new JsTreeAttribute() { description = "judet", id = SqlFunctions.StringConvert((double)e1.id).Trim() + "_judet", selected = false, style = "font-weight:bold;" },
+                                    attr = new JsTreeAttribute() { description = "judet", id = SqlFunctions.StringConvert((double)e1.id).Trim() + "_judet", selected = true, style = "font-weight:bold;" },
                                     id = SqlFunctions.StringConvert((double)e1.id).Trim(),
-                                    state = "closed"
+                                    state = (nrsites == 0 ? null : "closed")
                                 }).SingleOrDefault();
 
             
@@ -180,7 +181,18 @@ namespace TreeViewDemo.Business
                 }
                 else if (rootNode.attr.description == "echipament")
                 {
-                    List<JsTreeModel> children = (from c in _orgDb.cartelas
+                    List<JsTreeModel> children = (from e in _orgDb.echipaments
+                                                  join te in _orgDb.tip_echipament on e.tipID equals te.id
+                                                  where
+                                                      e.id == idroot && te.denumire == "PABX"
+                                                  select new JsTreeModel()
+                                                  {
+                                                      data = new JsTreeData() { title = "Cartele" , icon = "" },
+                                                      attr = new JsTreeAttribute() { description = "cartele", id = SqlFunctions.StringConvert((double)idroot).Trim() + "_cartele", selected = false },
+                                                      id = SqlFunctions.StringConvert((double)idroot).Trim() + "_cartele",
+                                                      state = null
+                                                  }).ToList<JsTreeModel>();
+                        /*(from c in _orgDb.cartelas
                                                   join tc in _orgDb.tip_cartela on c.tipID equals tc.id
                                                   join e1 in _orgDb.echipaments on c.echipamentID equals e1.id
                                                   where e1.id == idroot
@@ -197,7 +209,7 @@ namespace TreeViewDemo.Business
                                                       attr = new JsTreeAttribute() { description = "cartela", id = SqlFunctions.StringConvert((double)c.id).Trim() + "_cartela", selected = false },
                                                       id = SqlFunctions.StringConvert((double)c.id).Trim() + "_cartela",
                                                       state = null
-                                                  }).ToList<JsTreeModel>();
+                                                  }).ToList<JsTreeModel>();*/
                     if (children.Count > 0)
                     {
                         foreach (var childRootNode in children)

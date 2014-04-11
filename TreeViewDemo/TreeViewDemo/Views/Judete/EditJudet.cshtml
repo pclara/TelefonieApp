@@ -7,7 +7,7 @@
 
 <div>
 <input type="hidden" id="id" value="@ViewBag.id" />
-<label class="labels" style="float:left;margin-right:3%">
+<label class="labels" style="float:left;margin-right:5%;margin-left:5%;margin-top:1%;">
     Nume Judet:
 </label>
 <input type="text" class="editors" id="nume" name="nume" value="@ViewBag.nume" />
@@ -22,7 +22,6 @@
     }
     var getDetailsFunction = function () {
         return function (data, textStatus, jqXHR) {
-            console.log("data = " + data);
             $("#details").html(data);
         };
     }
