@@ -688,6 +688,23 @@ namespace TreeViewDemo.Controllers
                         db.AddToechipament_atribute(ea);
                         db.SaveChanges();
 
+                        if (tipechip == "MC")
+                        {
+                            a = new atribut();
+                            a.val_string = echipmodel["ENDPOINT"];
+                            a.val_csv = null;
+                            a.val_int = null;
+                            a.val_nr = null;
+                            a.tipID = (from ta in db.tip_atribut where ta.denumire == "ENDPOINT" select ta.id).FirstOrDefault();
+                            db.AddToatributs(a);
+
+                            ea = new echipament_atribute();
+                            ea.echipamentID = s.id;
+                            ea.atributID = a.id;
+                            db.AddToechipament_atribute(ea);
+                            db.SaveChanges();
+                        }
+
                         if (tipechip == "Concentrator")
                         {
                             for (int k = 1; k <= 10; k++)
@@ -1164,19 +1181,38 @@ namespace TreeViewDemo.Controllers
             return cale;
         }
 
-        public string GetVersiuni(long? idver)
+        public string GetVersiuni(long? idver, string tip_ales = "")
         {
             string tipcartele = "";
-            var tip = (from tc in db.echipament_versiuni select new { tc.id, tc.denumire }).ToList();
-            foreach (var s in tip)
+            if (tip_ales != "" && (tip_ales == "1" || tip_ales=="2"))
             {
-                tipcartele += s.id +":" + s.denumire + ",";
-            }
-            if (idver != null)
-                tipcartele += idver.ToString();
-            else
-                tipcartele = tipcartele.TrimEnd(',');
+                int tip_a = Int32.Parse(tip_ales);
+                var tipp = (from te in db.echipament_tip where te.id == tip_a select te.denumire).FirstOrDefault();
+                var tip = (from tc in db.echipament_versiuni where tc.echipament == tipp select new { tc.id, tc.denumire }).ToList();
+                foreach (var s in tip)
+                {
+                    tipcartele += s.id + ":" + s.denumire + ",";
+                }
+                if (idver != null)
+                    tipcartele += idver.ToString();
+                else
+                    tipcartele = tipcartele.TrimEnd(',');
 
+            }
+            else
+            {
+                var tip = (from tc in db.echipament_versiuni select new { tc.id, tc.denumire }).ToList();
+                foreach (var s in tip)
+                {
+                    tipcartele += s.id + ":" + s.denumire + ",";
+                }
+                if (idver != null)
+                    tipcartele += idver.ToString();
+                else
+                    tipcartele = tipcartele.TrimEnd(',');
+
+            }
+            
             return tipcartele;
         }
 

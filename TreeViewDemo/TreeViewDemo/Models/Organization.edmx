@@ -118,6 +118,7 @@
           </Key>
           <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="denumire" Type="nvarchar" MaxLength="50" />
+          <Property Name="echipament" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="judete">
           <Key>
@@ -513,6 +514,7 @@
           </Key>
           <Property Type="Int64" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="denumire" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="echipament" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="echipament_tip">
           <Key>
@@ -632,6 +634,7 @@
           <EntitySetMapping Name="echipament_versiuni">
             <EntityTypeMapping TypeName="OrganizationModel.echipament_versiuni">
               <MappingFragment StoreEntitySet="echipament_versiuni">
+                <ScalarProperty Name="echipament" ColumnName="echipament" />
                 <ScalarProperty Name="denumire" ColumnName="denumire" />
                 <ScalarProperty Name="id" ColumnName="id" />
               </MappingFragment>

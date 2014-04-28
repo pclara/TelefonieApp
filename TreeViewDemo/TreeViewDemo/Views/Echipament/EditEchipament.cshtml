@@ -227,11 +227,15 @@
                         newSpan.className = "editors";
                         cell1.appendChild(newSpan);
 
+                        var tip_ales = "";
+                        for (k = 0; k < x.length; k++)
+                            if (x[k].nume_atr == 'Tip')
+                                tip_ales = x[k].val_atr.den_tip;
 
     $.ajax({
         url: '@Url.Content("~/Echipament/GetVersiuni")',
                                type: 'POST',
-                               data: { idver: x[i].val_atr.idver },
+                               data: { idver: x[i].val_atr.idver, tip_ales: tip_ales },
                                success: function (response) {
                                    var tipuri = response.split(',');
                                    var option = document.createElement("option");
@@ -729,6 +733,14 @@
                 newSpan.innerHTML = "GATEWAY:";
                 cell3.appendChild(newSpan);
 
+                if ('@ViewBag.numeechip' == 'MC') {
+                    var cell3 = row.insertCell(3);
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "ENDPOINT:";
+                    cell3.appendChild(newSpan);
+                }
+
                 var row1 = table.insertRow(rowCount + 1);
                 var cell1 = row1.insertCell(0);
                 newSpan = document.createElement('input');
@@ -774,7 +786,21 @@
                 cell3.appendChild(newSpan);
 
 
-
+                if ('@ViewBag.numeechip' == 'MC') {
+                    var cell3 = row1.insertCell(3);
+                    newSpan = document.createElement('input');
+                    newSpan.type = "text";
+                    newSpan.id = 'ENDPOINT';
+                    newSpan.name = 'ENDPOINT';
+                    newSpan.className = "editors";
+                    cell3.appendChild(newSpan);
+                    newSpan = document.createElement('input');
+                    newSpan.type = "hidden";
+                    newSpan.id = 'ENDPOINT:';
+                    newSpan.name = 'ENDPOINT:';
+                    newSpan.value = 'S';
+                    cell3.appendChild(newSpan);
+                }
 
 
                 if ('@ViewBag.numeechip' == 'Concentrator') {
@@ -940,7 +966,29 @@
                         newSpan7.id = 'tip_val';
                         newSpan7.name = 'tip_val'
                         newSpan7.className = "editors";
-                        newSpan7.onchange= function (event, k) {
+                        newSpan7.onchange = function (event, k) {
+                            tip_ales = $("#"+ this.id+" option:selected").val();
+                            $.ajax({
+                                url: '@Url.Content("~/Echipament/GetVersiuni")',
+                                data: { idver: null, tip_ales: tip_ales },
+                                type: 'POST',
+                                success: function (response) {
+                                    var tipuri = response.split(',');
+                                    var option = document.createElement("option");
+                                    option.value = '';
+                                    option.text = '';
+                                    $("#ver_val").empty();
+                                    $("#ver_val").append(option);
+                                    for (var i = 0; i < tipuri.length; i++) {
+                                        var option = document.createElement("option");
+                                        var valtext = tipuri[i].split(':');
+                                        option.value = valtext[0];
+                                        option.text = valtext[1];
+                                        $("#ver_val").append(option);
+                                    }
+                                }
+                            });
+
                             if ($("#tip_val option:selected").text() == "MD") {
                                 $("#licenta2").css({ 'visibility': 'visible' });
                                 $("#licenta1").keyup(function () {
@@ -1051,9 +1099,11 @@
                 newSpan.innerHTML = "Versiune";
                 cell1.appendChild(newSpan);
 
+
                 var cell8 = row.insertCell(1);
                 $.ajax({
                     url: '@Url.Content("~/Echipament/GetVersiuni")',
+                    data:{idver: null, tip_ales:"1"},
                     type: 'POST',
                     success: function (response) {
                         

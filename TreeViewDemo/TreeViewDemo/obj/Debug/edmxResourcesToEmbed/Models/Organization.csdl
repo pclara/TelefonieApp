@@ -256,6 +256,7 @@
     </Key>
     <Property Type="Int64" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Type="String" Name="denumire" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="String" Name="echipament" MaxLength="50" FixedLength="false" Unicode="true" />
   </EntityType>
   <EntityType Name="echipament_tip">
     <Key>

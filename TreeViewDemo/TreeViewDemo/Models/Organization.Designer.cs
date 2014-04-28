@@ -1722,6 +1722,30 @@ namespace TreeViewDemo.Models
         private global::System.String _denumire;
         partial void OndenumireChanging(global::System.String value);
         partial void OndenumireChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public global::System.String echipament
+        {
+            get
+            {
+                return _echipament;
+            }
+            set
+            {
+                OnechipamentChanging(value);
+                ReportPropertyChanging("echipament");
+                _echipament = StructuralObject.SetValidValue(value, true);
+                ReportPropertyChanged("echipament");
+                OnechipamentChanged();
+            }
+        }
+        private global::System.String _echipament;
+        partial void OnechipamentChanging(global::System.String value);
+        partial void OnechipamentChanged();
 
         #endregion
 
