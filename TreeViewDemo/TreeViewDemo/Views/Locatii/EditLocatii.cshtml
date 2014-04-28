@@ -21,7 +21,7 @@
    <div id="text_div" style="float:left;margin-top:1%;margin-left:2%;">
        @Html.EditorFor( model => model.denumire,   new { @class = "editors" })
        
-        <select disabled="disabled" name="judet" id="judet">
+        <select name="judet" id="judet">
             @{foreach (TreeViewDemo.Models.Site.Judet j in Model.lista)
               {
                       <option value="@j.id">@j.denumire</option>

@@ -27,12 +27,13 @@
 
         var getDetailsFunction = function () {
             return function (data, textStatus, jqXHR) {
-                console.log("data = " + data);
                 $("#details").html(data);
             };
         }
 
         $("#createechip").click(function () {
+            $("#titlu").html("Editeaza " + '@ViewBag.numeechip');
+
             $("#treeDemo").find(".jstree-checked").each(function (index) {
                 tip_echip = $(this).attr('id').split("_")[0];
                 $.get('@Url.Content("~/Echipament/EditEchipament")', "id=-1" + "&&parentID=" + tip_echip + "&&site=" + "@ViewBag.siteID", getDetailsFunction(), 'html');

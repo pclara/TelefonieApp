@@ -2,6 +2,7 @@
     ViewBag.Title = "EditEchipament";
 }
 
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.1.47/jquery.form-validator.min.js"></script>
 
 @using (Ajax.BeginForm("Edit", "Echipament", new AjaxOptions() { HttpMethod = "POST" }, new { id = "ajaxForm" }))
   
@@ -10,6 +11,12 @@
    <input type="submit" value="Salveaza" class="buton" id="submit_1" />
    <input type="button" value="Sterge echipament" class="buton" id="stergeechipament" />
     <input type="hidden" value="@ViewBag.numeechip" id="denumire" name="denumire"/>
+    <br />
+    <div id="error" name="error">
+        <ul id="list-error" name="list-error" style="color:red;background-color:#FFD9D9">
+
+        </ul>
+    </div>
     <table id="tabel_detalii">
         <tr><td>
             <input type="hidden" value="@ViewBag.id" id="id" name="id" />
@@ -68,8 +75,8 @@
                         }
                 }
                     else
-                    if (x[i].nume_atr == 'Numar ruta' || x[i].nume_atr == 'Tip Conexiune' || x[i].nume_atr == 'Destinatie') {
-                        if (x[i].nume_atr != 'Tip Conexiune' && x[i].nume_atr != 'Destinatie') {
+                        if (x[i].nume_atr == 'Numar ruta' || x[i].nume_atr == 'Tip Conexiune' || x[i].nume_atr == 'Destinatie' || x[i].nume_atr == 'Poz. echip.' || x[i].nume_atr == 'Tip echip.') {
+                            if (x[i].nume_atr != 'Tip Conexiune' && x[i].nume_atr != 'Destinatie' && x[i].nume_atr != 'Poz. echip.' && x[i].nume_atr != 'Tip echip.') {
                             var row = table.insertRow(rowCount);
                             rowCount++;
                             var cell1 = row.insertCell(0);
@@ -128,7 +135,79 @@
                             newSpan.className = "editors";
                             cell1.appendChild(newSpan);
                             
-                           
+                            var cell1 = row.insertCell(4);
+                            var newSpan = document.createElement('input');
+                            newSpan.type = "text";
+
+                            var index2 = 1;
+                            for (j = 0; j < x.length; j++)
+                                if (x[j].nume_atr == "Poz. echip." && index2 == index) {
+                                    newSpan.id = '@ViewBag.id' + "_" + x[j].id_atr;
+                                    newSpan.name = '@ViewBag.id' + "_" + x[j].id_atr;
+                                    newSpan.className = "editors";
+                                    newSpan.value = x[j].val_atr;
+                                    index2++;
+                                }
+                                else if (x[j].nume_atr == "Poz. echip.") {
+                                    index2++;
+                                }
+                            newSpan.className = "editors";
+                            cell1.appendChild(newSpan);
+
+                            var cell1 = row.insertCell(5);
+                            var newSpan = document.createElement('select');
+
+                            var index2 = 1;
+                            var selected_tip = 0;
+                            for (j = 0; j < x.length; j++)
+                                if (x[j].nume_atr == "Tip echip." && index2 == index) {
+                                    newSpan.id = '@ViewBag.id' + "_" + x[j].id_atr;
+                                    newSpan.name = '@ViewBag.id' + "_" + x[j].id_atr;
+
+                                    selected_tip = j;
+                                    newSpan.className = "editors";
+                                    index2++;
+                                }
+                                else if (x[j].nume_atr == "Tip echip.") {
+                                    index2++;
+                                }
+                                newSpan.className = "editors";
+                                var option = document.createElement("option");
+                                option.value = '';
+                                option.text = '';
+                                newSpan.appendChild(option);
+
+                                var option = document.createElement("option");
+                                option.value = 'MSED';
+                                option.text = 'MSED';
+                                newSpan.appendChild(option);
+                                var option = document.createElement("option");
+                                option.value = 'MC';
+                                option.text = 'MC';
+                                newSpan.appendChild(option);
+                                var option = document.createElement("option");
+                                option.value = 'Modem HDSL';
+                                option.text = 'Modem HDSL';
+                                newSpan.appendChild(option);
+                                var option = document.createElement("option");
+                                option.value = 'Concentrator';
+                                option.text = 'Concentrator';
+                                newSpan.appendChild(option);
+                                var option = document.createElement("option");
+                                option.value = 'Endpoint';
+                                option.text = 'Endpoint';
+                                newSpan.appendChild(option);
+                                var option = document.createElement("option");
+                                option.value = 'Modem HDSL public';
+                                option.text = 'Modem HDSL public';
+                                newSpan.appendChild(option);
+                                var option = document.createElement("option");
+                                option.value = 'Modem HDSL STS';
+                                option.text = 'Modem HDSL STS';
+                                newSpan.appendChild(option);
+                                cell1.appendChild(newSpan);
+                                newSpan.value = x[selected_tip].val_atr;
+
                         }
                     }
                     else
@@ -231,6 +310,7 @@
                         newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "1";
                         newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "1";
                         newSpan.className = "editors";
+                        newSpan.setAttribute("validare","true");
                         newSpan.value = x[i].val_atr.split(',')[0];
                         cell1.appendChild(newSpan);
 
@@ -247,6 +327,7 @@
                         newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "2";
                         newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "2";
                         newSpan.className = "editors";
+                        newSpan.setAttribute("validare", "true");
                         newSpan.value = x[i].val_atr.split(',')[1];
 
                         cell1.appendChild(newSpan);
@@ -1094,6 +1175,7 @@
                                        newSpan.id = 'ab_analogici_dela';
                                        newSpan.name = 'ab_analogici_dela';
                                        newSpan.className = "editors";
+                                       newSpan.setAttribute("validare", "true");
                                        cell1.appendChild(newSpan);
                                        newSpan = document.createElement('input');
                                        newSpan.type = "hidden";
@@ -1106,6 +1188,7 @@
                                        newSpan.type = "text";
                                        newSpan.id = 'ab_analogici_panala';
                                        newSpan.name = 'ab_analogici_panala';
+                                       newSpan.setAttribute("validare", "true");
                                        newSpan.className = "editors";
                                        cell1.appendChild(newSpan);
                                        newSpan = document.createElement('input');
@@ -1128,6 +1211,7 @@
                                        newSpan.id = 'ab_digitali_dela';
                                        newSpan.name = 'ab_digitali_dela';
                                        newSpan.className = "editors";
+                                       newSpan.setAttribute("validare", "true");
                                        cell1.appendChild(newSpan);
                                        newSpan = document.createElement('input');
                                        newSpan.type = "hidden";
@@ -1140,6 +1224,7 @@
                                        newSpan.type = "text";
                                        newSpan.id = 'ab_digitali_panala';
                                        newSpan.name = 'ab_digitali_panala';
+                                       newSpan.setAttribute("validare", "true");
                                        newSpan.className = "editors";
                                        cell1.appendChild(newSpan);
                                        newSpan = document.createElement('input');
@@ -1162,6 +1247,7 @@
                                        newSpan.type = "text";
                                        newSpan.id = 'ab_IP_dela';
                                        newSpan.name = 'ab_IP_dela';
+                                       newSpan.setAttribute("validare", "true");
                                        newSpan.className = "editors";
                                        cell1.appendChild(newSpan);
                                        newSpan = document.createElement('input');
@@ -1175,6 +1261,7 @@
                                        newSpan.type = "text";
                                        newSpan.id = 'ab_IP_panala';
                                        newSpan.name = 'ab_IP_panala';
+                                       newSpan.setAttribute("validare", "true");
                                        newSpan.className = "editors";
                                        cell1.appendChild(newSpan);
                                        newSpan = document.createElement('input');
@@ -1196,6 +1283,7 @@
                                        newSpan.type = "text";
                                        newSpan.id = 'ab_DECT_dela';
                                        newSpan.name = 'ab_DECT_dela';
+                                       newSpan.setAttribute("validare", "true");
                                        newSpan.className = "editors";
                                        cell1.appendChild(newSpan);
                                        newSpan = document.createElement('input');
@@ -1209,6 +1297,7 @@
                                        newSpan.type = "text";
                                        newSpan.id = 'ab_DECT_panala';
                                        newSpan.name = 'ab_DECT_panala';
+                                       newSpan.setAttribute("validare", "true");
                                        newSpan.className = "editors";
                                        cell1.appendChild(newSpan);
                                        newSpan = document.createElement('input');
@@ -1228,6 +1317,7 @@
                                        newSpan = document.createElement('input');
                                        newSpan.type = "text";
                                        newSpan.id = 'ab_total_dela';
+                                       newSpan.setAttribute("validare", "true");
                                        newSpan.name = 'ab_total_dela';
                                        newSpan.className = "editors";
                                        cell1.appendChild(newSpan);
@@ -1242,6 +1332,7 @@
                                        newSpan.type = "text";
                                        newSpan.id = 'ab_total_panala';
                                        newSpan.name = 'ab_total_panala';
+                                       newSpan.setAttribute("validare", "true");
                                        newSpan.className = "editors";
                                        cell1.appendChild(newSpan);
                                        newSpan = document.createElement('input');
@@ -1373,6 +1464,83 @@
                                        cell1.appendChild(newSpan);
 
                                        var cell1 = row.insertCell(3);
+                                       var newSpan = document.createElement('label');
+                                       newSpan.className = "labels";
+                                       newSpan.innerHTML = "Poz. echip.";
+                                       newSpan.setAttribute("style", "width:20%;");
+                                       cell1.appendChild(newSpan);
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "text";
+                                       newSpan.id = 'pozitie';
+                                       newSpan.name = 'pozitie';
+                                       newSpan.setAttribute("style", "width:50%;margin-left:2%;");
+                                       newSpan.className = "editors";
+                                       cell1.appendChild(newSpan);
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'pozitie:';
+                                       newSpan.name = 'pozitie:';
+                                       newSpan.value = 'S';
+                                       cell1.appendChild(newSpan);
+
+
+                                       var cell1 = row.insertCell(4);
+                                       var newSpan = document.createElement('label');
+                                       newSpan.className = "labels";
+                                       newSpan.innerHTML = "Tip echip.";
+                                       newSpan.setAttribute("style", "width:20%;");
+                                       cell1.appendChild(newSpan);
+                                       newSpan = document.createElement('select');
+                                       newSpan.id = 'tiptransport';
+                                       newSpan.name = 'tiptransport';
+                                       newSpan.setAttribute("style", "width:50%;margin-left:2%;");
+                                       newSpan.className = "editors";
+                                       var option = document.createElement("option");
+                                       option.value = '';
+                                       option.text = '';
+                                       newSpan.appendChild(option);
+
+                                       var option = document.createElement("option");
+                                       option.value = 'MSED';
+                                       option.text = 'MSED';
+                                       newSpan.appendChild(option);
+                                       var option = document.createElement("option");
+                                       option.value = 'MC';
+                                       option.text = 'MC';
+                                       newSpan.appendChild(option);
+                                       var option = document.createElement("option");
+                                       option.value = 'Modem HDSL';
+                                       option.text = 'Modem HDSL';
+                                       newSpan.appendChild(option);
+                                       var option = document.createElement("option");
+                                       option.value = 'Concentrator';
+                                       option.text = 'Concentrator';
+                                       newSpan.appendChild(option);
+                                       var option = document.createElement("option");
+                                       option.value = 'Endpoint';
+                                       option.text = 'Endpoint';
+                                       newSpan.appendChild(option);
+                                       var option = document.createElement("option");
+                                       option.value = 'Modem HDSL public';
+                                       option.text = 'Modem HDSL public';
+                                       newSpan.appendChild(option);
+                                       var option = document.createElement("option");
+                                       option.value = 'Modem HDSL STS';
+                                       option.text = 'Modem HDSL STS';
+                                       newSpan.appendChild(option);
+                                       cell1.appendChild(newSpan);
+
+
+                                       newSpan = document.createElement('input');
+                                       newSpan.type = "hidden";
+                                       newSpan.id = 'tiptransport:';
+                                       newSpan.name = 'tiptransport:';
+                                       newSpan.value = 'S';
+                                       cell1.appendChild(newSpan);
+
+                                       var row = table.insertRow(rowCount+12);
+                                       var cell1 = row.insertCell(0);
                                        cell1.innerHTML = "<input type='button' value='Adauga conexiune' id ='addcon' class='buton' onclick='addconexiune()' />";
 
             }
@@ -1483,6 +1651,82 @@
             newSpan.name = 'destinatienou'+rowCount+':';
             newSpan.value = 'S';
             cell1.appendChild(newSpan);
+
+            var cell1 = row.insertCell(3);
+            var newSpan = document.createElement('label');
+            newSpan.className = "labels";
+            newSpan.innerHTML = "Poz. echip.";
+            newSpan.setAttribute("style", "width:20%;");
+            cell1.appendChild(newSpan);
+            newSpan = document.createElement('input');
+            newSpan.type = "text";
+            newSpan.id = 'pozitienou' + rowCount;
+            newSpan.name = 'pozitienou' + rowCount;
+            newSpan.setAttribute("style", "width:50%;margin-left:2%;");
+            newSpan.className = "editors";
+            cell1.appendChild(newSpan);
+
+            newSpan = document.createElement('input');
+            newSpan.type = "hidden";
+            newSpan.id = 'pozitienou'+ rowCount+':';
+            newSpan.name = 'pozitienou' + rowCount +':';
+            newSpan.value = 'S';
+            cell1.appendChild(newSpan);
+
+
+            var cell1 = row.insertCell(4);
+            var newSpan = document.createElement('label');
+            newSpan.className = "labels";
+            newSpan.innerHTML = "Tip echip.";
+            newSpan.setAttribute("style", "width:20%;");
+            cell1.appendChild(newSpan);
+            newSpan = document.createElement('select');
+            newSpan.id = 'tiptransportnou' + rowCount;
+            newSpan.name = 'tiptransportnou' + rowCount;
+            newSpan.setAttribute("style", "width:50%;margin-left:2%;");
+            newSpan.className = "editors";
+            var option = document.createElement("option");
+            option.value = '';
+            option.text = '';
+            newSpan.appendChild(option);
+
+            var option = document.createElement("option");
+            option.value = 'MSED';
+            option.text = 'MSED';
+            newSpan.appendChild(option);
+            var option = document.createElement("option");
+            option.value = 'MC';
+            option.text = 'MC';
+            newSpan.appendChild(option);
+            var option = document.createElement("option");
+            option.value = 'Modem HDSL';
+            option.text = 'Modem HDSL';
+            newSpan.appendChild(option);
+            var option = document.createElement("option");
+            option.value = 'Concentrator';
+            option.text = 'Concentrator';
+            newSpan.appendChild(option);
+            var option = document.createElement("option");
+            option.value = 'Endpoint';
+            option.text = 'Endpoint';
+            newSpan.appendChild(option);
+            var option = document.createElement("option");
+            option.value = 'Modem HDSL public';
+            option.text = 'Modem HDSL public';
+            newSpan.appendChild(option);
+            var option = document.createElement("option");
+            option.value = 'Modem HDSL STS';
+            option.text = 'Modem HDSL STS';
+            newSpan.appendChild(option);
+            cell1.appendChild(newSpan);
+
+
+            newSpan = document.createElement('input');
+            newSpan.type = "hidden";
+            newSpan.id = 'tiptransportnou' + rowCount+':';
+            newSpan.name = 'tiptransportnou' + rowCount+ ':';
+            newSpan.value = 'S';
+            cell1.appendChild(newSpan);
         }
 
         $("#addcon").removeClass("editors");
@@ -1549,8 +1793,44 @@
     </div>
     
     <script>
+        $(function () {
+            $(document).on('submit', '#ajaxForm', asd);
+        });
+        function asd(e) {
+            var submit_val = true;
+                $("input[validare='true']").each(function () {
+                    id = this.id;
+                    if ($("#" + id).val().length > 5) {
+                        //alert(id);
+                        if ($("#" + id + "1").html() === undefined)
+                            $("#list-error").append("<li id='" + id + "1'>Dimensiunea maxima de 5 caractere</li>");
+                        else
+                            console.log("exista "+id);
+
+                        $("#list-error").css("display", "block");
+                        $("#" + id).css({ "background": "#FF8080" });
+                        submit_val = false;
+                    }
+                    else {
+                        $("#" + id + "1").remove();
+
+                        if ($("#list-error li").length == 0)
+                            $("#list-error").css("display", "none");
+
+                        $("#" + id).css({ "background": "" });
+                    }
+                });
+                if (submit_val == true)
+                    return true;
+                else {
+                    //alert("FALSE");
+                    return false;
+                }
+        }
+
         function submit_form() {
-            $('#ajaxForm').trigger('submit');
+            return false;
+                //$('#ajaxForm').trigger('submit');
         }
         function addatribut() {
             $("#atribut_nou_div").css({ 'display': 'block' });

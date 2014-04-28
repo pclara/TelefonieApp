@@ -21,14 +21,14 @@
         if ('@ViewBag.id' != -1) { //echip care exista
             var atr = '@Html.Raw(ViewBag.atribute)';
             var x = $.parseJSON(atr);
-
+            
             console.log("json deserializat lung:" + x.length);
             var table = document.getElementById("tabel_detalii");
 
             var rowCount = table.rows.length;
             var y = 0;
             if ('@ViewBag.numeechip' == 'PABX') {
-
+                $("#cartela_noua").css({ 'display': 'block' });
                 for (i = 0; i < x.length; i++)
                 {
                     if ((x[i].nume_atr == "LIM MAIN" || x[i].nume_atr == "LIM DISTANT") && y == 0) {
@@ -88,24 +88,41 @@
                             var cell1 = row.insertCell(2);
                             var newSpan = document.createElement('input');
                             newSpan.type = "text";
+                            var index = 0;
                             for (j = 0; j < x.length; j++)
-                                if (x[j].nume_atr == "Tip Conexiune") {
+                                if (x[j].nume_atr == "Numar ruta" && j<=i) {
+                                    index++;
+                                }
+
+                            var index1 = 1 ;
+                            for (j = 0; j < x.length; j++)
+                                if (x[j].nume_atr == "Tip Conexiune" && index1 == index) {
                                     newSpan.id = '@ViewBag.id' + "_" + x[j].id_atr;
                                     newSpan.name = '@ViewBag.id' + "_" + x[j].id_atr;
                                     newSpan.className = "editors";
                                     newSpan.value = x[j].val_atr;
+                                    index1++;
+                                }
+                                else if (x[j].nume_atr == "Tip Conexiune" ){
+                                    index1++;
                                 }
                             cell1.appendChild(newSpan);
                             
                             var cell1 = row.insertCell(3);
                             var newSpan = document.createElement('input');
                             newSpan.type = "text";
+
+                            var index2 = 1;
                             for (j = 0; j < x.length; j++)
-                                if (x[j].nume_atr == "Destinatie") {
+                                if (x[j].nume_atr == "Destinatie" && index2 == index) {
                                     newSpan.id = '@ViewBag.id' + "_" + x[j].id_atr;
                                     newSpan.name = '@ViewBag.id' + "_" + x[j].id_atr;
                                     newSpan.className = "editors";
                                     newSpan.value = x[j].val_atr;
+                                    index2++;
+                                }
+                                else if (x[j].nume_atr == "Destinatie"){
+                                    index2++;
                                 }
                             newSpan.setAttribute("readonly", "true");
                             newSpan.className = "editors";
@@ -125,7 +142,6 @@
                         cell1.appendChild(newSpan);
                         var cell1 = row.insertCell(1);
                         var newSpan = document.createElement('select');
-                        console.log(x[i]);
                         var idsel = '@ViewBag.id' + "_" + x[i].id_atr;
                            newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
                         newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
@@ -168,7 +184,6 @@
                            cell1.appendChild(newSpan);
                            var cell1 = row.insertCell(1);
                            var newSpan2 = document.createElement('select');
-                           console.log(x[i]);
                            var idsel1 = '@ViewBag.id' + "_" + x[i].id_atr;
                            newSpan2.id = '@ViewBag.id' + "_" + x[i].id_atr;
                            newSpan2.name = '@ViewBag.id' + "_" + x[i].id_atr;
@@ -418,11 +433,12 @@
                 var row = table.insertRow(rowCount);
                 rowCount++;
                 var cell1 = row.insertCell(0);
-                cell1.innerHTML = "<input type='button' value='Adauga conexiune' class='button' onclick='addconexiune()' />";
+                cell1.innerHTML = "<input type='button' value='Adauga conexiune' id='addcon' class='buton' onclick='addconexiune()' />";
             }
             else
             if ('@ViewBag.numeechip' == 'MSED')
             {
+                $("#cartela_noua").css({ 'display': 'none' });
                 var table = document.getElementById("tabel_detalii");
 
                 var rowCount = table.rows.length;
@@ -544,7 +560,8 @@
             }
             else
             for (i = 0; i < x.length; i++) {
-                if ('@ViewBag.numeechip' == 'MC' || '@ViewBag.numeechip' == 'Routere' || '@ViewBag.numeechip' == 'Switch-uri' || '@ViewBag.numeechip' == 'Concentratoare') {
+                if ('@ViewBag.numeechip' == 'MC' || '@ViewBag.numeechip' == 'Router' || '@ViewBag.numeechip' == 'Switch' || '@ViewBag.numeechip' == 'Concentrator') {
+                    $("#cartela_noua").css({ 'display': 'none' });
                     if (x[i].nume_atr == "Port") {
                         var row = table.insertRow(rowCount);
                         rowCount++;
@@ -594,15 +611,20 @@
                 
             }
 
+            var row = table.insertRow(rowCount);
+            rowCount++;
+            var cell1 = row.insertCell(0);
             var newSpan = document.createElement('input');
             newSpan.type = "hidden";
             newSpan.id = 'siteID';
             newSpan.name = 'siteID';
             newSpan.value = '@ViewBag.siteID';
+            row.setAttribute("display","none");
                    cell1.appendChild(newSpan);
         }
         else {  //echip care nu exista
-            if ('@ViewBag.numeechip' == 'MC' || '@ViewBag.numeechip' == 'Routere' || '@ViewBag.numeechip' == 'Switch-uri' || '@ViewBag.numeechip' == 'Concentratoare') {
+            $("#cartela_noua").css({ 'display': 'none' });
+            if ('@ViewBag.numeechip' == 'MC' || '@ViewBag.numeechip' == 'Router' || '@ViewBag.numeechip' == 'Switch' || '@ViewBag.numeechip' == 'Concentrator') {
                 var table = document.getElementById("tabel_detalii");
 
                 var rowCount = table.rows.length;
@@ -674,7 +696,7 @@
 
 
 
-                if ('@ViewBag.numeechip' == 'Concentratoare') {
+                if ('@ViewBag.numeechip' == 'Concentrator') {
                     for (k = 1; k <= 10; k++) {
                         var row1 = table.insertRow(rowCount + k + 1);
 
@@ -1351,7 +1373,7 @@
                                        cell1.appendChild(newSpan);
 
                                        var cell1 = row.insertCell(3);
-                                       cell1.innerHTML = "<input type='button' value='Adauga conexiune' class='button' onclick='addconexiune()' />";
+                                       cell1.innerHTML = "<input type='button' value='Adauga conexiune' id ='addcon' class='buton' onclick='addconexiune()' />";
 
             }
             var tabel = document.getElementById('tabel_detalii');
@@ -1462,6 +1484,8 @@
             newSpan.value = 'S';
             cell1.appendChild(newSpan);
         }
+
+        $("#addcon").removeClass("editors");
     </script>
     <style>
         
@@ -1482,7 +1506,7 @@
             @*if ('@ViewBag.numeechip' == 'PABX' *@
 
         </script>
-        <input type="button" class="buton" id="cartela_noua" name="cartela_noua" value="Adauga cartela" />
+        <input type="button" class="buton" id="cartela_noua" name="cartela_noua" value="Adauga cartela" style="display:none"/>
 
         <!--input type="button" class="buton" id="atr_nou" name="atr_nou" value="Adauga atribut" onclick="addatribut()"/>
         <br />
@@ -1550,10 +1574,10 @@
         $("#createechip").removeClass("editors");
         $("#create").removeClass("editors");
         $("#stergeechipament").removeClass("editors");
+        $("#addcon").removeClass("editors");
 
         var getDetailsFunction = function () {
             return function (data, textStatus, jqXHR) {
-                console.log("data = " + data);
                 $("#details").html(data);
             };
         }
@@ -1586,9 +1610,16 @@
                         var id = this.id;
                         $.post('@Url.Content("~/Echipament/StergeEchipament")', "id=" + id, function (response) {
                             var href = document.URL;
-                            var idechipament = href.substr(href.lastIndexOf("/") + 1, href.lastIndexOf("?") - href.lastIndexOf("/") - 1);
-                            window.location = href.replace(idechipament, response);
+                            //var idechipament = href.substr(href.lastIndexOf("/") + 1, href.lastIndexOf("?") - href.lastIndexOf("/") - 1);
+                            var href1 = href.substr(0, href.lastIndexOf("Index") + 5);
 
+                            if (href1.length <= 4)
+                                href1 = href.substr(0, href.lastIndexOf("Judete") + 6);
+
+                            //window.location = href.replace(idechipament, response);
+                            var stringuri = response.split(',');
+                            var href2 = href1 + "?name=" + stringuri[0] + "&&id=" + stringuri[1];
+                            window.location = href2;
                         }, 'html');
                     });
 

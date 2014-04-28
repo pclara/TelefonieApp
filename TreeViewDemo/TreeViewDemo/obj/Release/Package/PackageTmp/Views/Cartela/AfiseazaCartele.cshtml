@@ -1,0 +1,254 @@
+﻿@{
+    ViewBag.Title = "AfiseazaCartele";
+}
+
+
+@using (Ajax.BeginForm("Salvare", "Cartela", new AjaxOptions() { HttpMethod = "POST" }, new { id = "ajaxForm1" }))
+  
+{
+    <br />
+   <input type="submit" value="Salveaza" class="buton" id="submit_1" />
+   <input type="button" value="Sterge echipament" class="buton" id="stergeechipament" />
+    <input type="hidden" value="@ViewBag.numeechip" id="denumire" name="denumire"/>
+    <table id="tabel_detalii">
+        <tr><td>
+            <input type="hidden" value="@ViewBag.id" id="id" name="id" />
+            <input type="hidden" id="randuri" name="randuri" />
+            </td>
+        </tr>
+    </table>
+    
+    <script>
+        var cartele = '@Html.Raw(ViewBag.cartele)';
+        var x = $.parseJSON(cartele);
+        console.log(x);
+
+        var table = document.getElementById("tabel_detalii");
+
+        var rowCount = table.rows.length;
+        var row = table.insertRow(rowCount);
+        rowCount++;
+        var cell1 = row.insertCell(0);
+        cell1.innerHTML = "";
+        var cell1 = row.insertCell(1);
+        cell1.innerHTML = "";
+        var cell1 = row.insertCell(2);
+        cell1.innerHTML = "<input type='button' value='Adauga cartela' id='addcart' class='buton' onclick='adaugacartela()' />";
+
+
+        for (i = 0; i < x.length; i++) {
+            
+            $.ajax({
+                url: '@Url.Content("~/Cartela/GetTipCartele")',
+                data:{i:i},
+                type: 'POST',
+                success: function (response) {
+                    var row = table.insertRow(rowCount);
+                    rowCount++;
+
+                    var cell1 = row.insertCell(0);
+                    var newSpan = document.createElement('label');
+                    newSpan.innerHTML = "Tip";
+                    newSpan.className = "labels";
+                    cell1.appendChild(newSpan);
+
+                    var tipuri = response.split(',');
+                    l = tipuri[0];
+
+                    var newSpan = document.createElement('select');
+                    newSpan.id = "tip_" + rowCount;
+                    newSpan.name = "tip_" + rowCount;
+                    newSpan.className = "editors";
+                    newSpan.setAttribute("style", "font-size:14px");
+                    cell1.appendChild(newSpan);
+
+
+                    var option = document.createElement("option");
+                    option.value = '';
+                    option.text = '';
+                    newSpan.appendChild(option);
+                    for (var k = 1; k < tipuri.length; k++) {
+                        var option = document.createElement("option");
+                        option.value = tipuri[k];
+                        option.text = tipuri[k];
+                        newSpan.appendChild(option);
+                    }
+                    $("#tip_" + rowCount).val(x[l].tip);
+                    
+                    var tipcartelaid = "tip_" + rowCount;
+
+                    $("#" + tipcartelaid).change(function (event) {
+                        switch ($("#" + tipcartelaid + " option:selected").val()) {
+                            case 'ESU': case 'ASU': case 'NIU': case 'AAU2': case 'IPLU': case 'Management alimentare':
+                                {
+                                    $("#" + rowCount + "_2").css({ 'visibility': 'visible' });
+                                    $("#" + rowCount + "_3").css({ 'visibility': 'visible' });
+                                    $("#" + rowCount + "_1").css({ 'visibility': 'visible' });
+                                    break;
+                                }
+                            default: {
+                                $("#" + rowCount + "_2").css({ 'visibility': 'hidden' });
+                                $("#" + rowCount + "_3").css({ 'visibility': 'hidden' });
+                                $("#" + rowCount + "_1").css({ 'visibility': 'hidden' });
+                                break;
+                            }
+                        }
+                    });
+                    var j = 0;
+
+                    for (j = 0; j < x[l].atribute.length; j++) {
+                        
+                        var cell1 = row.insertCell(j + 1);
+                        cell1.id = rowCount + "_" + j;
+                        var newSpan = document.createElement('label');
+                        newSpan.innerHTML = x[l].atribute[j].nume_atr;
+                        newSpan.className = "labels";
+                        
+                        cell1.appendChild(newSpan);
+
+                        var newSpan = document.createElement('input');
+                        newSpan.type = "text";
+                        newSpan.id = x[l].id + "_" + x[l].atribute[j].id_atr;
+                        newSpan.name = x[l].id + "_" + x[l].atribute[j].id_atr;
+                        newSpan.className = "editors";
+                        newSpan.value = x[l].atribute[j].val_atr;
+                        cell1.appendChild(newSpan);
+
+                        //$("#" + x[l].id + "_" + x[l].atribute[j].id_atr).val(x[l].atribute[j].val_atr);
+
+                        if (x[l].tip != "ESU" && x[l].tip != "ASU" && x[l].tip != "NIU" && x[l].tip != "AA2" && x[l].tip != "IPLU" && x[l].tip != "Management alimentare" &&
+                            (x[l].atribute[j].nume_atr == 'IP' || x[l].atribute[j].nume_atr == 'MASK' || x[l].atribute[j].nume_atr == 'GATEWAY')
+                            ) {
+                            cell1.setAttribute("style", "visibility:hidden");
+                        }
+                    }
+
+                    var cell1 = row.insertCell(j + 1);
+                    cell1.innerHTML += "<input type='hidden' id='id_" + rowCount + "' name='id_" + rowCount + "' value='" + x[l].id + "' />";
+                    cell1.setAttribute("style","display:none");
+                }
+            });
+
+           
+
+
+                
+            }
+        
+        function adaugacartela() {
+
+            var newSpan = document.createElement('select');
+            $.ajax({
+                url: '@Url.Content("~/Cartela/GetTipCartele")',
+                type: 'POST',
+                success: function (response) {
+                    var table = document.getElementById("tabel_detalii");
+
+                    var rowCount = table.rows.length;
+                    var row = table.insertRow(rowCount);
+                    rowCount++;
+                    var cell1 = row.insertCell(0);
+                    var newSpan = document.createElement('label');
+                    newSpan.innerHTML = "Tip";
+                    newSpan.className = "labels";
+                    cell1.appendChild(newSpan);
+
+
+                    var newSpan = document.createElement('select');
+                    newSpan.id = 'tip_cartela_'+rowCount;
+                    newSpan.name = 'tip_cartela_'+rowCount;
+                    newSpan.className = "editors";
+                    newSpan.setAttribute("style","font-size:14px");
+                    cell1.appendChild(newSpan);
+                    var tipuri = response.split(',');
+                    var option = document.createElement("option");
+                    option.value = '';
+                    option.text = '';
+                    newSpan.appendChild(option);
+                    for (var i = 0; i < tipuri.length; i++) {
+                        var option = document.createElement("option");
+                        option.value = tipuri[i];
+                        option.text = tipuri[i];
+                        newSpan.appendChild(option);
+                    }
+                    var tipcartelaid = 'tip_cartela_' + rowCount;
+                    var rowinid = rowCount;
+
+                    $("#" + tipcartelaid).change(function (event) {
+                        switch ($("#tip_cartela_"+rowinid+" option:selected").val()) {
+                            case 'ESU': case 'ASU': case 'NIU': case 'AAU2': case 'IPLU': case 'Management alimentare':
+                                {
+                                    $("#ip" + rowinid).css({ 'visibility': 'visible' });
+                                    $("#mask" + rowinid).css({ 'visibility': 'visible' });
+                                    $("#gateway" + rowinid).css({ 'visibility': 'visible' });
+                                    break;
+                                }
+                            default: {
+                                $("#ip" + rowinid).css({ 'visibility': 'hidden' });
+                                $("#mask" + rowinid).css({ 'visibility': 'hidden' });
+                                $("#gateway" + rowinid).css({ 'visibility': 'hidden' });
+                                break;
+                            }
+                        }
+                    });
+
+
+                    var cell1 = row.insertCell(1);
+                    var newSpan = document.createElement('label');
+                    newSpan.innerHTML = "BPOS";
+                    newSpan.className = "labels";
+                    cell1.appendChild(newSpan);
+
+                    cell1.innerHTML += "<input type=\"text\" id=\"bpos_" + rowCount + "\" name=\"bpos_" + rowCount + "\" class=\"editors\" />";
+                    
+                    
+
+                    var cell1 = row.insertCell(2);
+                    cell1.id = "ip" + rowCount;
+                    var newSpan = document.createElement('label');
+                    newSpan.innerHTML = "IP";
+                    newSpan.className = "labels";
+                    cell1.appendChild(newSpan);
+
+                    cell1.innerHTML += "<input type=\"text\" id=\"ip_" + rowCount + "\" name=\"ip_" + rowCount + "\" class=\"editors\" />";
+
+
+                    var cell1 = row.insertCell(3);
+                    cell1.id = "mask" + rowCount;
+                    var newSpan = document.createElement('label');
+                    newSpan.innerHTML = "MASK";
+                    newSpan.className = "labels";
+                    cell1.appendChild(newSpan);
+
+                    cell1.innerHTML += "<input type=\"text\" id=\"mask_" + rowCount + "\" name=\"mask_" + rowCount + "\" class=\"editors\" />";
+
+
+                    var cell1 = row.insertCell(4);
+                    cell1.id = "gateway"+rowCount;
+                    var newSpan = document.createElement('label');
+                    newSpan.innerHTML = "GATEWAY";
+                    newSpan.className = "labels";
+                    cell1.appendChild(newSpan);
+
+                    cell1.innerHTML += "<input type=\"text\" id=\"gateway_" + rowCount + "\" name=\"gateway_" + rowCount + "\" class=\"editors\" />";
+                    cell1.innerHTML += "<input type='hidden' id='id_" + rowCount + "' name='id_" + rowCount + "' value='-1' />";
+                    
+                }
+            });
+
+           
+
+
+            
+        }
+
+        $("#submit_1").click(function()
+        {
+            var table = document.getElementById("tabel_detalii");
+            var rowCount = table.rows.length;
+            $("#randuri").val(rowCount);
+        });
+    </script>
+    
+    
+}
