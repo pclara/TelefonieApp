@@ -152,6 +152,7 @@ namespace TreeViewDemo.Controllers
                         case "IPLU":
                         case "NIU":
                         case "AAU2":
+                        case "ELU32":
                         case "Management alimentare":
                             {
                                 atribut a = new atribut();
@@ -248,6 +249,21 @@ namespace TreeViewDemo.Controllers
                                 db.SaveChanges();
 
                                 a = new atribut();
+                                a.val_string = cartelamodel["remote_" + i.ToString()];
+                                a.val_csv = null;
+                                a.val_int = null;
+                                a.val_nr = null;
+                                a.tipID = (from ta in db.tip_atribut where ta.denumire == "Remote" select ta.id).FirstOrDefault();
+                                db.AddToatributs(a);
+
+                                ea = new cartela_atribute();
+                                ea.cartelaID = s.id;
+                                ea.atributID = a.id;
+                                db.AddTocartela_atribute(ea);
+
+                                db.SaveChanges();
+
+                                a = new atribut();
                                 a.val_string = "/" + cartelamodel["vernou"+i.ToString()];
                                 a.val_csv = null;
                                 a.val_int = null;
@@ -292,7 +308,7 @@ namespace TreeViewDemo.Controllers
 
                         foreach (var key in cartelamodel.Keys)
                         {
-                            if (!key.ToString().StartsWith("ver") && !key.ToString().StartsWith("versiune") && !key.ToString().StartsWith("1") && !key.ToString().StartsWith("switch_") && !key.ToString().StartsWith("gateway_") && !key.ToString().StartsWith("mask_") && !key.ToString().StartsWith("ip_") && !key.ToString().StartsWith("bpos_") && !key.ToString().StartsWith("id_") && !key.ToString().StartsWith("tip_") && key.ToString() != "val_nou" && key.ToString() != "randuri" && key.ToString() != "tip_nou" && key.ToString() != "tipcartela" && key.ToString() != "denumire" && key.ToString() != "parentE" && key.ToString() != "ip" && key.ToString() != "id" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "bpos" && !key.ToString().EndsWith(":"))
+                            if (!key.ToString().StartsWith("remote") && !key.ToString().StartsWith("ver") && !key.ToString().StartsWith("versiune") && !key.ToString().StartsWith("1") && !key.ToString().StartsWith("switch_") && !key.ToString().StartsWith("gateway_") && !key.ToString().StartsWith("mask_") && !key.ToString().StartsWith("ip_") && !key.ToString().StartsWith("bpos_") && !key.ToString().StartsWith("id_") && !key.ToString().StartsWith("tip_") && key.ToString() != "val_nou" && key.ToString() != "randuri" && key.ToString() != "tip_nou" && key.ToString() != "tipcartela" && key.ToString() != "denumire" && key.ToString() != "parentE" && key.ToString() != "ip" && key.ToString() != "id" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "bpos" && !key.ToString().EndsWith(":"))
                             {
 
                                 string idechip_idatr = key.ToString();
@@ -446,6 +462,7 @@ namespace TreeViewDemo.Controllers
                         case "IPLU":
                         case "NIU":
                         case "AAU2":
+                        case "ELU32":
                         case "Management alimentare":
                             {
                                 atribut a = new atribut();
