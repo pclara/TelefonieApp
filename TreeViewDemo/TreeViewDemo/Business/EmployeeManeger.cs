@@ -109,7 +109,7 @@ namespace TreeViewDemo.Business
                                                                 on e2.tipID equals te1.id
                                                                 where te1.id == idroot
                                                                 && e2.siteID == idparam && te1.denumire == "MSED"
-                                                                where e2.id < e1.id
+                                                                where e2.id <= e1.id
                                                                 select e2.id).Count()
 
                                                   let nrmc = (from e2 in _orgDb.echipaments
@@ -117,29 +117,37 @@ namespace TreeViewDemo.Business
                                                                 on e2.tipID equals te1.id
                                                                 where te1.id == idroot
                                                                 && e2.siteID == idparam && te1.denumire == "MC"
-                                                                where e2.id < e1.id
+                                                                where e2.id <= e1.id
                                                                 select e2.id).Count()
                                                   let nrrouter = (from e2 in _orgDb.echipaments
                                                               join te1 in _orgDb.tip_echipament
                                                               on e2.tipID equals te1.id
                                                               where te1.id == idroot
                                                               && e2.siteID == idparam && te1.denumire == "Router"
-                                                              where e2.id < e1.id
+                                                              where e2.id <= e1.id
                                                               select e2.id).Count()
                                                   let nrswitch = (from e2 in _orgDb.echipaments
                                                                   join te1 in _orgDb.tip_echipament
                                                                   on e2.tipID equals te1.id
                                                                   where te1.id == idroot
                                                                   && e2.siteID == idparam && te1.denumire == "Switch"
-                                                                  where e2.id < e1.id
+                                                                  where e2.id <= e1.id
                                                                   select e2.id).Count()
                                                   let nrcon = (from e2 in _orgDb.echipaments
                                                                   join te1 in _orgDb.tip_echipament
                                                                   on e2.tipID equals te1.id
                                                                   where te1.id == idroot
                                                                   && e2.siteID == idparam && te1.denumire == "Concentrator"
-                                                                  where e2.id < e1.id
+                                                                  where e2.id <= e1.id
                                                                   select e2.id).Count()
+
+                                                  let nrend = (from e2 in _orgDb.echipaments
+                                                                join te1 in _orgDb.tip_echipament
+                                                                on e2.tipID equals te1.id
+                                                                where te1.id == idroot
+                                                                && e2.siteID == idparam && te1.denumire == "Endpoint"
+                                                                where e2.id <= e1.id
+                                                                select e2.id).Count()
     
     
                                                   let titlu = te.denumire == "PABX" ?
@@ -154,7 +162,8 @@ namespace TreeViewDemo.Business
                                                          (te.denumire == "MC" ? "MC" + SqlFunctions.StringConvert((double)nrmc).Trim() :
                                                          (te.denumire == "Router" ? "Router" + SqlFunctions.StringConvert((double)nrrouter).Trim() : (
                                                          te.denumire == "Switch" ? "Switch" + SqlFunctions.StringConvert((double)nrswitch).Trim() : (
-                                                         te.denumire == "Concentrator" ? "Concentrator" + SqlFunctions.StringConvert((double)nrcon).Trim() : null)
+                                                         te.denumire == "Concentrator" ? "Concentrator" + SqlFunctions.StringConvert((double)nrcon).Trim() :
+                                                         (te.denumire == "Endpoint" ? "Endpoint" + SqlFunctions.StringConvert((double)nrend).Trim() : null))
                                                          )) 
                                                          )
                                                          )
