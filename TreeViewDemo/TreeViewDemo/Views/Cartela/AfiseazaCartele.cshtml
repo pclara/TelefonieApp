@@ -87,12 +87,22 @@
                                     $("#" + rowCount + "_2").css({ 'visibility': 'visible' });
                                     $("#" + rowCount + "_3").css({ 'visibility': 'visible' });
                                     $("#" + rowCount + "_1").css({ 'visibility': 'visible' });
+                                    $("#" + rowCount + "_5").css({ 'visibility': 'hidden' });
+                                    break;
+                                }
+                            case 'TLU76':
+                                {
+                                    $("#" + rowCount + "_2").css({ 'visibility': 'hidden' });
+                                    $("#" + rowCount + "_3").css({ 'visibility': 'hidden' });
+                                    $("#" + rowCount + "_1").css({ 'visibility': 'hidden' });
+                                    $("#" + rowCount + "_5").css({ 'visibility': 'visible' });
                                     break;
                                 }
                             default: {
                                 $("#" + rowCount + "_2").css({ 'visibility': 'hidden' });
                                 $("#" + rowCount + "_3").css({ 'visibility': 'hidden' });
                                 $("#" + rowCount + "_1").css({ 'visibility': 'hidden' });
+                                $("#" + rowCount + "_5").css({ 'visibility': 'hidden' });
                                 break;
                             }
                         }
@@ -109,17 +119,25 @@
                         
                         cell1.appendChild(newSpan);
 
-                        var newSpan = document.createElement('input');
-                        newSpan.type = "text";
-                        newSpan.id = x[l].id + "_" + x[l].atribute[j].id_atr;
-                        newSpan.name = x[l].id + "_" + x[l].atribute[j].id_atr;
-                        newSpan.className = "editors";
-                        newSpan.value = x[l].atribute[j].val_atr;
-                        if (x[l].atribute[j].nume_atr == "Port switch")
-                            newSpan.setAttribute("style", "width:70%");
 
-                        cell1.appendChild(newSpan);
+                        if (x[l].atribute[j].nume_atr == "VersiuneC") {
+                           if(x[l].atribute[j].val_atr=="/1")
+                               cell1.innerHTML = "<label class='labels'>Versiune</label><input type='radio' id='1' name='ver" + x[l].id + "' checked = 'checked' value='1' onclick='changever(\'1\')' />/1<input type='radio'  id='11' onclick=changever(\'11\') name='ver" + x[l].id + "' value='11' style='margin-left:10px;'/>/11<input type='hidden' id='versiune' name='versiune" + x[l].id + "' value='" + x[l].id + "_" + x[l].atribute[j].id_atr + "'/>";
+                           else if (x[l].atribute[j].val_atr == "/11")
+                               cell1.innerHTML = "<label class='labels'>Versiune</label><input type='radio' id='1' name='ver" + x[l].id + "' value='1' onclick='changever(\'1\')' />/1<input type='radio'  id='11' checked = 'checked' onclick=changever(\'11\') name='ver" + x[l].id + "' value='11' style='margin-left:10px;'/>/11<input type='hidden' id='versiune' name='versiune" + x[l].id + "'  value='" + x[l].id + "_" + x[l].atribute[j].id_atr + "' />";
+                        }
+                        else {
+                            var newSpan = document.createElement('input');
+                            newSpan.type = "text";
+                            newSpan.id = x[l].id + "_" + x[l].atribute[j].id_atr;
+                            newSpan.name = x[l].id + "_" + x[l].atribute[j].id_atr;
+                            newSpan.className = "editors";
+                            newSpan.value = x[l].atribute[j].val_atr;
+                            if (x[l].atribute[j].nume_atr == "Port switch")
+                                newSpan.setAttribute("style", "width:70%");
 
+                            cell1.appendChild(newSpan);
+                        }
                         //$("#" + x[l].id + "_" + x[l].atribute[j].id_atr).val(x[l].atribute[j].val_atr);
 
                         if (x[l].tip != "ESU" && x[l].tip != "ASU" && x[l].tip != "NIU" && x[l].tip != "AAU2" && x[l].tip != "IPLU" && x[l].tip != "Management alimentare" &&
@@ -186,9 +204,26 @@
                             case 'ESU': case 'ASU': case 'NIU': case 'AAU2': case 'IPLU': case 'Management alimentare':
                                 {
                                     $("#ip" + rowinid).css({ 'visibility': 'visible' });
+                                    $("#ip" + rowinid).html("<label class='labels'>IP</label><input type=\"text\" id=\"ip_" + rowCount + "\" name=\"ip_" + rowCount + "\" class=\"editors\" />");
                                     $("#mask" + rowinid).css({ 'visibility': 'visible' });
                                     $("#gateway" + rowinid).css({ 'visibility': 'visible' });
                                     $("#switch" + rowinid).css({ 'visibility': 'visible' });
+                                    /*$("#versiune" + (rowinid + 1).toString() + "0").css({ 'visibility': 'hidden' });
+                                    $("#versiune" + (rowinid + 1).toString() + "1").css({ 'visibility': 'hidden' });*/
+
+                                    break;
+                                }
+                            case 'TLU76':
+                                {
+                                    //$("#ip" + rowinid).css({ 'visibility': 'hidden' });
+                                    $("#ip" + rowinid).html("<label class='labels'>Versiune</label><input type='radio' id='1' name='vernou" + rowCount + "' value='1' onclick='changever(\'1\')' />/1<input type='radio'  id='11' onclick=changever(\'11\') name='vernou" + rowCount + "' value='11' style='margin-left:10px;'/>/11<input type='hidden' id='versiunenou" + rowCount + "' name='versiunenou" + rowCount + "' />");
+                                    $("#ip" + rowinid).css({ 'visibility': 'visible' });
+                                    $("#mask" + rowinid).css({ 'visibility': 'hidden' });
+                                    $("#gateway" + rowinid).css({ 'visibility': 'hidden' });
+                                    $("#switch" + rowinid).css({ 'visibility': 'hidden' });
+                                    /*$("#versiune" + (rowinid + 1).toString() + "0").css({ 'display': 'block' });
+                                    $("#versiune" + (rowinid + 1).toString() + "1").css({ 'display': 'block' });
+                                    alert(rowinid + "0");*/
                                     break;
                                 }
                             default: {
@@ -196,6 +231,9 @@
                                 $("#mask" + rowinid).css({ 'visibility': 'hidden' });
                                 $("#gateway" + rowinid).css({ 'visibility': 'hidden' });
                                 $("#switch" + rowinid).css({ 'visibility': 'hidden' });
+                                /*$("#versiune" + (rowinid +1).toString()+ "0").css({ 'visibility': 'hidden' });
+                                $("#versiune" + (rowinid+1).toString() + "1").css({ 'visibility': 'hidden' });
+                                */
                                 break;
                             }
                         }
@@ -203,6 +241,7 @@
 
 
                     var cell1 = row.insertCell(1);
+                    cell1.id = "bpos" + rowCount;
                     var newSpan = document.createElement('label');
                     newSpan.innerHTML = "BPOS";
                     newSpan.className = "labels";
@@ -251,6 +290,25 @@
 
                     cell1.innerHTML += "<input type=\"text\" id=\"switch_" + rowCount + "\" name=\"switch_" + rowCount + "\" style =  \"width:70%\" class=\"editors\" />";
                     
+                    /*
+                    var row = table.insertRow(rowCount);
+                    rowCount++;
+                    var cell1 = row.insertCell(0);
+                    cell1.id = "versiune" + rowCount + "0";
+                    var newSpan = document.createElement('label');
+                    newSpan.innerHTML = "Versiune";
+                    newSpan.className = "labels";
+                    cell1.setAttribute("style", " display:none");
+                    cell1.appendChild(newSpan);
+                    var cell1 = row.insertCell(1);
+                    cell1.setAttribute("style", " display:none");
+                    cell1.id = "versiune" + rowCount + "1";
+                    cell1.innerHTML = "<input type='radio' id='1' name='ver' value='1' onclick='changever(\'1\')' />/1<input type='radio'  id='11' onclick=changever(\'11\') name='ver' value='11' style='margin-left:10px;'/>/11<input type='hidden' id='versiune' name='versiune' />";
+
+                    function changever(a) {
+                        $("#versiune").val(a);
+                    }
+                    */
                 }
             });
 

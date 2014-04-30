@@ -230,6 +230,39 @@ namespace TreeViewDemo.Controllers
                                 db.SaveChanges();
                                 break;
                             }
+                        case "TLU76":
+                            {
+                                atribut a = new atribut();
+                                a.val_string = cartelamodel["bpos_" + i.ToString()];
+                                a.val_csv = null;
+                                a.val_int = null;
+                                a.val_nr = null;
+                                a.tipID = (from ta in db.tip_atribut where ta.denumire == "BPOS" select ta.id).FirstOrDefault();
+                                db.AddToatributs(a);
+
+                                cartela_atribute ea = new cartela_atribute();
+                                ea.cartelaID = s.id;
+                                ea.atributID = a.id;
+                                db.AddTocartela_atribute(ea);
+
+                                db.SaveChanges();
+
+                                a = new atribut();
+                                a.val_string = "/" + cartelamodel["vernou"+i.ToString()];
+                                a.val_csv = null;
+                                a.val_int = null;
+                                a.val_nr = null;
+                                a.tipID = (from ta in db.tip_atribut where ta.denumire == "VersiuneC" select ta.id).FirstOrDefault();
+                                db.AddToatributs(a);
+
+                                ea = new cartela_atribute();
+                                ea.cartelaID = s.id;
+                                ea.atributID = a.id;
+                                db.AddTocartela_atribute(ea);
+
+                                db.SaveChanges();
+                                break;
+                            }
                         default:
                             {
                                 atribut a = new atribut();
@@ -259,7 +292,7 @@ namespace TreeViewDemo.Controllers
 
                         foreach (var key in cartelamodel.Keys)
                         {
-                            if (!key.ToString().StartsWith("switch_") && !key.ToString().StartsWith("gateway_") && !key.ToString().StartsWith("mask_") && !key.ToString().StartsWith("ip_") && !key.ToString().StartsWith("bpos_") && !key.ToString().StartsWith("id_") && !key.ToString().StartsWith("tip_") && key.ToString() != "val_nou" && key.ToString() != "randuri" && key.ToString() != "tip_nou" && key.ToString() != "tipcartela" && key.ToString() != "denumire" && key.ToString() != "parentE" && key.ToString() != "ip" && key.ToString() != "id" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "bpos" && !key.ToString().EndsWith(":"))
+                            if (!key.ToString().StartsWith("ver") && !key.ToString().StartsWith("versiune") && !key.ToString().StartsWith("1") && !key.ToString().StartsWith("switch_") && !key.ToString().StartsWith("gateway_") && !key.ToString().StartsWith("mask_") && !key.ToString().StartsWith("ip_") && !key.ToString().StartsWith("bpos_") && !key.ToString().StartsWith("id_") && !key.ToString().StartsWith("tip_") && key.ToString() != "val_nou" && key.ToString() != "randuri" && key.ToString() != "tip_nou" && key.ToString() != "tipcartela" && key.ToString() != "denumire" && key.ToString() != "parentE" && key.ToString() != "ip" && key.ToString() != "id" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "bpos" && !key.ToString().EndsWith(":"))
                             {
 
                                 string idechip_idatr = key.ToString();
@@ -272,7 +305,7 @@ namespace TreeViewDemo.Controllers
                                     //string valoare = cartelamodel[i];
                                     switch (den_tip_atr)
                                     {
-                                        case "S": a.val_string = cartelamodel[key.ToString()];
+                                        case "S": a.val_string =  cartelamodel[key.ToString()];
                                             break;
                                         case "I": a.val_int = int.Parse(cartelamodel[key.ToString()]);
                                             break;
@@ -286,7 +319,22 @@ namespace TreeViewDemo.Controllers
                                     db.SaveChanges();
                                 }
                             }
-                            else if (key.ToString().StartsWith("tip_") && !key.ToString().StartsWith("tip_cartela") )
+                            else if (key.ToString().StartsWith("ver") && !key.ToString().StartsWith("versiune") && !key.ToString().StartsWith("vernou"))
+                            {
+                                string nr = key.ToString().Substring(3);
+                                string idechip_idatr = cartelamodel["versiune"+nr].ToString();
+                                long idechip = long.Parse(idechip_idatr.Split('_')[0]);
+                                long idatr = long.Parse(idechip_idatr.Split('_')[1]);
+                                if (idechip == idcartela)
+                                {
+                                    atribut a = db.atributs.Where(o => o.id == idatr).FirstOrDefault();
+                                    string den_tip_atr = (from ta in db.tip_atribut where ta.id == a.tipID select ta.tip_valoare).FirstOrDefault();
+                                    string atr = (from ta in db.tip_atribut where ta.id == a.tipID select ta.denumire).FirstOrDefault();
+                                    a.val_string = atr == "VersiuneC" ? "/" + cartelamodel[key.ToString()] : cartelamodel[key.ToString()];
+                                    db.SaveChanges();
+                                }
+                            }
+                            else if (key.ToString().StartsWith("tip_") && !key.ToString().StartsWith("tip_cartela"))
                             {
                                 int tipnr = int.Parse(key.ToString().Split('_')[1]);
                                 if (int.Parse(cartelamodel["id_" + tipnr.ToString()].ToString()) == idcartela)
