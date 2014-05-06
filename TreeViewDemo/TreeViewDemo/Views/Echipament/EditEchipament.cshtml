@@ -696,6 +696,14 @@
 
                     }
 
+                    if ('@ViewBag.numeechip' == 'Concentrator' && i == 0) {
+                        var cell1 = row.insertCell(2);
+                        cell1.setAttribute("rowspan", "13");
+                        var newSpan = document.createElement('img');
+                        newSpan.src = '@Url.Content("~/Images/concentrator.png")';
+                        cell1.appendChild(newSpan);
+                    }
+
                     if ('@ViewBag.numeechip' == 'Switch' && i == x.length - 1) {
                         var table = document.getElementById("tabel_detalii");
                         var rowCount = table.rows.length;
@@ -762,6 +770,7 @@
                 var newSpan = document.createElement('label');
                 newSpan.className = "labels";
                 newSpan.innerHTML = "GATEWAY:";
+                newSpan.setAttribute("style", "margin-right:80%;");
                 cell3.appendChild(newSpan);
 
                 if ('@ViewBag.numeechip' == 'MC') {
@@ -808,6 +817,7 @@
                 newSpan.id = 'GATEWAY';
                 newSpan.name = 'GATEWAY';
                 newSpan.className = "editors";
+                newSpan.setAttribute("style", "float:left;");
                 cell3.appendChild(newSpan);
                 newSpan = document.createElement('input');
                 newSpan.type = "hidden";
@@ -879,6 +889,13 @@
 
                 if ('@ViewBag.numeechip' == 'Concentrator') {
                     for (k = 1; k <= 10; k++) {
+                        if (k == 2) {
+                            var cell1 = row1.insertCell(2);
+                            cell1.setAttribute("rowspan","10");
+                            var newSpan = document.createElement('img');
+                            newSpan.src = '@Url.Content("~/Images/concentrator.png")';
+                            cell1.appendChild(newSpan);
+                        }
                         var row1 = table.insertRow(rowCount + k + 1);
 
                         var cell1 = row1.insertCell(0);

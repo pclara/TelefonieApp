@@ -1,0 +1,338 @@
+﻿@{
+    ViewBag.Title = "Cautare";
+}
+
+
+@section featured {
+    <section class="featured">
+        <div class="content-wrapper">
+            <hgroup class="title">
+                <h1>@ViewBag.Title </h1>
+            </hgroup></div>
+    </section>
+}
+
+
+    <table>
+         <tr>
+            <td>
+<label>Judet:</label>
+                </td>
+            <td>
+<select id="judete" onchange="getsites()" name="judete">
+    <option value="-1"> ----- </option>
+</select>
+                </td>
+
+             <td id="ipcell" name="ipcell" style="display:none">
+                    <label>IP:</label>                 
+             </td>
+             <td id="ipcell1" name="ipcell1" style="display:none">
+                    <input type="text" id="ip" name="ip"/>
+             </td>
+
+             <td id="licell" name="licell" style="display:none">
+                    <label>Licenta:</label>                 
+             </td>
+             <td id="licell1" name="licell1" style="display:none">
+                    <input type="text" id="licenta" name="licenta"/>
+             </td>
+
+             <td id="tecell" name="tecell" style="display:none">
+                    <label>Tip echip. (conexiune):</label>                 
+             </td>
+             <td id="tecell1" name="tecell1" style="display:none">
+                  <select id="tipcon" name="tipcon">
+                        <option  value="-1"> ----- </option>
+                      <option value="MSED">MSED</option>
+                      <option value="MC">MC</option>
+                      <option value="Modem HDSL">Modem HDSL</option>
+                      <option value="Concentrator">Concentrator</option>
+                      <option value="Endpoint">Endpoint</option>
+                      <option value="Modem HDSL public">Modem HDSL public</option>
+                      <option value="Modem HDSL STS">Modem HDSL STS</option>
+                    </select>
+             </td>
+
+            </tr>
+
+        <tr>
+            <td>
+<label>Locatie:</label>
+                </td>
+            <td>
+<select id="locatii" name="locatii">
+    <option  value="-1"> ----- </option>
+</select>
+                </td>
+            
+        <td id="tipcell" name="tipcell" style="display:none">
+                    <label>Tip:</label>                 
+             </td>
+             <td id="tipcell1" name="tipcell1" style="display:none">
+                 <select id="tip" name="tip">
+                        <option  value="-1"> ----- </option>
+                     <option value="MX-ONE">MX-ONE</option>
+                     <option value="MD">MD</option>
+                     <option value="SIEMENS">SIEMENS</option>
+                     <option value="ALCATEL">ALCATEL</option>
+                     <option value="PANASONIC">PANASONIC</option>
+                    </select>
+             </td>
+
+            <td id="cocell" name="cocell" style="display:none">
+                    <label>Contract:</label>                 
+             </td>
+             <td id="cocell1" name="cocell1" style="display:none">
+                    <select id="contract" name="contract">
+                        <option  value="-1"> ----- </option>
+                        <option value="K1">K1</option>
+                        <option value="K2">K2</option>
+                        <option value="K3">K3</option>
+                        <option value="Etapa 4">Etapa 4</option>
+                        <option value="Schengen 3.1">Schengen 3.1</option>
+                        <option value="Altul">Altul</option>
+                    </select>
+             </td>
+        </tr>
+
+        
+        <tr>
+            <td>
+<label>Tip echipament:</label>
+                </td>
+            <td>
+<select id="tipechip" name="tipechip" onchange="showip()">
+    <option  value="-1"> ----- </option>
+</select>
+                </td>
+        <td id="vercell" name="vercell" style="display:none">
+                    <label>Versiune:</label>                 
+             </td>
+             <td id="vercell1" name="vercell1" style="display:none">
+
+                    <select id="versiune" name="versiune">
+                        <option  value="-1"> ----- </option>
+                    </select>
+
+             </td>
+
+            <td id="abcell" name="abcell" style="display:none">
+                    <label>Abonati liberi</label>                 
+             </td>
+             <td id="abcell1" name="abcell1" style="display:none">
+                    <input type="checkbox" id="abonati" name="abonati"/>
+             </td>
+            
+                </tr>
+        </table>
+    
+<input type="button" class="buton" onclick="cauta()" value="Cauta" />
+
+<script>
+    $("#judete").empty();
+    $("#judete").append(" <option  value=\"-1\"> ----- </option>");
+
+    
+
+    $.ajax({
+        url: '@Url.Content("~/Home/GetJudete")',
+        type: 'post',
+        success: function (response) {
+            var lista = response.split(':');
+            var lung = lista.length;
+            for (i = 0; i < lung; i++) {
+                opt = lista[i].split(",");
+                $("#judete").append("<option value='" + opt[0] + "'>" + opt[1] + "</option>");
+            }
+
+
+            $("#tipechip").empty();
+            $("#tipechip").append(" <option  value=\"-1\"> ----- </option>");
+            $.ajax({
+                url: '@Url.Content("~/Home/GetTipEchip")',
+        type: 'post',
+        success: function (response) {
+            var lista = response.split(':');
+            var lung = lista.length;
+            for (i = 0; i < lung; i++) {
+                opt = lista[i].split(",");
+                $("#tipechip").append("<option value='" + opt[0] + "'>" + opt[1] + "</option>");
+            }
+        }
+            });
+
+            $.ajax({
+                url: '@Url.Content("~/Home/GetVersiuni")',
+                 type: 'post',
+                 success: function (response) {
+                     var lista = response.split(':');
+                     var lung = lista.length;
+                     for (i = 0; i < lung; i++) {
+                         opt = lista[i].split(",");
+                         $("#versiune").append("<option value='" + opt[0] + "'>" + opt[1] + "</option>");
+                     }
+                 }
+             });
+        }
+    });
+
+    function showip() {
+        $("#ipcell").attr("style", "display:compact;");
+        $("#ipcell1").attr("style", "display:compact;");
+
+        var tip = $("#tipechip option:selected").text();
+        if (tip == "PABX") {
+            $("#tipcell").attr("style", "display:compact;");
+            $("#tipcell1").attr("style", "display:compact;");
+            $("#vercell").attr("style", "display:compact;");
+            $("#vercell1").attr("style", "display:compact;");
+            $("#licell").attr("style", "display:compact;");
+            $("#licell1").attr("style", "display:compact;");
+            $("#cocell").attr("style", "display:compact;");
+            $("#cocell1").attr("style", "display:compact;");
+            $("#abcell").attr("style", "display:compact;");
+            $("#abcell1").attr("style", "display:compact;");
+            $("#tecell").attr("style", "display:compact;");
+            $("#tecell1").attr("style", "display:compact;");
+
+
+            {
+                $("#tipc").attr("style", "display:compact;");
+                $("#verc").attr("style", "display:compact;");
+                $("#licc").attr("style", "display:compact;");
+                $("#conc").attr("style", "display:compact;");
+                $("#tipe").attr("style", "display:compact;");
+            }
+        }
+        else {
+            $("#tipcell").attr("style", "display:none;");
+            $("#tipcell1").attr("style", "display:none;");
+            $("#vercell").attr("style", "display:none;");
+            $("#vercell1").attr("style", "display:none;");
+            $("#licell").attr("style", "display:none;");
+            $("#licell1").attr("style", "display:none;");
+            $("#cocell").attr("style", "display:none;");
+            $("#cocell1").attr("style", "display:none;");
+            $("#abcell").attr("style", "display:none;");
+            $("#abcell1").attr("style", "display:none;");
+            $("#tecell").attr("style", "display:none;");
+            $("#tecell1").attr("style", "display:none;");
+
+            {
+                $("#tipc").attr("style", "display:none;");
+                $("#verc").attr("style", "display:none;");
+                $("#licc").attr("style", "display:none;");
+                $("#conc").attr("style", "display:none;");
+                $("#tipe").attr("style", "display:none;");
+            }
+        }
+    }
+
+    function getsites() {
+        $("#locatii").empty();
+        $("#locatii").append(" <option> ----- </option>");
+        var x = $("#judete option:selected").val();
+
+        $.ajax({
+            url: '@Url.Content("~/Home/Locatii")',
+            type: 'post',
+            data : {id: x },
+            success: function (response) {
+                if (response != "") {
+                    var lista = response.split(':');
+                    var lung = lista.length;
+                    for (i = 0; i < lung; i++) {
+                        opt = lista[i].split(",");
+                        $("#locatii").append("<option value='" + opt[0] + "'>" + opt[1] + "</option>");
+                    }
+                }
+            }
+        });
+    }
+
+
+    function cauta() {
+        var judet = $("#judete option:selected").val();
+        var site = $("#locatii option:selected").val();
+        var tipechip = $("#tipechip option:selected").val();
+        var ip = $("#ip").val();
+        
+        var tip = "";
+        var versiune = "";
+        var licenta = "";
+        var contract = "";
+        var tipcon = "";
+        var abonati = false;
+
+        var tipechipstr = $("#tipechip option:selected").text();
+        if (tipechipstr == 'PABX') {
+            tip = $("#tip option:selected").val();
+            versiune = $("#versiune option:selected").val();
+            licenta = $("#licenta").val();
+            contract = $("#contract option:selected").val();
+            tipcon = $("#tipcon option:selected").val();
+            abonati = $("#abonati").is(":checked");
+
+
+           
+        }
+        $.ajax({
+            url: '@Url.Content("~/Home/Cauta")',
+            method: 'get',
+            data: {judetID :judet, siteID : site, tipechipID : tipechip,ip:ip,  tippabx : tip , versiune: versiune, licenta:licenta, contract:contract, tipcon: tipcon, abonati: abonati},
+            success: function (response) {
+
+                $("#raspuns tr").not(":first").remove();
+
+                console.log(response);
+                var x = $.parseJSON(response);
+                var table = document.getElementById("raspuns");
+
+                i = 0;
+                for (i = 0; i < x.length; i++) {
+                    
+                    var rowCount = table.rows.length;
+                    var row = table.insertRow(rowCount);
+                    rowCount++;
+                    var cell1 = row.insertCell(0);
+                    cell1.innerHTML = x[i].judetDen;
+                    var cell1 = row.insertCell(1);
+                    cell1.innerHTML = x[i].siteDen;
+                    var cell1 = row.insertCell(2);
+                    cell1.innerHTML = x[i].tipechip;
+                    var cell1 = row.insertCell(3);
+                    cell1.innerHTML = x[i].ip1;
+                    if (x[i].con != 'undefined' && x[i].con != undefined && x[i].con != null) {
+                        var cell1 = row.insertCell(4);
+                        cell1.innerHTML = x[i].tip1;
+                        var cell1 = row.insertCell(5);
+                        cell1.innerHTML = x[i].ver;
+                        var cell1 = row.insertCell(6);
+                        cell1.innerHTML = x[i].lic1;
+                        var cell1 = row.insertCell(7);
+                        cell1.innerHTML = x[i].con;
+                        var cell1 = row.insertCell(8);
+                        cell1.innerHTML = x[i].tipcon1;
+                    }
+                }
+            }
+        });
+    }
+</script>
+
+
+<table id="raspuns" >
+    <thead>
+        <th>Judet</th>
+        <th>Site</th>
+        <th>Tip echip.</th>
+        <th>IP</th>
+        <th  id="tipc"  style="display:none">Tip centrala</th>
+        <th  id="verc"  style="display:none">Versiune</th>
+        <th  id="licc"  style="display:none">Licenta</th>
+        <th  id="conc"  style="display:none">Contract</th>
+        <th  id="tipe"  style="display:none">Tip echip.</th>
+    </thead>
+    <tbody></tbody>
+</table>

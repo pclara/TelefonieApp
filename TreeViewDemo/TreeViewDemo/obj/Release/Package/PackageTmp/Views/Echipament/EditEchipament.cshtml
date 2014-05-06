@@ -35,7 +35,7 @@
             var rowCount = table.rows.length;
             var y = 0;
             if ('@ViewBag.numeechip' == 'PABX') {
-                $("#cartela_noua").css({ 'display': 'block' });
+                //$("#cartela_noua").css({ 'display': 'block' });
                 for (i = 0; i < x.length; i++)
                 {
                     if ((x[i].nume_atr == "LIM MAIN" || x[i].nume_atr == "LIM DISTANT") && y == 0) {
@@ -528,13 +528,28 @@
 
                 var rowCount = table.rows.length;
                 var row = table.insertRow(rowCount);
-
                 var cell1 = row.insertCell(0);
+                var newSpan = document.createElement('label');
+                newSpan.className = "labels";
+                newSpan.innerHTML = "IP CES";
+                cell1.appendChild(newSpan);
+                var cell1 = row.insertCell(1);
+                newSpan = document.createElement('input');
+                newSpan.type = "text";
+                for (i = 0; i < x.length; i++)
+                    if (x[i].nume_atr == "IP CES") {
+                        newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                        newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                        newSpan.value = x[i].val_atr;
+                    }
+                cell1.appendChild(newSpan);
+
+                var cell1 = row.insertCell(2);
                 var newSpan = document.createElement('label');
                 newSpan.className = "labels";
                 newSpan.innerHTML = "Locatie  REMOTE";
                 cell1.appendChild(newSpan);
-                var cell1 = row.insertCell(1);
+                var cell1 = row.insertCell(3);
                 newSpan = document.createElement('input');
                 newSpan.type = "text";
                 for (i = 0; i < x.length; i++)
@@ -549,13 +564,13 @@
                 var cell1 = row.insertCell(0);
                 var newSpan = document.createElement('label');
                 newSpan.className = "labels";
-                newSpan.innerHTML = "IP CES";
+                newSpan.innerHTML = "IP MANAGEMENT";
                 cell1.appendChild(newSpan);
                 var cell1 = row.insertCell(1);
                 newSpan = document.createElement('input');
                 newSpan.type = "text";
                 for (i = 0; i < x.length; i++)
-                    if (x[i].nume_atr == "IP CES") {
+                    if (x[i].nume_atr == "IP Management") {
                         newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
                         newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
                         newSpan.value = x[i].val_atr;
@@ -582,13 +597,13 @@
                 var cell1 = row.insertCell(0);
                 var newSpan = document.createElement('label');
                 newSpan.className = "labels";
-                newSpan.innerHTML = "IP MANAGEMENT";
+                newSpan.innerHTML = "MASK:";
                 cell1.appendChild(newSpan);
                 var cell1 = row.insertCell(1);
                 newSpan = document.createElement('input');
                 newSpan.type = "text";
                 for (i = 0; i < x.length; i++)
-                    if (x[i].nume_atr == "IP Management") {
+                    if (x[i].nume_atr == "MASK") {
                         newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
                         newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
                         newSpan.value = x[i].val_atr;
@@ -612,27 +627,13 @@
 
 
                 var row = table.insertRow(rowCount + 3);
+               
                 var cell1 = row.insertCell(0);
-                var newSpan = document.createElement('label');
-                newSpan.className = "labels";
-                newSpan.innerHTML = "MASK:";
-                cell1.appendChild(newSpan);
-                var cell1 = row.insertCell(1);
-                newSpan = document.createElement('input');
-                newSpan.type = "text";
-                for (i = 0; i < x.length; i++)
-                    if (x[i].nume_atr == "MASK") {
-                        newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
-                        newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
-                        newSpan.value = x[i].val_atr;
-                    }
-                cell1.appendChild(newSpan);
-                var cell1 = row.insertCell(2);
                 var newSpan = document.createElement('label');
                 newSpan.className = "labels";
                 newSpan.innerHTML = "GATEWAY:";
                 cell1.appendChild(newSpan);
-                var cell1 = row.insertCell(3);
+                var cell1 = row.insertCell(1);
                 newSpan = document.createElement('input');
                 newSpan.type = "text";
                 for (i = 0; i < x.length; i++)
@@ -643,9 +644,11 @@
                     }
                 cell1.appendChild(newSpan);
             }
-            else
+             else
             for (i = 0; i < x.length; i++) {
-                if ('@ViewBag.numeechip' == 'MC' || '@ViewBag.numeechip' == 'Router' || '@ViewBag.numeechip' == 'Switch' || '@ViewBag.numeechip' == 'Concentrator') {
+                if ('@ViewBag.numeechip' == 'MC' || '@ViewBag.numeechip' == 'Router' || '@ViewBag.numeechip' == 'Switch' || '@ViewBag.numeechip' == 'Concentrator' || '@ViewBag.numeechip' == 'Endpoint') {
+                    
+
                     $("#cartela_noua").css({ 'display': 'none' });
                     if (x[i].nume_atr == "Port") {
                         var row = table.insertRow(rowCount);
@@ -654,7 +657,7 @@
                         var cell1 = row.insertCell(0);
                         var newSpan = document.createElement('label');
                         newSpan.className = "labels";
-                        newSpan.innerHTML = x[i].nume_atr+(i+1).toString();
+                        newSpan.innerHTML = x[i].nume_atr+(i-2).toString();
                         cell1.appendChild(newSpan);
 
                         var cell1 = row.insertCell(1);
@@ -692,6 +695,34 @@
                         cell1.appendChild(newSpan);
 
                     }
+
+                    if ('@ViewBag.numeechip' == 'Switch' && i == x.length - 1) {
+                        var table = document.getElementById("tabel_detalii");
+                        var rowCount = table.rows.length;
+                        var row1 = table.insertRow(rowCount);
+                        rowCount++;
+                        var cell1 = row1.insertCell(0);
+                        cell1.innerHTML = "<input type='button' class='buton'  id='addport' name='addport' onclick='addportswitch1()' value='Adauga port' />";
+
+                        function addportswitch1() {
+                            var tabel = document.getElementById('tabel_detalii');
+                            var rowCount = table.rows.length;
+                            var row = table.insertRow(rowCount);
+                            var cell1 = row.insertCell(0);
+                            var newSpan = document.createElement('label');
+                            newSpan.className = "labels";
+                            numar = rowCount - 5;
+                            newSpan.innerHTML = "Port" + numar;
+                            cell1.appendChild(newSpan);
+                            var cell1 = row.insertCell(1);
+                            newSpan = document.createElement('input');
+                            newSpan.type = "text";
+                            newSpan.id = 'port' + (rowCount - 5).toString();
+                            newSpan.name = 'port' + (rowCount - 5).toString();
+                            newSpan.className = "editors";
+                            cell1.appendChild(newSpan);
+                        }
+                    }
                 }
                 
             }
@@ -709,7 +740,7 @@
         }
         else {  //echip care nu exista
             $("#cartela_noua").css({ 'display': 'none' });
-            if ('@ViewBag.numeechip' == 'MC' || '@ViewBag.numeechip' == 'Router' || '@ViewBag.numeechip' == 'Switch' || '@ViewBag.numeechip' == 'Concentrator') {
+            if ('@ViewBag.numeechip' == 'MC' || '@ViewBag.numeechip' == 'Router' || '@ViewBag.numeechip' == 'Switch' || '@ViewBag.numeechip' == 'Concentrator' || '@ViewBag.numeechip' == 'Endpoint') {
                 var table = document.getElementById("tabel_detalii");
 
                 var rowCount = table.rows.length;
@@ -802,6 +833,49 @@
                     cell3.appendChild(newSpan);
                 }
 
+                
+                if ('@ViewBag.numeechip' == 'Switch') {
+                    var row1 = table.insertRow(rowCount + 2);
+                    var cell1 = row1.insertCell(0);
+                    newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "Port1";
+                    cell1.appendChild(newSpan);
+                    var cell1 = row1.insertCell(1);
+                    newSpan = document.createElement('input');
+                    newSpan.type = "text";
+                    newSpan.id = 'port1';
+                    newSpan.name = 'port1';
+                    newSpan.className = "editors";
+                    cell1.appendChild(newSpan);
+                   
+                    var cell1 = row1.insertCell(2);
+                    cell1.innerHTML = "<input type='button' class='buton'  id='addport' name='addport' onclick='addportswitch()' value='Adauga port' />";
+                    /*newSpan.type = "button";
+                    newSpan.id = "addport";
+                    newSpan.name = "addport";
+                    newSpan.innerHTML = "Adauga port";
+                    newSpan.onclick = addport();*/
+
+                    function addportswitch() {
+                        var tabel = document.getElementById('tabel_detalii');
+                        var rowCount = table.rows.length;
+                        var row = table.insertRow(rowCount);
+                        var cell1 = row.insertCell(0);
+                        var newSpan = document.createElement('label');
+                        newSpan.className = "labels";
+                        newSpan.innerHTML = "Port" + (rowCount - 3).toString();
+                        cell1.appendChild(newSpan);
+                        var cell1 = row.insertCell(1);
+                        newSpan = document.createElement('input');
+                        newSpan.type = "text";
+                        newSpan.id = 'port' + (rowCount - 3).toString();
+                        newSpan.name = 'port' + (rowCount - 3).toString();
+                        newSpan.className = "editors";
+                        cell1.appendChild(newSpan);
+                    }
+
+                }
 
                 if ('@ViewBag.numeechip' == 'Concentrator') {
                     for (k = 1; k <= 10; k++) {
@@ -857,20 +931,6 @@
 
                 var rowCount = table.rows.length;
                 var row = table.insertRow(rowCount);
-
-                var cell1 = row.insertCell(0);
-                var newSpan = document.createElement('label');
-                newSpan.className = "labels";
-                newSpan.innerHTML = "Locatie  REMOTE";
-                cell1.appendChild(newSpan);
-                var cell1 = row.insertCell(1);
-                newSpan = document.createElement('input');
-                newSpan.type = "text";
-                newSpan.id = 'locatieremote';
-                newSpan.name = 'locatieremote';
-                cell1.appendChild(newSpan);
-
-                var row = table.insertRow(rowCount + 1);
                 var cell1 = row.insertCell(0);
                 var newSpan = document.createElement('label');
                 newSpan.className = "labels";
@@ -881,6 +941,31 @@
                 newSpan.type = "text";
                 newSpan.id = 'ipces';
                 newSpan.name = 'ipces';
+                cell1.appendChild(newSpan);
+
+                var cell1 = row.insertCell(2);
+                var newSpan = document.createElement('label');
+                newSpan.className = "labels";
+                newSpan.innerHTML = "Locatie  REMOTE";
+                cell1.appendChild(newSpan);
+                var cell1 = row.insertCell(3);
+                newSpan = document.createElement('input');
+                newSpan.type = "text";
+                newSpan.id = 'locatieremote';
+                newSpan.name = 'locatieremote';
+                cell1.appendChild(newSpan);
+
+                var row = table.insertRow(rowCount + 1);
+                var cell1 = row.insertCell(0);
+                var newSpan = document.createElement('label');
+                newSpan.className = "labels";
+                newSpan.innerHTML = "IP MANAGEMENT";
+                cell1.appendChild(newSpan);
+                var cell1 = row.insertCell(1);
+                newSpan = document.createElement('input');
+                newSpan.type = "text";
+                newSpan.id = 'ipmanagement';
+                newSpan.name = 'ipmanagement';
                 cell1.appendChild(newSpan);
                 var cell1 = row.insertCell(2);
                 var newSpan = document.createElement('label');
@@ -899,13 +984,13 @@
                 var cell1 = row.insertCell(0);
                 var newSpan = document.createElement('label');
                 newSpan.className = "labels";
-                newSpan.innerHTML = "IP MANAGEMENT";
+                newSpan.innerHTML = "MASK:";
                 cell1.appendChild(newSpan);
                 var cell1 = row.insertCell(1);
                 newSpan = document.createElement('input');
                 newSpan.type = "text";
-                newSpan.id = 'ipmanagement';
-                newSpan.name = 'ipmanagement';
+                newSpan.id = 'mask';
+                newSpan.name = 'mask';
                 cell1.appendChild(newSpan);
                 var cell1 = row.insertCell(2);
                 var newSpan = document.createElement('label');
@@ -921,23 +1006,13 @@
 
                 
                 var row = table.insertRow(rowCount + 3);
+                
                 var cell1 = row.insertCell(0);
-                var newSpan = document.createElement('label');
-                newSpan.className = "labels";
-                newSpan.innerHTML = "MASK:";
-                cell1.appendChild(newSpan);
-                var cell1 = row.insertCell(1);
-                newSpan = document.createElement('input');
-                newSpan.type = "text";
-                newSpan.id = 'mask';
-                newSpan.name = 'mask';
-                cell1.appendChild(newSpan);
-                var cell1 = row.insertCell(2);
                 var newSpan = document.createElement('label');
                 newSpan.className = "labels";
                 newSpan.innerHTML = "GATEWAY:";
                 cell1.appendChild(newSpan);
-                var cell1 = row.insertCell(3);
+                var cell1 = row.insertCell(1);
                 newSpan = document.createElement('input');
                 newSpan.type = "text";
                 newSpan.id = 'gateway';
@@ -1780,6 +1855,7 @@
         }
 
         $("#addcon").removeClass("editors");
+        $("#addport").removeClass("editors");
     </script>
     <style>
         
@@ -1846,6 +1922,9 @@
         $(function () {
             $(document).on('submit', '#ajaxForm', asd);
         });
+        $("#addport").removeClass("editors");
+        
+
         function asd(e) {
             var submit_val = true;
                 $("input[validare='true']").each(function () {
@@ -1954,6 +2033,8 @@
                     });
 
                 });
+
+
     </script>
 
         </div>

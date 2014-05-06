@@ -101,6 +101,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Business\EmployeeManeger.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CartelaController.cs" />
     <Compile Include="Controllers\EchipamentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -110,6 +111,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\LabelExtensions.cs" />
     <Compile Include="Models\Organization.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -297,6 +299,11 @@
     <None Include="Properties\PublishProfiles\tel.pubxml" />
     <None Include="Properties\PublishProfiles\tel1.pubxml" />
     <Content Include="Views\Cartela\AfiseazaCartele.cshtml" />
+    <Content Include="Views\Account\LogOn.cshtml" />
+    <Content Include="Views\Account\ChangePassword.cshtml" />
+    <Content Include="Views\Account\ChangePasswordSuccess.cshtml" />
+    <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Home\Cautare.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
