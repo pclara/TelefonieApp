@@ -657,7 +657,32 @@
                         var cell1 = row.insertCell(0);
                         var newSpan = document.createElement('label');
                         newSpan.className = "labels";
-                        newSpan.innerHTML = x[i].nume_atr+(i-2).toString();
+
+                        var aux = "";
+                        switch (i - 2) {
+                            case 1:
+                                aux = " FO-1,PP1";
+                                break;
+                            case 2: aux = " FO-2,PP5";
+                                break;
+                            case 3: aux = " FO-3,PP9";
+                                break;
+                            case 4: aux = " FO-4,PP13";
+                                break;
+                            case 5: aux = " FO-5,PP17";
+                                break;
+                            case 6: aux = " FO-6,PP21";
+                                break;
+                            case 7: aux = " FO-7,PP25";
+                                break;
+                            case 8: aux = " FO-8,PP29";
+                                break;
+                            case 9: aux = " FO-9,PP33";
+                                break;
+                            case 10: aux = " FO-10,PP37";
+                                break;
+                        }
+                        newSpan.innerHTML = x[i].nume_atr + aux;//(i-2).toString();
                         cell1.appendChild(newSpan);
 
                         var cell1 = row.insertCell(1);
@@ -901,7 +926,34 @@
                         var cell1 = row1.insertCell(0);
                         var newSpan = document.createElement('label');
                         newSpan.className = "labels";
-                        newSpan.innerHTML = "PORT " + k + ":";
+
+                        var aux = "";
+                        switch (k) {
+                            case 1:
+                                aux = " FO-1,PP1";
+                                break;
+                            case 2: aux = " FO-2,PP5";
+                                break;
+                            case 3: aux = " FO-3,PP9";
+                                break;
+                            case 4: aux = " FO-4,PP13";
+                                break;
+                            case 5: aux = " FO-5,PP17";
+                                break;
+                            case 6: aux = " FO-6,PP21";
+                                break;
+                            case 7: aux = " FO-7,PP25";
+                                break;
+                            case 8: aux = " FO-8,PP29";
+                                break;
+                            case 9: aux = " FO-9,PP33";
+                                break;
+                            case 10: aux = " FO-10,PP37";
+                                break;
+                        }
+
+
+                        newSpan.innerHTML = "PORT " + aux + ":";//k + ":";
                         cell1.appendChild(newSpan);
 
                         var cell1 = row1.insertCell(1);
