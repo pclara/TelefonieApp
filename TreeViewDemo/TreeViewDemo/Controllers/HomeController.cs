@@ -175,95 +175,10 @@ namespace TreeViewDemo.Controllers
                                            tipcon1 = tipconn1 }).Distinct().ToList();
          
                 
-                /*
-                var query10 = (from q in query join q1 in query1 on q.id equals q1.id join q2 in query2 on q.id equals q2.id
-                               join q3 in query3 on q.id equals q3.id
-                               join q4 in query4 on q.id equals q4.id
-                               join q5 in query5 on q.id equals q5.id 
-                               let  idver = (from ec in db.echipaments join ea in db.echipament_atribute on ec.id equals ea.echipamentID 
-                                                              join a  in db.atributs on ea.atributID equals a.id 
-                                                              join ta in db.tip_atribut on a.tipID equals ta.id 
-                                                              where ec.id == q.id && ta.denumire == "Versiune" 
-                                                              select a.val_int).FirstOrDefault()
-                               let idtip  = (from ec in db.echipaments
-                                                    join ea in db.echipament_atribute on ec.id equals ea.echipamentID
-                                                    join a in db.atributs on ea.atributID equals a.id
-                                                    join ta in db.tip_atribut on a.tipID equals ta.id
-                                                    where ec.id == q.id && ta.denumire == "Tip"
-                                                    select a.val_int).FirstOrDefault()
-                               select new {q.id, q.judetDen, q.siteDen, tipechip = q.tip_echip,ip1 = q1.val_string,
-                                           tip1 = (from ev in db.echipament_tip where ev.id == idtip select ev.denumire).FirstOrDefault(),
-                                           ver = (from ev in db.echipament_versiuni where ev.id == idver select ev.denumire).FirstOrDefault(),
-                                           lic1 = q3.val_string, 
-                                           con = q4.val_string, tipcon1 = q5.val_string }).Distinct().ToList();
-                */
                     List<object> lista = new List<object>();
 
                     JavaScriptSerializer sr = new JavaScriptSerializer();
                     return sr.Serialize(query);
-
-                    /*if (query != null)
-                    {
-                        int nr = query.Count;
-
-                        var id = query[0].id;
-                        int i = 0;
-                        string ver = "";
-                        string con = "";
-                        string tip1 = "";
-                        string tipcon1 = "";
-                        string ip1 = "";
-                        string lic1 = "";
-                        string tipechip = "";
-
-                        foreach (var x in query)
-                        {
-                            if (x.denumire == "Versiune")
-                            {
-                                var idver = (from ec in db.echipaments join ea in db.echipament_atribute on ec.id equals ea.echipamentID 
-                                                              join a  in db.atributs on ea.atributID equals a.id 
-                                                              join ta in db.tip_atribut on a.tipID equals ta.id 
-                                                              //join ev in db.echipament_versiuni on a.val_int equals ev.id
-                                                              where ec.id == x.id && ta.denumire == "Versiune" 
-                                                              select a.val_int).FirstOrDefault();
-                                ver = (from ev in db.echipament_versiuni where ev.id == idver select ev.denumire).FirstOrDefault();
-                            }
-                            else
-                                if (x.denumire == "Tip")
-                                {
-                                    var idtip = (from ec in db.echipaments
-                                                 join ea in db.echipament_atribute on ec.id equals ea.echipamentID
-                                                 join a in db.atributs on ea.atributID equals a.id
-                                                 join ta in db.tip_atribut on a.tipID equals ta.id
-                                                 //join ev in db.echipament_versiuni on a.val_int equals ev.id
-                                                 where ec.id == x.id && ta.denumire == "Tip"
-                                                 select a.val_int).FirstOrDefault();
-                                    tip1 = (from ev in db.echipament_tip where ev.id == idtip select ev.denumire).FirstOrDefault();
-                                        //tip1 = x.denumire == "Tip" ? x.val_string : tip1;//(from ec in db.echipaments join te in db.tip_echipament on ec.tipID equals te.id where ec.id == x.id select te.denumire).FirstOrDefault() : tip1;
-                                }
-
-                            con = x.denumire == "Contract" ? x.val_string : con;
-                            tipechip = x.denumire == "tip_echip" ? "PABX" : tipechip;
-                            
-                            tipcon1 = x.denumire == "Tip echip." ? x.val_string : tipcon1;
-                            ip1 = x.denumire == "IP" || x.denumire == "IP CES" || x.denumire == "IP Management" ? x.val_string : ip1;
-                            lic1 = x.denumire == "Licenta" ? x.val_string : lic1;
-
-                            if(i != 0)
-                            {
-                                if (x.id != id || i == nr - 1)
-                                {
-                                    id = x.id;
-                                    object nou = new { x.id, x.judetDen, x.siteDen, tipechip, ip1, tip1, ver, lic1, con, tipcon1 };
-                                    lista.Add(nou);
-                                }
-                            }
-                            i++;
-                        }
-                    }
-                    JavaScriptSerializer sr = new JavaScriptSerializer();
-                    return sr.Serialize(lista);
-                     * */
             }
             else
             {
@@ -274,11 +189,18 @@ namespace TreeViewDemo.Controllers
                              join ea in db.echipament_atribute on ec.id equals ea.echipamentID
                              join a in db.atributs on ea.atributID equals a.id
                              join ta in db.tip_atribut on a.tipID equals ta.id
+                             let ip1 = (from ec3 in db.echipaments
+                                        join ea3 in db.echipament_atribute on ec3.id equals ea3.echipamentID
+                                        join a3 in db.atributs on ea3.atributID equals a3.id
+                                        join ta3 in db.tip_atribut on a3.tipID equals ta3.id
+                                        where ec3.id == ec.id && (ta3.denumire == "IP" || ta3.denumire == "IP CES" || ta3.denumire == "IP Management")
+                                        select a3.val_string).FirstOrDefault()
                              where ((j.id == judetID && judetID != -1) || judetID == -1)
                              && ((s.id == siteID && siteID != -1) || siteID == -1)
                              && ((te.id == tipechipID && tipechipID != -1) || tipechipID == -1)
-                             && (((ta.denumire == "IP" || ta.denumire == "IP CES" || ta.denumire == "IP Management") && a.val_string == ip) || ip == "")
-                             select new { ec.id,judetDen = j.denumire, siteDen = s.denumire }).ToList();
+                             &&
+                                  (ip1 == ip || ip == "")
+                             select new { ec.id, judetDen = j.denumire, siteDen = s.denumire, tipechip = te.denumire, ip1 = ip1 }).Distinct().ToList();
 
                 JavaScriptSerializer sr = new JavaScriptSerializer();
                 return sr.Serialize(query);
