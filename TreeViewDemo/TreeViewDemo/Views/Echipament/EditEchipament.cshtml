@@ -682,7 +682,7 @@
                             case 10: aux = " FO-10,PP37";
                                 break;
                         }
-                        newSpan.innerHTML = x[i].nume_atr + aux;//(i-2).toString();
+                        newSpan.innerHTML = x[i].nume_atr + (i-2).toString();//aux
                         cell1.appendChild(newSpan);
 
                         var cell1 = row.insertCell(1);
@@ -953,7 +953,7 @@
                         }
 
 
-                        newSpan.innerHTML = "PORT " + aux + ":";//k + ":";
+                        newSpan.innerHTML = "PORT " + k + ":"; //aux + ":";//
                         cell1.appendChild(newSpan);
 
                         var cell1 = row1.insertCell(1);

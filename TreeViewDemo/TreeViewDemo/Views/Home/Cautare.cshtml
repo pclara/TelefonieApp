@@ -182,7 +182,34 @@
         $("#ipcell1").attr("style", "display:compact;");
 
         var tip = $("#tipechip option:selected").text();
+        var tip2 = $("#tipechip option:selected").val();
+
         if (tip == "PABX") {
+            $("#tipcell").attr("style", "display:compact;");
+            $("#tipcell1").attr("style", "display:compact;");
+            $("#vercell").attr("style", "display:compact;");
+            $("#vercell1").attr("style", "display:compact;");
+            $("#licell").attr("style", "display:compact;");
+            $("#licell1").attr("style", "display:compact;");
+            $("#cocell").attr("style", "display:compact;");
+            $("#cocell1").attr("style", "display:compact;");
+            $("#abcell").attr("style", "display:compact;");
+            $("#abcell1").attr("style", "display:compact;");
+            $("#tecell").attr("style", "display:compact;");
+            $("#tecell1").attr("style", "display:compact;");
+
+            {
+                $("#tipc").attr("style", "display:compact;");
+                $("#verc").attr("style", "display:compact;");
+                $("#licc").attr("style", "display:compact;");
+                $("#conc").attr("style", "display:compact;");
+                $("#tipe").attr("style", "display:compact;");
+                $("#ipces").attr("style", "display:none;");
+                $("#ipm").attr("style", "display:none;");
+            }
+        }
+        else if(tip2 == "-1")
+            {
             $("#tipcell").attr("style", "display:compact;");
             $("#tipcell1").attr("style", "display:compact;");
             $("#vercell").attr("style", "display:compact;");
@@ -203,6 +230,8 @@
                 $("#licc").attr("style", "display:compact;");
                 $("#conc").attr("style", "display:compact;");
                 $("#tipe").attr("style", "display:compact;");
+                $("#ipces").attr("style", "display:compact;");
+                $("#ipm").attr("style", "display:compact;");
             }
         }
         else {
@@ -225,6 +254,8 @@
                 $("#licc").attr("style", "display:none;");
                 $("#conc").attr("style", "display:none;");
                 $("#tipe").attr("style", "display:none;");
+                $("#ipces").attr("style", "display:compact;");
+                $("#ipm").attr("style", "display:compact;");
             }
         }
     }
@@ -253,6 +284,43 @@
 
 
     function cauta() {
+
+        var tip = $("#tipechip option:selected").text();
+        var tip2 = $("#tipechip option:selected").val();
+
+        if (tip == "PABX") {
+                $("#tipc").attr("style", "display:compact;");
+                $("#verc").attr("style", "display:compact;");
+                $("#licc").attr("style", "display:compact;");
+                $("#conc").attr("style", "display:compact;");
+                $("#tipe").attr("style", "display:compact;");
+                $("#ab").attr("style", "display:compact;");
+                $("#ipces").attr("style", "display:none;");
+                $("#ipm").attr("style", "display:none;");
+        }
+        else if (tip2 == "-1") {
+                $("#tipc").attr("style", "display:compact;");
+                $("#verc").attr("style", "display:compact;");
+                $("#licc").attr("style", "display:compact;");
+                $("#conc").attr("style", "display:compact;");
+                $("#tipe").attr("style", "display:compact;");
+                $("#ab").attr("style", "display:compact;");
+                $("#ipces").attr("style", "display:compact;");
+                $("#ipm").attr("style", "display:compact;");
+        }
+        else {
+                $("#tipc").attr("style", "display:none;");
+                $("#verc").attr("style", "display:none;");
+                $("#licc").attr("style", "display:none;");
+                $("#conc").attr("style", "display:none;");
+                $("#tipe").attr("style", "display:none;");
+                $("#ab").attr("style", "display:none;");
+                $("#ipces").attr("style", "display:compact;");
+                $("#ipm").attr("style", "display:compact;");
+        } 
+
+
+
         var judet = $("#judete option:selected").val();
         var site = $("#locatii option:selected").val();
         var tipechip = $("#tipechip option:selected").val();
@@ -289,31 +357,69 @@
                 var x = $.parseJSON(response);
                 var table = document.getElementById("raspuns");
 
+                var tip = $("#tipechip option:selected").text();
+
                 i = 0;
                 for (i = 0; i < x.length; i++) {
-                    
+                    j = 0;
                     var rowCount = table.rows.length;
                     var row = table.insertRow(rowCount);
                     rowCount++;
-                    var cell1 = row.insertCell(0);
+                    var cell1 = row.insertCell(j);
+                    j++;
                     cell1.innerHTML = x[i].judetDen;
-                    var cell1 = row.insertCell(1);
+                    var cell1 = row.insertCell(j);
+                    j++;
                     cell1.innerHTML = x[i].siteDen;
-                    var cell1 = row.insertCell(2);
+                    var cell1 = row.insertCell(j);
+                    j++;
                     cell1.innerHTML = x[i].tipechip;
-                    var cell1 = row.insertCell(3);
+                    var cell1 = row.insertCell(j);
                     cell1.innerHTML = x[i].ip1;
+
+                    //alert(x[i].tipechip);
+                    if (x[i].tipechip == "MSED" || tip=="PABX" )
+                        j++;
+                    else {
+                        j++;
+                        var cell1 = row.insertCell(j);
+                        j++;
+                        cell1.innerHTML = "-";
+                        var cell1 = row.insertCell(j);
+                        j++;
+                        cell1.innerHTML = "-";
+                    }
+
+
                     if (x[i].con != 'undefined' && x[i].con != undefined && x[i].con != null) {
-                        var cell1 = row.insertCell(4);
+                        var cell1 = row.insertCell(j);
+                        j++;
                         cell1.innerHTML = x[i].tip1;
-                        var cell1 = row.insertCell(5);
+                        var cell1 = row.insertCell(j);
+                        j++;
                         cell1.innerHTML = x[i].ver;
-                        var cell1 = row.insertCell(6);
+                        var cell1 = row.insertCell(j);
+                        j++;
                         cell1.innerHTML = x[i].lic1;
-                        var cell1 = row.insertCell(7);
+                        var cell1 = row.insertCell(j);
+                        j++;
                         cell1.innerHTML = x[i].con;
-                        var cell1 = row.insertCell(8);
+                        var cell1 = row.insertCell(j);
+                        j++;
                         cell1.innerHTML = x[i].tipcon1;
+                    }
+                    if (x[i].ip2 != 'undefined' && x[i].ip2 != undefined && x[i].ip3 != null) {
+                        var cell1 = row.insertCell(j);
+                        j++;
+                        cell1.innerHTML = x[i].ip2;
+                        var cell1 = row.insertCell(j);
+                        j++;
+                        cell1.innerHTML = x[i].ip3;
+                    }
+                    if (x[i].abonati != 'undefined' && x[i].abonati != undefined && x[i].abonati != null) {
+                        var cell1 = row.insertCell(j);
+                        j++;
+                        cell1.innerHTML = x[i].abonati;
                     }
                 }
             }
@@ -328,11 +434,16 @@
         <th>Site</th>
         <th>Tip echip.</th>
         <th>IP</th>
+       <th id="ipces"  style="display:none">IP CES</th>
+        <th id="ipm"  style="display:none">IP Management</th>
         <th  id="tipc"  style="display:none">Tip centrala</th>
         <th  id="verc"  style="display:none">Versiune</th>
         <th  id="licc"  style="display:none">Licenta</th>
         <th  id="conc"  style="display:none">Contract</th>
         <th  id="tipe"  style="display:none">Tip echip.</th>
+        <th  id="ab"  style="display:none">Abonati liberi</th>
+
+         
     </thead>
     <tbody></tbody>
 </table>
