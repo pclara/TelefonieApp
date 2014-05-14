@@ -28,7 +28,7 @@
         if ('@ViewBag.id' != -1) { //echip care exista
             var atr = '@Html.Raw(ViewBag.atribute)';
             var x = $.parseJSON(atr);
-            
+
             console.log("json deserializat lung:" + x.length);
             var table = document.getElementById("tabel_detalii");
 
@@ -36,36 +36,34 @@
             var y = 0;
             if ('@ViewBag.numeechip' == 'PABX') {
                 //$("#cartela_noua").css({ 'display': 'block' });
-                for (i = 0; i < x.length; i++)
-                {
+                for (i = 0; i < x.length; i++) {
                     if ((x[i].nume_atr == "LIM MAIN" || x[i].nume_atr == "LIM DISTANT") && y == 0) {
                         y++;
                         var row = table.insertRow(rowCount);
                         rowCount++;
                         var cell1 = row.insertCell(0);
                         ok = 0;
-                        
-                        for(j=0;j<x.length;j++)
+
+                        for (j = 0; j < x.length; j++)
                             if (x[j].nume_atr == "LIM MAIN" && x[j].val_atr == "1") {
                                 cell1.innerHTML = "<input type='radio' name='lim' id='limmain' value='limmain'  style='width:15px;'  checked = 'checked' onchange='verifcalim()' />";
                                 ok = 1;
                             }
-                       if(ok==0)
-                                cell1.innerHTML = "<input type='radio' name='lim' id='limmain' value='limmain'  style='width:15px;'  onchange='verifcalim()' />";
+                        if (ok == 0)
+                            cell1.innerHTML = "<input type='radio' name='lim' id='limmain' value='limmain'  style='width:15px;'  onchange='verifcalim()' />";
 
                         cell1.innerHTML += "<label class='labels'  style='width:10px;'>LIM MAIN</label>";
                         var cell1 = row.insertCell(1);
                         ok = 0;
                         for (j = 0; j < x.length; j++)
-                            if (x[j].nume_atr == "LIM DISTANT" && x[j].val_atr != "" && x[j].val_atr != null) 
-                            {
-                                
-                            cell1.innerHTML = "<input type='radio' name='lim' id='limdist' checked = 'checked' value='limdist' style='width:15px;' onchange='verifcalim()' />";
-                            cell1.innerHTML += "<label class='labels'  style='width:10px;'>LIM DISTANT</label>";
-                            var cell1 = row.insertCell(2);
-                            cell1.innerHTML = "<input class='editors'  style='display:block;' id='limdist-text' name= 'limdist-text' value='" + x[j].val_atr + "'>";
-                            ok = 1;
-                        }
+                            if (x[j].nume_atr == "LIM DISTANT" && x[j].val_atr != "" && x[j].val_atr != null) {
+
+                                cell1.innerHTML = "<input type='radio' name='lim' id='limdist' checked = 'checked' value='limdist' style='width:15px;' onchange='verifcalim()' />";
+                                cell1.innerHTML += "<label class='labels'  style='width:10px;'>LIM DISTANT</label>";
+                                var cell1 = row.insertCell(2);
+                                cell1.innerHTML = "<input class='editors'  style='display:block;' id='limdist-text' name= 'limdist-text' value='" + x[j].val_atr + "'>";
+                                ok = 1;
+                            }
 
                         if (ok == 0) {
                             cell1.innerHTML = "<input type='radio' name='lim' id='limdist' value='limdist' style='width:15px;' onchange='verifcalim()' />";
@@ -73,104 +71,110 @@
                             var cell1 = row.insertCell(2);
                             cell1.innerHTML = "<input class='editors'  style='display:none;' id='limdist-text' name= 'limdist-text'>";
                         }
-                }
+                    }
                     else
                         if (x[i].nume_atr == 'Numar ruta' || x[i].nume_atr == 'Tip Conexiune' || x[i].nume_atr == 'Destinatie' || x[i].nume_atr == 'Poz. echip.' || x[i].nume_atr == 'Tip echip.') {
                             if (x[i].nume_atr != 'Tip Conexiune' && x[i].nume_atr != 'Destinatie' && x[i].nume_atr != 'Poz. echip.' && x[i].nume_atr != 'Tip echip.') {
-                            var row = table.insertRow(rowCount);
-                            rowCount++;
-                            var cell1 = row.insertCell(0);
-                            var newSpan = document.createElement('label');
-                            newSpan.innerHTML = x[i].nume_atr;
-                            newSpan.className = "labels";
-                            cell1.appendChild(newSpan);
-                            var cell1 = row.insertCell(1);
-                            var newSpan = document.createElement('input');
-                            newSpan.type = "text";
-                            newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                                var row = table.insertRow(rowCount);
+                                rowCount++;
+                                var cell1 = row.insertCell(0);
+                                var newSpan = document.createElement('label');
+                                newSpan.innerHTML = x[i].nume_atr;
+                                newSpan.className = "labels";
+                                cell1.appendChild(newSpan);
+                                var cell1 = row.insertCell(1);
+                                var newSpan = document.createElement('input');
+                                newSpan.type = "text";
+                                newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
                             newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
-                            newSpan.className = "editors";
-                            newSpan.value = x[i].val_atr;
-                            cell1.appendChild(newSpan);
-                            var cell1 = row.insertCell(2);
-                            var newSpan = document.createElement('input');
-                            newSpan.type = "text";
-                            var index = 0;
-                            for (j = 0; j < x.length; j++)
-                                if (x[j].nume_atr == "Numar ruta" && j<=i) {
-                                    index++;
-                                }
+                                newSpan.className = "editors";
+                                newSpan.value = x[i].val_atr;
+                                cell1.appendChild(newSpan);
+                                var cell1 = row.insertCell(2);
+                                var newSpan = document.createElement('input');
+                                newSpan.type = "text";
+                                var index = 0;
+                                for (j = 0; j < x.length; j++)
+                                    if (x[j].nume_atr == "Numar ruta" && j <= i) {
+                                        index++;
+                                    }
 
-                            var index1 = 1 ;
-                            for (j = 0; j < x.length; j++)
-                                if (x[j].nume_atr == "Tip Conexiune" && index1 == index) {
-                                    newSpan.id = '@ViewBag.id' + "_" + x[j].id_atr;
+                                var index1 = 1;
+                                var tip_con = "";
+                                for (j = 0; j < x.length; j++)
+                                    if (x[j].nume_atr == "Tip Conexiune" && index1 == index) {
+                                        newSpan.id = '@ViewBag.id' + "_" + x[j].id_atr;
                                     newSpan.name = '@ViewBag.id' + "_" + x[j].id_atr;
                                     newSpan.className = "editors";
                                     newSpan.value = x[j].val_atr;
+                                    tip_con = x[j].val_atr;
                                     index1++;
                                 }
-                                else if (x[j].nume_atr == "Tip Conexiune" ){
+                                else if (x[j].nume_atr == "Tip Conexiune") {
                                     index1++;
                                 }
                             cell1.appendChild(newSpan);
+
                             
                             var cell1 = row.insertCell(3);
-                            var newSpan = document.createElement('input');
-                            newSpan.type = "text";
+                            cell1.id = "destcell"+rowCount;
+                                var newSpan = document.createElement('input');
+                                newSpan.type = "text";
 
-                            var index2 = 1;
-                            for (j = 0; j < x.length; j++)
-                                if (x[j].nume_atr == "Destinatie" && index2 == index) {
-                                    newSpan.id = '@ViewBag.id' + "_" + x[j].id_atr;
-                                    newSpan.name = '@ViewBag.id' + "_" + x[j].id_atr;
-                                    newSpan.className = "editors";
-                                    newSpan.value = x[j].val_atr;
-                                    index2++;
-                                }
-                                else if (x[j].nume_atr == "Destinatie"){
-                                    index2++;
-                                }
-                            newSpan.setAttribute("readonly", "true");
-                            newSpan.className = "editors";
-                            cell1.appendChild(newSpan);
-                            
-                            var cell1 = row.insertCell(4);
-                            var newSpan = document.createElement('input');
-                            newSpan.type = "text";
+                                var index2 = 1;
+                                for (j = 0; j < x.length; j++)
+                                    if (x[j].nume_atr == "Destinatie" && index2 == index) {
+                                        newSpan.id = '@ViewBag.id' + "_" + x[j].id_atr;
+                                        newSpan.name = '@ViewBag.id' + "_" + x[j].id_atr;
+                                        newSpan.className = "editors";
+                                        newSpan.value = x[j].val_atr;
+                                        index2++;
+                                    }
+                                    else if (x[j].nume_atr == "Destinatie") {
+                                        index2++;
+                                    }
+                                //newSpan.setAttribute("readonly", "true");
+                                newSpan.className = "editors";
+                                cell1.appendChild(newSpan);
 
-                            var index2 = 1;
-                            for (j = 0; j < x.length; j++)
-                                if (x[j].nume_atr == "Poz. echip." && index2 == index) {
-                                    newSpan.id = '@ViewBag.id' + "_" + x[j].id_atr;
-                                    newSpan.name = '@ViewBag.id' + "_" + x[j].id_atr;
-                                    newSpan.className = "editors";
-                                    newSpan.value = x[j].val_atr;
-                                    index2++;
-                                }
-                                else if (x[j].nume_atr == "Poz. echip.") {
-                                    index2++;
-                                }
-                            newSpan.className = "editors";
-                            cell1.appendChild(newSpan);
+                                var cell1 = row.insertCell(4);
+                                cell1.id = "pozcell" + rowCount;
+                                var newSpan = document.createElement('input');
+                                newSpan.type = "text";
 
-                            var cell1 = row.insertCell(5);
-                            var newSpan = document.createElement('select');
+                                var index2 = 1;
+                                for (j = 0; j < x.length; j++)
+                                    if (x[j].nume_atr == "Poz. echip." && index2 == index) {
+                                        newSpan.id = '@ViewBag.id' + "_" + x[j].id_atr;
+                                        newSpan.name = '@ViewBag.id' + "_" + x[j].id_atr;
+                                        newSpan.className = "editors";
+                                        newSpan.value = x[j].val_atr;
+                                        index2++;
+                                    }
+                                    else if (x[j].nume_atr == "Poz. echip.") {
+                                        index2++;
+                                    }
+                                newSpan.className = "editors";
+                                cell1.appendChild(newSpan);
 
-                            var index2 = 1;
-                            var selected_tip = 0;
-                            for (j = 0; j < x.length; j++)
-                                if (x[j].nume_atr == "Tip echip." && index2 == index) {
-                                    newSpan.id = '@ViewBag.id' + "_" + x[j].id_atr;
-                                    newSpan.name = '@ViewBag.id' + "_" + x[j].id_atr;
+                                var cell1 = row.insertCell(5);
+                                cell1.id = "tipcell" + rowCount;
+                                var newSpan = document.createElement('select');
 
-                                    selected_tip = j;
-                                    newSpan.className = "editors";
-                                    index2++;
-                                }
-                                else if (x[j].nume_atr == "Tip echip.") {
-                                    index2++;
-                                }
+                                var index2 = 1;
+                                var selected_tip = 0;
+                                for (j = 0; j < x.length; j++)
+                                    if (x[j].nume_atr == "Tip echip." && index2 == index) {
+                                        newSpan.id = '@ViewBag.id' + "_" + x[j].id_atr;
+                                        newSpan.name = '@ViewBag.id' + "_" + x[j].id_atr;
+
+                                        selected_tip = j;
+                                        newSpan.className = "editors";
+                                        index2++;
+                                    }
+                                    else if (x[j].nume_atr == "Tip echip.") {
+                                        index2++;
+                                    }
                                 newSpan.className = "editors";
                                 var option = document.createElement("option");
                                 option.value = '';
@@ -208,21 +212,26 @@
                                 cell1.appendChild(newSpan);
                                 newSpan.value = x[selected_tip].val_atr;
 
+                                if (tip_con == "IP-SIP" || tip_con == "IP-H323") {
+                                    $("#destcell" + rowCount).attr("style", "display:none");
+                                    $("#tipcell" + rowCount).attr("style", "display:none");
+                                    $("#pozcell" + rowCount).attr("style", "display:none");
+                                }
                         }
                     }
                     else
-                    if (x[i].nume_atr == 'Versiune') {
-                        var row = table.insertRow(rowCount);
-                        rowCount++;
-                        var cell1 = row.insertCell(0);
-                        var newSpan = document.createElement('label');
-                        newSpan.innerHTML = x[i].nume_atr;
-                        newSpan.className = "labels";
-                        cell1.appendChild(newSpan);
-                        var cell1 = row.insertCell(1);
-                        var newSpan = document.createElement('select');
-                        var idsel = '@ViewBag.id' + "_" + x[i].id_atr;
-                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                        if (x[i].nume_atr == 'Versiune') {
+                            var row = table.insertRow(rowCount);
+                            rowCount++;
+                            var cell1 = row.insertCell(0);
+                            var newSpan = document.createElement('label');
+                            newSpan.innerHTML = x[i].nume_atr;
+                            newSpan.className = "labels";
+                            cell1.appendChild(newSpan);
+                            var cell1 = row.insertCell(1);
+                            var newSpan = document.createElement('select');
+                            var idsel = '@ViewBag.id' + "_" + x[i].id_atr;
+                        newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
                         newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
                         newSpan.className = "editors";
                         cell1.appendChild(newSpan);
@@ -232,42 +241,42 @@
                             if (x[k].nume_atr == 'Tip')
                                 tip_ales = x[k].val_atr.den_tip;
 
-    $.ajax({
-        url: '@Url.Content("~/Echipament/GetVersiuni")',
-                               type: 'POST',
-                               data: { idver: x[i].val_atr.idver, tip_ales: tip_ales },
-                               success: function (response) {
-                                   var tipuri = response.split(',');
-                                   var option = document.createElement("option");
-                                   option.value = '';
-                                   option.text = '';
+                        $.ajax({
+                            url: '@Url.Content("~/Echipament/GetVersiuni")',
+        type: 'POST',
+        data: { idver: x[i].val_atr.idver, tip_ales: tip_ales },
+        success: function (response) {
+            var tipuri = response.split(',');
+            var option = document.createElement("option");
+            option.value = '';
+            option.text = '';
 
-                                   var selvar = document.getElementById(idsel);
-                                   selvar.appendChild(option);
+            var selvar = document.getElementById(idsel);
+            selvar.appendChild(option);
 
-                                   for (var j = 0; j < tipuri.length - 1 ; j++) {
-                                       var option = document.createElement("option");
-                                       var valtext = tipuri[j].split(':');
-                                       option.value = valtext[0];
-                                       option.text = valtext[1];
-                                       selvar.appendChild(option);
-                                   }
+            for (var j = 0; j < tipuri.length - 1 ; j++) {
+                var option = document.createElement("option");
+                var valtext = tipuri[j].split(':');
+                option.value = valtext[0];
+                option.text = valtext[1];
+                selvar.appendChild(option);
+            }
 
-                                   $("#" + idsel).val(tipuri[j]);
-                               }
-                           });
-                       }
-                       else if (x[i].nume_atr == 'Tip') {
-                           var row = table.insertRow(rowCount);
-                           rowCount++;
-                           var cell1 = row.insertCell(0);
-                           var newSpan = document.createElement('label');
-                           newSpan.innerHTML = x[i].nume_atr;
-                           newSpan.className = "labels";
-                           cell1.appendChild(newSpan);
-                           var cell1 = row.insertCell(1);
-                           var newSpan2 = document.createElement('select');
-                           var idsel1 = '@ViewBag.id' + "_" + x[i].id_atr;
+            $("#" + idsel).val(tipuri[j]);
+        }
+    });
+}
+else if (x[i].nume_atr == 'Tip') {
+    var row = table.insertRow(rowCount);
+    rowCount++;
+    var cell1 = row.insertCell(0);
+    var newSpan = document.createElement('label');
+    newSpan.innerHTML = x[i].nume_atr;
+    newSpan.className = "labels";
+    cell1.appendChild(newSpan);
+    var cell1 = row.insertCell(1);
+    var newSpan2 = document.createElement('select');
+    var idsel1 = '@ViewBag.id' + "_" + x[i].id_atr;
                            newSpan2.id = '@ViewBag.id' + "_" + x[i].id_atr;
                            newSpan2.name = '@ViewBag.id' + "_" + x[i].id_atr;
                            newSpan2.className = "editors";
@@ -297,24 +306,27 @@
                                }
                            });
                        } else
-                    if (x[i].nume_atr == "Abonati analogici" || x[i].nume_atr == "Abonati digitali" ||
-                               x[i].nume_atr == "Abonati IP" || x[i].nume_atr == "Abonati DECT" ||
-                               x[i].nume_atr == "Abonati total") {
-                        var row = table.insertRow(rowCount);
-                        rowCount++;
-                        var cell1 = row.insertCell(0);
-                        var newSpan = document.createElement('label');
-                        newSpan.innerHTML = x[i].nume_atr;
-                        newSpan.className = "labels";
-                        cell1.appendChild(newSpan);
+                           if (x[i].nume_atr == "Abonati analogici" || x[i].nume_atr == "Abonati digitali" ||
+                                      x[i].nume_atr == "Abonati IP" || x[i].nume_atr == "Abonati DECT" ||
+                                      x[i].nume_atr == "Abonati total") {
+                               var row = table.insertRow(rowCount);
+                               rowCount++;
+                               var cell1 = row.insertCell(0);
+                               var newSpan = document.createElement('label');
+                               if (x[i].nume_atr == "Abonati total")
+                                   newSpan.innerHTML = x[i].nume_atr;
+                               else
+                                   newSpan.innerHTML = "Abonati";//x[i].nume_atr;
+                               newSpan.className = "labels";
+                               cell1.appendChild(newSpan);
 
-                        var cell1 = row.insertCell(1);
-                        var newSpan = document.createElement('input');
-                        newSpan.type = "text";
-                        newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "1";
+                               var cell1 = row.insertCell(1);
+                               var newSpan = document.createElement('input');
+                               newSpan.type = "text";
+                               newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "1";
                         newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "1";
                         newSpan.className = "editors";
-                        newSpan.setAttribute("validare","true");
+                        newSpan.setAttribute("validare", "true");
                         newSpan.value = x[i].val_atr.split(',')[0];
                         cell1.appendChild(newSpan);
 
@@ -348,65 +360,65 @@
                         cell1.appendChild(newSpan);
 
                         var cell1 = row.insertCell(1);
-                            var newSpan2 = document.createElement('select');
-                            newSpan2.id = '@ViewBag.id' + "_" + x[i].id_atr;
-                           newSpan2.name = '@ViewBag.id' + "_" + x[i].id_atr;
-                            newSpan2.className = "editors";
-                            cell1.appendChild(newSpan2);
+                        var newSpan2 = document.createElement('select');
+                        newSpan2.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                            newSpan2.name = '@ViewBag.id' + "_" + x[i].id_atr;
+                        newSpan2.className = "editors";
+                        cell1.appendChild(newSpan2);
 
 
-                            var cell1 = row.insertCell(2);
-                            var newSpan = document.createElement('input');
-                            newSpan.type = "text";
-                            newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "-text";
-                        newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "-text";
+                        var cell1 = row.insertCell(2);
+                        var newSpan = document.createElement('input');
+                        newSpan.type = "text";
+                        newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "-text";
+                            newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "-text";
                         if (x[i].val_atr != "Altul")
-                                newSpan.setAttribute("style", "visibility:hidden");
-                            newSpan.className = "editors";
-                            cell1.appendChild(newSpan);
+                            newSpan.setAttribute("style", "visibility:hidden");
+                        newSpan.className = "editors";
+                        cell1.appendChild(newSpan);
 
 
-                            var option2 = document.createElement("option");
-                            option2.value = 'K1';
-                            option2.text = 'K1';
-                            newSpan2.appendChild(option2);
-                            var option2 = document.createElement("option");
-                            option2.value = 'K2';
-                            option2.text = 'K2';
-                            newSpan2.appendChild(option2);
-                            var option2 = document.createElement("option");
-                            option2.value = 'K3';
-                            option2.text = 'K3';
-                            newSpan2.appendChild(option2);
-                            var option2 = document.createElement("option");
-                            option2.value = 'Etapa 4';
-                            option2.text = 'Etapa 4';
-                            newSpan2.appendChild(option2);
-                            var option2 = document.createElement("option");
-                            option2.value = 'Schengen 3.1';
-                            option2.text = 'Schengen 3.1';
-                            newSpan2.appendChild(option2);
-                            var option2 = document.createElement("option");
-                            option2.value = 'Altul';
-                            option2.text = 'Altul';
-                            newSpan2.appendChild(option2);
+                        var option2 = document.createElement("option");
+                        option2.value = 'K1';
+                        option2.text = 'K1';
+                        newSpan2.appendChild(option2);
+                        var option2 = document.createElement("option");
+                        option2.value = 'K2';
+                        option2.text = 'K2';
+                        newSpan2.appendChild(option2);
+                        var option2 = document.createElement("option");
+                        option2.value = 'K3';
+                        option2.text = 'K3';
+                        newSpan2.appendChild(option2);
+                        var option2 = document.createElement("option");
+                        option2.value = 'Etapa 4';
+                        option2.text = 'Etapa 4';
+                        newSpan2.appendChild(option2);
+                        var option2 = document.createElement("option");
+                        option2.value = 'Schengen 3.1';
+                        option2.text = 'Schengen 3.1';
+                        newSpan2.appendChild(option2);
+                        var option2 = document.createElement("option");
+                        option2.value = 'Altul';
+                        option2.text = 'Altul';
+                        newSpan2.appendChild(option2);
 
 
-                            if (x[i].val_atr != 'K1' && x[i].val_atr != 'K2' && x[i].val_atr != 'K3' && x[i].val_atr != 'Etapa 4' && x[i].val_atr != 'Schengen 3.1') {
-                                $("#" + idcontract + " option[value='Altul']").prop('selected', true);
+                        if (x[i].val_atr != 'K1' && x[i].val_atr != 'K2' && x[i].val_atr != 'K3' && x[i].val_atr != 'Etapa 4' && x[i].val_atr != 'Schengen 3.1') {
+                            $("#" + idcontract + " option[value='Altul']").prop('selected', true);
+                            $("#" + idcontract + "-text").css({ 'visibility': 'visible' });
+                            $("#" + idcontract + "-text").val(x[i].val_atr);
+                        }
+
+                        $("#" + idcontract + " option[value='" + x[i].val_atr + "']").prop('selected', true);
+
+                        $("#" + idcontract).change(function () {
+                            if ($("#" + idcontract + " option:selected").val() == "Altul")
                                 $("#" + idcontract + "-text").css({ 'visibility': 'visible' });
-                                $("#" + idcontract + "-text").val(x[i].val_atr);
-                            }
-
-                            $("#" + idcontract + " option[value='" + x[i].val_atr + "']").prop('selected', true);
-
-                            $("#" + idcontract).change(function () {
-                                if ($("#" + idcontract + " option:selected").val() == "Altul")
-                                    $("#" + idcontract + "-text").css({ 'visibility': 'visible' });
-                                else
-                                    $("#" + idcontract + "-text").css({ 'visibility': 'hidden' });
-                            });
-                            //alert(x[i].val_atr);
+                            else
+                                $("#" + idcontract + "-text").css({ 'visibility': 'hidden' });
+                        });
+                        //alert(x[i].val_atr);
                     }
                     else
                         if (x[i].nume_atr == "Licenta" && ('@ViewBag.tipCentrala' == "MD" || '@ViewBag.tipCentrala' == "MX-ONE")) {
@@ -420,52 +432,52 @@
                             cell1.appendChild(newSpan);
 
                             var cell1 = row.insertCell(1);
-                           var newSpan = document.createElement('input');
-                           newSpan.type = "text";
-                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1";
+                            var newSpan = document.createElement('input');
+                            newSpan.type = "text";
+                            newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1";
                            newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1";
-                           newSpan.className = "editors";
-                           //newSpan.value = x[i].val_atr.substr(0, 2);
-                           var licenta1 = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1";
-                            cell1.appendChild(newSpan);
+                            newSpan.className = "editors";
+                            //newSpan.value = x[i].val_atr.substr(0, 2);
+                            var licenta1 = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1";
+                           cell1.appendChild(newSpan);
 
-                            var cell1 = row.insertCell(2);
+                           var cell1 = row.insertCell(2);
                            var mainDiv = document.getElementById('text_div');
                            var newSpan = document.createElement('input');
                            newSpan.type = "hidden";
                            newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1:";
                            newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta1:";
-                           newSpan.value = "S";
-                           cell1.appendChild(newSpan);
+                            newSpan.value = "S";
+                            cell1.appendChild(newSpan);
 
-                           var newSpan = document.createElement('input');
-                           newSpan.type = "text";
-                           newSpan.value = "-";
-                           newSpan.setAttribute("style", "float:left;width:1%;height:5%;background:transparent;border:none;readonly:readonly;margin-left:3.5%;margin-right:0;");
-                           cell1.appendChild(newSpan);
+                            var newSpan = document.createElement('input');
+                            newSpan.type = "text";
+                            newSpan.value = "-";
+                            newSpan.setAttribute("style", "float:left;width:1%;height:5%;background:transparent;border:none;margin-left:3.5%;margin-right:0;");//readonly:readonly;
+                            cell1.appendChild(newSpan);
 
 
-                           //var cell1 = row.insertCell(3);
-                           var newSpan = document.createElement('input');
-                           newSpan.type = "text";
-                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2";
+                            //var cell1 = row.insertCell(3);
+                            var newSpan = document.createElement('input');
+                            newSpan.type = "text";
+                            newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2";
                            newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2";
                             newSpan.className = "editors";
                             newSpan.setAttribute("style", "width:80%");
-                           //newSpan.value = x[i].val_atr.substr(2);
-                           var licenta2 = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2";
+                            //newSpan.value = x[i].val_atr.substr(2);
+                            var licenta2 = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2";
                             cell1.appendChild(newSpan);
 
-                           
-                           var newSpan = document.createElement('input');
-                           newSpan.type = "hidden";
-                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2:";
+
+                            var newSpan = document.createElement('input');
+                            newSpan.type = "hidden";
+                            newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2:";
                            newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + "_licenta2:";
-                           newSpan.value = "S";
-                           cell1.appendChild(newSpan);
+                            newSpan.value = "S";
+                            cell1.appendChild(newSpan);
 
 
-                           if ('@ViewBag.tipCentrala' == "MD") {
+                            if ('@ViewBag.tipCentrala' == "MD") {
                                $("#" + licenta1).val(x[i].val_atr.substr(0, 2));
                                $("#" + licenta2).val(x[i].val_atr.substr(2));
                                console.log("E MD , SE ADAUGA EVENTURI:");
@@ -492,53 +504,52 @@
                                $("#" + licenta1).val('');
                                $("#" + licenta1).attr('readonly', false);
                            }
-                        }
-                        else if (x[i].nume_atr != 'LIM MAIN' && x[i].nume_atr != 'LIM DISTANT') {
-                            var row = table.insertRow(rowCount);
-                            rowCount++;
-                            var cell1 = row.insertCell(0);
-                            var newSpan = document.createElement('label');
-                            newSpan.innerHTML = x[i].nume_atr;
-                            newSpan.className = "labels";
-                            cell1.appendChild(newSpan);
-                            var cell1 = row.insertCell(1);
-                            var newSpan = document.createElement('input');
-                            newSpan.type = "text";
-                            newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
-                           newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
-                           
-                           newSpan.className = "editors";
-                           newSpan.value = x[i].val_atr;
+                       }
+                       else if (x[i].nume_atr != 'LIM MAIN' && x[i].nume_atr != 'LIM DISTANT') {
+                           var row = table.insertRow(rowCount);
+                           rowCount++;
+                           var cell1 = row.insertCell(0);
+                           var newSpan = document.createElement('label');
+                           newSpan.innerHTML = x[i].nume_atr;
+                           newSpan.className = "labels";
                            cell1.appendChild(newSpan);
+                           var cell1 = row.insertCell(1);
+                           var newSpan = document.createElement('input');
+                           newSpan.type = "text";
+                           newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                            newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
+
+                            newSpan.className = "editors";
+                            newSpan.value = x[i].val_atr;
+                            cell1.appendChild(newSpan);
                         }
-                }
+}
 
 
                 ///////
-                var row = table.insertRow(rowCount);
-                rowCount++;
-                var cell1 = row.insertCell(0);
-                cell1.innerHTML = "<input type='button' value='Adauga conexiune' id='addcon' class='buton' onclick='addconexiune()' />";
-            }
-            else
-            if ('@ViewBag.numeechip' == 'MSED')
-            {
-                $("#cartela_noua").css({ 'display': 'none' });
-                var table = document.getElementById("tabel_detalii");
+    var row = table.insertRow(rowCount);
+    rowCount++;
+    var cell1 = row.insertCell(0);
+    cell1.innerHTML = "<input type='button' value='Adauga conexiune' id='addcon' class='buton' onclick='addconexiune()' />";
+}
+else
+    if ('@ViewBag.numeechip' == 'MSED') {
+                    $("#cartela_noua").css({ 'display': 'none' });
+                    var table = document.getElementById("tabel_detalii");
 
-                var rowCount = table.rows.length;
-                var row = table.insertRow(rowCount);
-                var cell1 = row.insertCell(0);
-                var newSpan = document.createElement('label');
-                newSpan.className = "labels";
-                newSpan.innerHTML = "IP CES";
-                cell1.appendChild(newSpan);
-                var cell1 = row.insertCell(1);
-                newSpan = document.createElement('input');
-                newSpan.type = "text";
-                for (i = 0; i < x.length; i++)
-                    if (x[i].nume_atr == "IP CES") {
-                        newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
+                    var rowCount = table.rows.length;
+                    var row = table.insertRow(rowCount);
+                    var cell1 = row.insertCell(0);
+                    var newSpan = document.createElement('label');
+                    newSpan.className = "labels";
+                    newSpan.innerHTML = "IP CES";
+                    cell1.appendChild(newSpan);
+                    var cell1 = row.insertCell(1);
+                    newSpan = document.createElement('input');
+                    newSpan.type = "text";
+                    for (i = 0; i < x.length; i++)
+                        if (x[i].nume_atr == "IP CES") {
+                            newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr;
                         newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
                         newSpan.value = x[i].val_atr;
                     }
@@ -627,7 +638,7 @@
 
 
                 var row = table.insertRow(rowCount + 3);
-               
+
                 var cell1 = row.insertCell(0);
                 var newSpan = document.createElement('label');
                 newSpan.className = "labels";
@@ -644,10 +655,10 @@
                     }
                 cell1.appendChild(newSpan);
             }
-             else
-            for (i = 0; i < x.length; i++) {
-                if ('@ViewBag.numeechip' == 'MC' || '@ViewBag.numeechip' == 'Router' || '@ViewBag.numeechip' == 'Switch' || '@ViewBag.numeechip' == 'Concentrator' || '@ViewBag.numeechip' == 'Endpoint') {
-                    
+            else
+                for (i = 0; i < x.length; i++) {
+                    if ('@ViewBag.numeechip' == 'MC' || '@ViewBag.numeechip' == 'Router' || '@ViewBag.numeechip' == 'Switch' || '@ViewBag.numeechip' == 'Concentrator' || '@ViewBag.numeechip' == 'Endpoint') {
+
 
                     $("#cartela_noua").css({ 'display': 'none' });
                     if (x[i].nume_atr == "Port") {
@@ -682,7 +693,7 @@
                             case 10: aux = " FO-10,PP37";
                                 break;
                         }
-                        newSpan.innerHTML = x[i].nume_atr + (i-2).toString();//aux
+                        newSpan.innerHTML = x[i].nume_atr + (i - 2).toString();//aux
                         cell1.appendChild(newSpan);
 
                         var cell1 = row.insertCell(1);
@@ -702,7 +713,7 @@
                         newSpan.className = "labels";
                         newSpan.innerHTML = x[i].nume_atr;
                         cell1.appendChild(newSpan);
-                        
+
                         var cell1 = row.insertCell(1);
                         var newSpan = document.createElement('input');
                         newSpan.type = "text";
@@ -715,7 +726,7 @@
                         newSpan = document.createElement('input');
                         newSpan.type = "hidden";
                         newSpan.id = '@ViewBag.id' + "_" + x[i].id_atr + ":";
-       newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + ":";
+                        newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr + ":";
                         newSpan.value = x[i].tip_val;
                         cell1.appendChild(newSpan);
 
@@ -757,19 +768,19 @@
                         }
                     }
                 }
-                
+
             }
 
-            var row = table.insertRow(rowCount);
-            rowCount++;
-            var cell1 = row.insertCell(0);
-            var newSpan = document.createElement('input');
-            newSpan.type = "hidden";
-            newSpan.id = 'siteID';
-            newSpan.name = 'siteID';
-            newSpan.value = '@ViewBag.siteID';
-            row.setAttribute("display","none");
-                   cell1.appendChild(newSpan);
+    var row = table.insertRow(rowCount);
+    rowCount++;
+    var cell1 = row.insertCell(0);
+    var newSpan = document.createElement('input');
+    newSpan.type = "hidden";
+    newSpan.id = 'siteID';
+    newSpan.name = 'siteID';
+    newSpan.value = '@ViewBag.siteID';
+            row.setAttribute("display", "none");
+            cell1.appendChild(newSpan);
         }
         else {  //echip care nu exista
             $("#cartela_noua").css({ 'display': 'none' });
@@ -868,7 +879,7 @@
                     cell3.appendChild(newSpan);
                 }
 
-                
+
                 if ('@ViewBag.numeechip' == 'Switch') {
                     var row1 = table.insertRow(rowCount + 2);
                     var cell1 = row1.insertCell(0);
@@ -883,7 +894,7 @@
                     newSpan.name = 'port1';
                     newSpan.className = "editors";
                     cell1.appendChild(newSpan);
-                   
+
                     var cell1 = row1.insertCell(2);
                     cell1.innerHTML = "<input type='button' class='buton'  id='addport' name='addport' onclick='addportswitch()' value='Adauga port' />";
                     /*newSpan.type = "button";
@@ -916,7 +927,7 @@
                     for (k = 1; k <= 10; k++) {
                         if (k == 2) {
                             var cell1 = row1.insertCell(2);
-                            cell1.setAttribute("rowspan","10");
+                            cell1.setAttribute("rowspan", "10");
                             var newSpan = document.createElement('img');
                             newSpan.src = '@Url.Content("~/Images/concentrator.png")';
                             cell1.appendChild(newSpan);
@@ -1048,7 +1059,7 @@
                 newSpan.name = 'ipcesremote';
                 cell1.appendChild(newSpan);
 
-                
+
                 var row = table.insertRow(rowCount + 2);
                 var cell1 = row.insertCell(0);
                 var newSpan = document.createElement('label');
@@ -1073,9 +1084,9 @@
                 newSpan.name = 'ipmanagementremote';
                 cell1.appendChild(newSpan);
 
-                
+
                 var row = table.insertRow(rowCount + 3);
-                
+
                 var cell1 = row.insertCell(0);
                 var newSpan = document.createElement('label');
                 newSpan.className = "labels";
@@ -1104,14 +1115,14 @@
                     url: '@Url.Content("~/Echipament/GetTip")',
                     type: 'POST',
                     success: function (response) {
-                        
+
                         var newSpan7 = document.createElement('select');
 
                         newSpan7.id = 'tip_val';
                         newSpan7.name = 'tip_val'
                         newSpan7.className = "editors";
                         newSpan7.onchange = function (event, k) {
-                            tip_ales = $("#"+ this.id+" option:selected").val();
+                            tip_ales = $("#" + this.id + " option:selected").val();
                             $.ajax({
                                 url: '@Url.Content("~/Echipament/GetVersiuni")',
                                 data: { idver: null, tip_ales: tip_ales },
@@ -1216,7 +1227,7 @@
                 newSpan.value = 'I';
                 cell1.appendChild(newSpan);
 
-                var row = table.insertRow(rowCount+1);
+                var row = table.insertRow(rowCount + 1);
                 var cell1 = row.insertCell(0);
                 var newSpan = document.createElement('label');
                 newSpan.className = "labels";
@@ -1236,7 +1247,7 @@
                 newSpan.value = 'S';
                 cell1.appendChild(newSpan);
 
-                var row = table.insertRow(rowCount+2);
+                var row = table.insertRow(rowCount + 2);
                 var cell1 = row.insertCell(0);
                 var newSpan = document.createElement('label');
                 newSpan.className = "labels";
@@ -1247,10 +1258,10 @@
                 var cell8 = row.insertCell(1);
                 $.ajax({
                     url: '@Url.Content("~/Echipament/GetVersiuni")',
-                    data:{idver: null, tip_ales:"1"},
+                    data: { idver: null, tip_ales: "1" },
                     type: 'POST',
                     success: function (response) {
-                        
+
                         var newSpan8 = document.createElement('select');
 
                         newSpan8.id = 'ver_val';
@@ -1280,264 +1291,264 @@
                 cell1.appendChild(newSpan);
                 var cell1 = row.insertCell(1);
 
-                                       var newSpan = document.createElement('select');
-                                       newSpan.id = 'contract';
-                                       newSpan.name = 'contract'
-                                       newSpan.className = "editors";
+                var newSpan = document.createElement('select');
+                newSpan.id = 'contract';
+                newSpan.name = 'contract'
+                newSpan.className = "editors";
 
-                                       cell1.appendChild(newSpan);
-                                       var option = document.createElement("option");
-                                       option.value = 'K1';
-                                       option.text = 'K1';
-                                       newSpan.appendChild(option);
-                                       var option = document.createElement("option");
-                                       option.value = 'K2';
-                                       option.text = 'K2';
-                                       newSpan.appendChild(option);
-                                       var option = document.createElement("option");
-                                       option.value = 'K3';
-                                       option.text = 'K3';
-                                       newSpan.appendChild(option);
-                                       var option = document.createElement("option");
-                                       option.value = 'Etapa 4';
-                                       option.text = 'Etapa 4';
-                                       newSpan.appendChild(option);
-                                       var option = document.createElement("option");
-                                       option.value = 'Schengen 3.1';
-                                       option.text = 'Schengen 3.1';
-                                       newSpan.appendChild(option);
-                                       var option = document.createElement("option");
-                                       option.value = 'Altul';
-                                       option.text = 'Altul';
-                                       newSpan.appendChild(option);
+                cell1.appendChild(newSpan);
+                var option = document.createElement("option");
+                option.value = 'K1';
+                option.text = 'K1';
+                newSpan.appendChild(option);
+                var option = document.createElement("option");
+                option.value = 'K2';
+                option.text = 'K2';
+                newSpan.appendChild(option);
+                var option = document.createElement("option");
+                option.value = 'K3';
+                option.text = 'K3';
+                newSpan.appendChild(option);
+                var option = document.createElement("option");
+                option.value = 'Etapa 4';
+                option.text = 'Etapa 4';
+                newSpan.appendChild(option);
+                var option = document.createElement("option");
+                option.value = 'Schengen 3.1';
+                option.text = 'Schengen 3.1';
+                newSpan.appendChild(option);
+                var option = document.createElement("option");
+                option.value = 'Altul';
+                option.text = 'Altul';
+                newSpan.appendChild(option);
 
-                                       var cell1 = row.insertCell(2);
-                                       var newSpan = document.createElement('input');
-                                       newSpan.type = "text";
-                                       newSpan.id = "contract-text";
-                                       newSpan.name = "contract-text";
-                                       newSpan.className = "editors";
-                                       newSpan.setAttribute("style", "visibility:hidden");
-                                       cell1.appendChild(newSpan);
+                var cell1 = row.insertCell(2);
+                var newSpan = document.createElement('input');
+                newSpan.type = "text";
+                newSpan.id = "contract-text";
+                newSpan.name = "contract-text";
+                newSpan.className = "editors";
+                newSpan.setAttribute("style", "visibility:hidden");
+                cell1.appendChild(newSpan);
 
 
-                                       $("#contract").change(function () {
-                                           if ($("#contract option:selected").val() == "Altul")
-                                               $("#contract-text").css({ 'visibility': 'visible' });
-                                           else
-                                               $("#contract-text").css({ 'visibility': 'hidden' });
-                                       });
+                $("#contract").change(function () {
+                    if ($("#contract option:selected").val() == "Altul")
+                        $("#contract-text").css({ 'visibility': 'visible' });
+                    else
+                        $("#contract-text").css({ 'visibility': 'hidden' });
+                });
                 ////
-                                       var row = table.insertRow(rowCount + 4);
-                                       var cell1 = row.insertCell(0);
-                                       var newSpan = document.createElement('label');
-                                       newSpan.className = "labels";
-                                       newSpan.innerHTML = "Licenta";
-                                       cell1.appendChild(newSpan);
-                                       var cell1 = row.insertCell(1);
-                                       var newSpan = document.createElement('input');
-                                       newSpan.type = "text";
-                                       newSpan.id = 'licenta1';
-                                       newSpan.name = 'licenta1';
-                                       newSpan.value = 'SN';
-                                       newSpan.setAttribute('readonly', 'true');
-                                       newSpan.className = "editors";
-                                       cell1.appendChild(newSpan);
-                                       var cell1 = row.insertCell(2);
-                                       var mainDiv = document.getElementById('text_div');
-                                       var newSpan11 = document.createElement('input');
-                                       newSpan11.type = "text";
-                                       newSpan11.id = 'licenta2';
-                                       newSpan11.name = 'licenta2';
-                                       newSpan11.setAttribute("style", "width:80%");
-                                       newSpan11.onkeyup = function () {
-                                           newSpan11.value = newSpan11.value.substr(0, 5);
-                                       }
-                                       newSpan11.className = "editors";
-                                       cell1.appendChild(newSpan11);
+                var row = table.insertRow(rowCount + 4);
+                var cell1 = row.insertCell(0);
+                var newSpan = document.createElement('label');
+                newSpan.className = "labels";
+                newSpan.innerHTML = "Licenta";
+                cell1.appendChild(newSpan);
+                var cell1 = row.insertCell(1);
+                var newSpan = document.createElement('input');
+                newSpan.type = "text";
+                newSpan.id = 'licenta1';
+                newSpan.name = 'licenta1';
+                newSpan.value = 'SN';
+                newSpan.setAttribute('readonly', 'true');
+                newSpan.className = "editors";
+                cell1.appendChild(newSpan);
+                var cell1 = row.insertCell(2);
+                var mainDiv = document.getElementById('text_div');
+                var newSpan11 = document.createElement('input');
+                newSpan11.type = "text";
+                newSpan11.id = 'licenta2';
+                newSpan11.name = 'licenta2';
+                newSpan11.setAttribute("style", "width:80%");
+                newSpan11.onkeyup = function () {
+                    newSpan11.value = newSpan11.value.substr(0, 5);
+                }
+                newSpan11.className = "editors";
+                cell1.appendChild(newSpan11);
 
 
-                                       var row = table.insertRow(rowCount + 5);
-                                       var cell1 = row.insertCell(0);
-                                       var newSpan = document.createElement('label');
-                                       newSpan.className = "labels";
-                                       newSpan.innerHTML = "Abonati analogici";
-                                       cell1.appendChild(newSpan);
-                                       var cell1 = row.insertCell(1);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "text";
-                                       newSpan.id = 'ab_analogici_dela';
-                                       newSpan.name = 'ab_analogici_dela';
-                                       newSpan.className = "editors";
-                                       newSpan.setAttribute("validare", "true");
-                                       cell1.appendChild(newSpan);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "hidden";
-                                       newSpan.id = 'ab_analogici_dela:';
-                                       newSpan.name = 'ab_analogici_dela:';
-                                       newSpan.value = 'I';
-                                       cell1.appendChild(newSpan);
-                                       var cell1 = row.insertCell(2);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "text";
-                                       newSpan.id = 'ab_analogici_panala';
-                                       newSpan.name = 'ab_analogici_panala';
-                                       newSpan.setAttribute("validare", "true");
-                                       newSpan.className = "editors";
-                                       cell1.appendChild(newSpan);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "hidden";
-                                       newSpan.id = 'ab_analogici_panala:';
-                                       newSpan.name = 'ab_analogici_panala:';
-                                       newSpan.value = 'I';
-                                       cell1.appendChild(newSpan);
+                var row = table.insertRow(rowCount + 5);
+                var cell1 = row.insertCell(0);
+                var newSpan = document.createElement('label');
+                newSpan.className = "labels";
+                newSpan.innerHTML = "Abonati";// analogici";
+                cell1.appendChild(newSpan);
+                var cell1 = row.insertCell(1);
+                newSpan = document.createElement('input');
+                newSpan.type = "text";
+                newSpan.id = 'ab_analogici_dela';
+                newSpan.name = 'ab_analogici_dela';
+                newSpan.className = "editors";
+                newSpan.setAttribute("validare", "true");
+                cell1.appendChild(newSpan);
+                newSpan = document.createElement('input');
+                newSpan.type = "hidden";
+                newSpan.id = 'ab_analogici_dela:';
+                newSpan.name = 'ab_analogici_dela:';
+                newSpan.value = 'I';
+                cell1.appendChild(newSpan);
+                var cell1 = row.insertCell(2);
+                newSpan = document.createElement('input');
+                newSpan.type = "text";
+                newSpan.id = 'ab_analogici_panala';
+                newSpan.name = 'ab_analogici_panala';
+                newSpan.setAttribute("validare", "true");
+                newSpan.className = "editors";
+                cell1.appendChild(newSpan);
+                newSpan = document.createElement('input');
+                newSpan.type = "hidden";
+                newSpan.id = 'ab_analogici_panala:';
+                newSpan.name = 'ab_analogici_panala:';
+                newSpan.value = 'I';
+                cell1.appendChild(newSpan);
 
 
-                                       var row = table.insertRow(rowCount + 6);
-                                       var cell1 = row.insertCell(0);
-                                       var newSpan = document.createElement('label');
-                                       newSpan.className = "labels";
-                                       newSpan.innerHTML = "Abonati digitali";
-                                       cell1.appendChild(newSpan);
-                                       var cell1 = row.insertCell(1);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "text";
-                                       newSpan.id = 'ab_digitali_dela';
-                                       newSpan.name = 'ab_digitali_dela';
-                                       newSpan.className = "editors";
-                                       newSpan.setAttribute("validare", "true");
-                                       cell1.appendChild(newSpan);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "hidden";
-                                       newSpan.id = 'ab_digitali_dela:';
-                                       newSpan.name = 'ab_digitali_dela:';
-                                       newSpan.value = 'I';
-                                       cell1.appendChild(newSpan);
-                                       var cell1 = row.insertCell(2);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "text";
-                                       newSpan.id = 'ab_digitali_panala';
-                                       newSpan.name = 'ab_digitali_panala';
-                                       newSpan.setAttribute("validare", "true");
-                                       newSpan.className = "editors";
-                                       cell1.appendChild(newSpan);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "hidden";
-                                       newSpan.id = 'ab_digitali_panala:';
-                                       newSpan.name = 'ab_digitali_panala:';
-                                       newSpan.value = 'I';
-                                       cell1.appendChild(newSpan);
+                var row = table.insertRow(rowCount + 6);
+                var cell1 = row.insertCell(0);
+                var newSpan = document.createElement('label');
+                newSpan.className = "labels";
+                newSpan.innerHTML = "Abonati";// digitali";
+                cell1.appendChild(newSpan);
+                var cell1 = row.insertCell(1);
+                newSpan = document.createElement('input');
+                newSpan.type = "text";
+                newSpan.id = 'ab_digitali_dela';
+                newSpan.name = 'ab_digitali_dela';
+                newSpan.className = "editors";
+                newSpan.setAttribute("validare", "true");
+                cell1.appendChild(newSpan);
+                newSpan = document.createElement('input');
+                newSpan.type = "hidden";
+                newSpan.id = 'ab_digitali_dela:';
+                newSpan.name = 'ab_digitali_dela:';
+                newSpan.value = 'I';
+                cell1.appendChild(newSpan);
+                var cell1 = row.insertCell(2);
+                newSpan = document.createElement('input');
+                newSpan.type = "text";
+                newSpan.id = 'ab_digitali_panala';
+                newSpan.name = 'ab_digitali_panala';
+                newSpan.setAttribute("validare", "true");
+                newSpan.className = "editors";
+                cell1.appendChild(newSpan);
+                newSpan = document.createElement('input');
+                newSpan.type = "hidden";
+                newSpan.id = 'ab_digitali_panala:';
+                newSpan.name = 'ab_digitali_panala:';
+                newSpan.value = 'I';
+                cell1.appendChild(newSpan);
 
 
 
-                                       var row = table.insertRow(rowCount + 7);
-                                       var cell1 = row.insertCell(0);
-                                       var newSpan = document.createElement('label');
-                                       newSpan.className = "labels";
-                                       newSpan.innerHTML = "Abonati IP";
-                                       cell1.appendChild(newSpan);
-                                       var cell1 = row.insertCell(1);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "text";
-                                       newSpan.id = 'ab_IP_dela';
-                                       newSpan.name = 'ab_IP_dela';
-                                       newSpan.setAttribute("validare", "true");
-                                       newSpan.className = "editors";
-                                       cell1.appendChild(newSpan);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "hidden";
-                                       newSpan.id = 'ab_IP_dela:';
-                                       newSpan.name = 'ab_IP_dela:';
-                                       newSpan.value = 'I';
-                                       cell1.appendChild(newSpan);
-                                       var cell1 = row.insertCell(2);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "text";
-                                       newSpan.id = 'ab_IP_panala';
-                                       newSpan.name = 'ab_IP_panala';
-                                       newSpan.setAttribute("validare", "true");
-                                       newSpan.className = "editors";
-                                       cell1.appendChild(newSpan);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "hidden";
-                                       newSpan.id = 'ab_IP_panala:';
-                                       newSpan.name = 'ab_IP_panala:';
-                                       newSpan.value = 'I';
-                                       cell1.appendChild(newSpan);
-                
+                var row = table.insertRow(rowCount + 7);
+                var cell1 = row.insertCell(0);
+                var newSpan = document.createElement('label');
+                newSpan.className = "labels";
+                newSpan.innerHTML = "Abonati";// IP";
+                cell1.appendChild(newSpan);
+                var cell1 = row.insertCell(1);
+                newSpan = document.createElement('input');
+                newSpan.type = "text";
+                newSpan.id = 'ab_IP_dela';
+                newSpan.name = 'ab_IP_dela';
+                newSpan.setAttribute("validare", "true");
+                newSpan.className = "editors";
+                cell1.appendChild(newSpan);
+                newSpan = document.createElement('input');
+                newSpan.type = "hidden";
+                newSpan.id = 'ab_IP_dela:';
+                newSpan.name = 'ab_IP_dela:';
+                newSpan.value = 'I';
+                cell1.appendChild(newSpan);
+                var cell1 = row.insertCell(2);
+                newSpan = document.createElement('input');
+                newSpan.type = "text";
+                newSpan.id = 'ab_IP_panala';
+                newSpan.name = 'ab_IP_panala';
+                newSpan.setAttribute("validare", "true");
+                newSpan.className = "editors";
+                cell1.appendChild(newSpan);
+                newSpan = document.createElement('input');
+                newSpan.type = "hidden";
+                newSpan.id = 'ab_IP_panala:';
+                newSpan.name = 'ab_IP_panala:';
+                newSpan.value = 'I';
+                cell1.appendChild(newSpan);
 
-                                       var row = table.insertRow(rowCount + 8);
-                                       var cell1 = row.insertCell(0);
-                                       var newSpan = document.createElement('label');
-                                       newSpan.className = "labels";
-                                       newSpan.innerHTML = "Abonati DECT";
-                                       cell1.appendChild(newSpan);
-                                       var cell1 = row.insertCell(1);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "text";
-                                       newSpan.id = 'ab_DECT_dela';
-                                       newSpan.name = 'ab_DECT_dela';
-                                       newSpan.setAttribute("validare", "true");
-                                       newSpan.className = "editors";
-                                       cell1.appendChild(newSpan);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "hidden";
-                                       newSpan.id = 'ab_DECT_dela:';
-                                       newSpan.name = 'ab_DECT_dela:';
-                                       newSpan.value = 'I';
-                                       cell1.appendChild(newSpan);
-                                       var cell1 = row.insertCell(2);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "text";
-                                       newSpan.id = 'ab_DECT_panala';
-                                       newSpan.name = 'ab_DECT_panala';
-                                       newSpan.setAttribute("validare", "true");
-                                       newSpan.className = "editors";
-                                       cell1.appendChild(newSpan);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "hidden";
-                                       newSpan.id = 'ab_DECT_panala:';
-                                       newSpan.name = 'ab_DECT_panala:';
-                                       newSpan.value = 'I';
-                                       cell1.appendChild(newSpan);
 
-                                       var row = table.insertRow(rowCount + 9);
-                                       var cell1 = row.insertCell(0);
-                                       var newSpan = document.createElement('label');
-                                       newSpan.className = "labels";
-                                       newSpan.innerHTML = "Plaja alocata totala";
-                                       cell1.appendChild(newSpan);
-                                       var cell1 = row.insertCell(1);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "text";
-                                       newSpan.id = 'ab_total_dela';
-                                       newSpan.setAttribute("validare", "true");
-                                       newSpan.name = 'ab_total_dela';
-                                       newSpan.className = "editors";
-                                       cell1.appendChild(newSpan);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "hidden";
-                                       newSpan.id = 'ab_total_dela:';
-                                       newSpan.name = 'ab_total_dela:';
-                                       newSpan.value = 'I';
-                                       cell1.appendChild(newSpan);
-                                       var cell1 = row.insertCell(2);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "text";
-                                       newSpan.id = 'ab_total_panala';
-                                       newSpan.name = 'ab_total_panala';
-                                       newSpan.setAttribute("validare", "true");
-                                       newSpan.className = "editors";
-                                       cell1.appendChild(newSpan);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "hidden";
-                                       newSpan.id = 'ab_total_panala:';
-                                       newSpan.name = 'ab_total_panala:';
-                                       newSpan.value = 'I';
-                                       cell1.appendChild(newSpan);
-                
-                                       var row = table.insertRow(rowCount + 10);
-                                       var cell1 = row.insertCell(0);
+                var row = table.insertRow(rowCount + 8);
+                var cell1 = row.insertCell(0);
+                var newSpan = document.createElement('label');
+                newSpan.className = "labels";
+                newSpan.innerHTML = "Abonati";// DECT";
+                cell1.appendChild(newSpan);
+                var cell1 = row.insertCell(1);
+                newSpan = document.createElement('input');
+                newSpan.type = "text";
+                newSpan.id = 'ab_DECT_dela';
+                newSpan.name = 'ab_DECT_dela';
+                newSpan.setAttribute("validare", "true");
+                newSpan.className = "editors";
+                cell1.appendChild(newSpan);
+                newSpan = document.createElement('input');
+                newSpan.type = "hidden";
+                newSpan.id = 'ab_DECT_dela:';
+                newSpan.name = 'ab_DECT_dela:';
+                newSpan.value = 'I';
+                cell1.appendChild(newSpan);
+                var cell1 = row.insertCell(2);
+                newSpan = document.createElement('input');
+                newSpan.type = "text";
+                newSpan.id = 'ab_DECT_panala';
+                newSpan.name = 'ab_DECT_panala';
+                newSpan.setAttribute("validare", "true");
+                newSpan.className = "editors";
+                cell1.appendChild(newSpan);
+                newSpan = document.createElement('input');
+                newSpan.type = "hidden";
+                newSpan.id = 'ab_DECT_panala:';
+                newSpan.name = 'ab_DECT_panala:';
+                newSpan.value = 'I';
+                cell1.appendChild(newSpan);
+
+                var row = table.insertRow(rowCount + 9);
+                var cell1 = row.insertCell(0);
+                var newSpan = document.createElement('label');
+                newSpan.className = "labels";
+                newSpan.innerHTML = "Plaja alocata totala";
+                cell1.appendChild(newSpan);
+                var cell1 = row.insertCell(1);
+                newSpan = document.createElement('input');
+                newSpan.type = "text";
+                newSpan.id = 'ab_total_dela';
+                newSpan.setAttribute("validare", "true");
+                newSpan.name = 'ab_total_dela';
+                newSpan.className = "editors";
+                cell1.appendChild(newSpan);
+                newSpan = document.createElement('input');
+                newSpan.type = "hidden";
+                newSpan.id = 'ab_total_dela:';
+                newSpan.name = 'ab_total_dela:';
+                newSpan.value = 'I';
+                cell1.appendChild(newSpan);
+                var cell1 = row.insertCell(2);
+                newSpan = document.createElement('input');
+                newSpan.type = "text";
+                newSpan.id = 'ab_total_panala';
+                newSpan.name = 'ab_total_panala';
+                newSpan.setAttribute("validare", "true");
+                newSpan.className = "editors";
+                cell1.appendChild(newSpan);
+                newSpan = document.createElement('input');
+                newSpan.type = "hidden";
+                newSpan.id = 'ab_total_panala:';
+                newSpan.name = 'ab_total_panala:';
+                newSpan.value = 'I';
+                cell1.appendChild(newSpan);
+
+                var row = table.insertRow(rowCount + 10);
+                var cell1 = row.insertCell(0);
                 /*
                                        tabel = document.createElement('table');
                                        tabel.setAttribute("style", "width:15%;margin-top:10%;");
@@ -1558,373 +1569,403 @@
                                        var cell4 = row.insertCell(4);
                                        cell4.setAttribute("style", "width:10px;");
                                        */
-                                       cell1.innerHTML = "<input type='radio' name='lim' id='limmain' value='limmain' checked='checked'  style='width:15px;'  onchange='verifcalim()' />";
-                                       cell1.innerHTML += "<label class='labels'  style='width:10px;'>LIM MAIN</label>";
-                                       var cell1 = row.insertCell(1);
-                                       cell1.innerHTML = "<input type='radio' name='lim' id='limdist' value='limdist' style='width:15px;' onchange='verifcalim()' />";
-                                       cell1.innerHTML += "<label class='labels'  style='width:10px;'>LIM DISTANT</label>";
-                                       var cell1 = row.insertCell(2);
-                                       cell1.innerHTML = "<input class='editors'  style='display:none;' id='limdist-text' name= 'limdist-text'>";
+                cell1.innerHTML = "<input type='radio' name='lim' id='limmain' value='limmain' checked='checked'  style='width:15px;'  onchange='verifcalim()' />";
+                cell1.innerHTML += "<label class='labels'  style='width:10px;'>LIM MAIN</label>";
+                var cell1 = row.insertCell(1);
+                cell1.innerHTML = "<input type='radio' name='lim' id='limdist' value='limdist' style='width:15px;' onchange='verifcalim()' />";
+                cell1.innerHTML += "<label class='labels'  style='width:10px;'>LIM DISTANT</label>";
+                var cell1 = row.insertCell(2);
+                cell1.innerHTML = "<input class='editors'  style='display:none;' id='limdist-text' name= 'limdist-text'>";
 
 
-                                       var row = table.insertRow(rowCount + 11);
-                                       var cell1 = row.insertCell(0);
-                                       /*var newSpan = document.createElement('label');
-                                       newSpan.className = "labels";
-                                       newSpan.innerHTML = "Conexiune:";
-                                       cell1.appendChild(newSpan);*/
+                var row = table.insertRow(rowCount + 11);
+                var cell1 = row.insertCell(0);
+                /*var newSpan = document.createElement('label');
+                newSpan.className = "labels";
+                newSpan.innerHTML = "Conexiune:";
+                cell1.appendChild(newSpan);*/
 
-                                       var newSpan = document.createElement('label');
-                                       newSpan.className = "labels";
-                                       newSpan.innerHTML = "Nr. ruta";
-                                       newSpan.setAttribute("style", "width:20%;");
-                                       cell1.appendChild(newSpan);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "text";
-                                       newSpan.id = 'nrruta';
-                                       newSpan.name = 'nrruta';
-                                       newSpan.setAttribute("style","width:70%;margin-left:2%;");
-                                       newSpan.className = "editors";
-                                       cell1.appendChild(newSpan);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "hidden";
-                                       newSpan.id = 'nrruta:';
-                                       newSpan.name = 'nrruta:';
-                                       newSpan.value = 'S';
-                                       cell1.appendChild(newSpan);
-                                       var cell1 = row.insertCell(1);
-                                       var newSpan = document.createElement('label');
-                                       newSpan.className = "labels";
-                                       newSpan.innerHTML = "Tip";
-                                       newSpan.setAttribute("style", "width:20%;");
-                                       cell1.appendChild(newSpan);
-                                       newSpan = document.createElement('select');
-                                       newSpan.setAttribute("style", "width:70%;margin-left:2%;");
-                                       newSpan.setAttribute("name", "tipconexiune");
-                                       newSpan.setAttribute("id", "tipconexiune");
-                                       newSpan.className = "editors";
-                                       cell1.appendChild(newSpan);
+                var newSpan = document.createElement('label');
+                newSpan.className = "labels";
+                newSpan.innerHTML = "Nr. ruta";
+                newSpan.setAttribute("style", "width:20%;");
+                cell1.appendChild(newSpan);
+                newSpan = document.createElement('input');
+                newSpan.type = "text";
+                newSpan.id = 'nrruta';
+                newSpan.name = 'nrruta';
+                newSpan.setAttribute("style", "width:70%;margin-left:2%;");
+                newSpan.className = "editors";
+                cell1.appendChild(newSpan);
+                newSpan = document.createElement('input');
+                newSpan.type = "hidden";
+                newSpan.id = 'nrruta:';
+                newSpan.name = 'nrruta:';
+                newSpan.value = 'S';
+                cell1.appendChild(newSpan);
+                var cell1 = row.insertCell(1);
+                var newSpan = document.createElement('label');
+                newSpan.className = "labels";
+                newSpan.innerHTML = "Tip";
+                newSpan.setAttribute("style", "width:20%;");
+                cell1.appendChild(newSpan);
+                newSpan = document.createElement('select');
+                newSpan.setAttribute("style", "width:70%;margin-left:2%;");
+                newSpan.setAttribute("name", "tipconexiune");
+                newSpan.setAttribute("id", "tipconexiune");
+                newSpan.className = "editors";
+                newSpan.onchange = function () {
+                    if ($("#tipconexiune").val() == "IP-SIP" || $("#tipconexiune").val() == "IP-H323") {
+                        $("#destcell").attr("style","display:none");
+                        $("#pozcell").attr("style", "display:none");
+                        $("#tipcell").attr("style", "display:none");
+                    }
+                    else {
+                        $("#destcell").attr("style","display:compact");
+                        $("#pozcell").attr("style", "display:compact");
+                        $("#tipcell").attr("style", "display:compact");
+                    }
+                }
+                cell1.appendChild(newSpan);
 
-                                       var option = document.createElement("option");
-                                       option.value = '';
-                                       option.text = '';
-                                       newSpan.appendChild(option);
+                var option = document.createElement("option");
+                option.value = '';
+                option.text = '';
+                newSpan.appendChild(option);
 
-                                       var option = document.createElement("option");
-                                       option.value = 'IP-SIP';
-                                       option.text = 'IP-SIP';
-                                       newSpan.appendChild(option);
+                var option = document.createElement("option");
+                option.value = 'IP-SIP';
+                option.text = 'IP-SIP';
+                newSpan.appendChild(option);
 
-                                       var option = document.createElement("option");
-                                       option.value = 'IP-H323';
-                                       option.text = 'IP-H323';
-                                       newSpan.appendChild(option);
-                                       var option = document.createElement("option");
-                                       option.value = 'ISDN-QSIG';
-                                       option.text = 'ISDN-QSIG';
-                                       newSpan.appendChild(option);
-                                       var option = document.createElement("option");
-                                       option.value = 'ISDN-PUBLIC';
-                                       option.text = 'ISDN-PUBLIC';
-                                       newSpan.appendChild(option);
+                var option = document.createElement("option");
+                option.value = 'IP-H323';
+                option.text = 'IP-H323';
+                newSpan.appendChild(option);
+                var option = document.createElement("option");
+                option.value = 'ISDN-QSIG';
+                option.text = 'ISDN-QSIG';
+                newSpan.appendChild(option);
+                var option = document.createElement("option");
+                option.value = 'ISDN-PUBLIC';
+                option.text = 'ISDN-PUBLIC';
+                newSpan.appendChild(option);
 
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "hidden";
-                                       newSpan.id = 'tipconexiune:';
-                                       newSpan.name = 'tipconexiune:';
-                                       newSpan.value = 'S';
-                                       cell1.appendChild(newSpan);
-
-
-                                       var cell1 = row.insertCell(2);
-                                       var newSpan = document.createElement('label');
-                                       newSpan.className = "labels";
-                                       newSpan.innerHTML = "Destinatie";
-                                       newSpan.setAttribute("style", "width:20%;");
-                                       cell1.appendChild(newSpan);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "text";
-                                       newSpan.id = 'destinatie';
-                                       newSpan.name = 'destinatie';
-                                       newSpan.setAttribute("style", "width:70%;margin-left:2%;");
-                                       newSpan.className = "editors";
-                                       cell1.appendChild(newSpan);
-
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "hidden";
-                                       newSpan.id = 'destinatie:';
-                                       newSpan.name = 'destinatie:';
-                                       newSpan.value = 'S';
-                                       cell1.appendChild(newSpan);
-
-                                       var cell1 = row.insertCell(3);
-                                       var newSpan = document.createElement('label');
-                                       newSpan.className = "labels";
-                                       newSpan.innerHTML = "Poz. echip.";
-                                       newSpan.setAttribute("style", "width:20%;");
-                                       cell1.appendChild(newSpan);
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "text";
-                                       newSpan.id = 'pozitie';
-                                       newSpan.name = 'pozitie';
-                                       newSpan.setAttribute("style", "width:50%;margin-left:2%;");
-                                       newSpan.className = "editors";
-                                       cell1.appendChild(newSpan);
-
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "hidden";
-                                       newSpan.id = 'pozitie:';
-                                       newSpan.name = 'pozitie:';
-                                       newSpan.value = 'S';
-                                       cell1.appendChild(newSpan);
+                newSpan = document.createElement('input');
+                newSpan.type = "hidden";
+                newSpan.id = 'tipconexiune:';
+                newSpan.name = 'tipconexiune:';
+                newSpan.value = 'S';
+                cell1.appendChild(newSpan);
 
 
-                                       var cell1 = row.insertCell(4);
-                                       var newSpan = document.createElement('label');
-                                       newSpan.className = "labels";
-                                       newSpan.innerHTML = "Tip echip.";
-                                       newSpan.setAttribute("style", "width:20%;");
-                                       cell1.appendChild(newSpan);
-                                       newSpan = document.createElement('select');
-                                       newSpan.id = 'tiptransport';
-                                       newSpan.name = 'tiptransport';
-                                       newSpan.setAttribute("style", "width:50%;margin-left:2%;");
-                                       newSpan.className = "editors";
-                                       var option = document.createElement("option");
-                                       option.value = '';
-                                       option.text = '';
-                                       newSpan.appendChild(option);
+                var cell1 = row.insertCell(2);
+                cell1.id = "destcell";
+                var newSpan = document.createElement('label');
+                newSpan.className = "labels";
+                newSpan.innerHTML = "Destinatie";
+                newSpan.setAttribute("style", "width:20%;");
+                cell1.appendChild(newSpan);
+                newSpan = document.createElement('input');
+                newSpan.type = "text";
+                newSpan.id = 'destinatie';
+                newSpan.name = 'destinatie';
+                newSpan.setAttribute("style", "width:70%;margin-left:2%;");
+                newSpan.className = "editors";
+                cell1.appendChild(newSpan);
 
-                                       var option = document.createElement("option");
-                                       option.value = 'MSED';
-                                       option.text = 'MSED';
-                                       newSpan.appendChild(option);
-                                       var option = document.createElement("option");
-                                       option.value = 'MC';
-                                       option.text = 'MC';
-                                       newSpan.appendChild(option);
-                                       var option = document.createElement("option");
-                                       option.value = 'Modem HDSL';
-                                       option.text = 'Modem HDSL';
-                                       newSpan.appendChild(option);
-                                       var option = document.createElement("option");
-                                       option.value = 'Concentrator';
-                                       option.text = 'Concentrator';
-                                       newSpan.appendChild(option);
-                                       var option = document.createElement("option");
-                                       option.value = 'Endpoint';
-                                       option.text = 'Endpoint';
-                                       newSpan.appendChild(option);
-                                       var option = document.createElement("option");
-                                       option.value = 'Modem HDSL public';
-                                       option.text = 'Modem HDSL public';
-                                       newSpan.appendChild(option);
-                                       var option = document.createElement("option");
-                                       option.value = 'Modem HDSL STS';
-                                       option.text = 'Modem HDSL STS';
-                                       newSpan.appendChild(option);
-                                       cell1.appendChild(newSpan);
+                newSpan = document.createElement('input');
+                newSpan.type = "hidden";
+                newSpan.id = 'destinatie:';
+                newSpan.name = 'destinatie:';
+                newSpan.value = 'S';
+                cell1.appendChild(newSpan);
+
+                var cell1 = row.insertCell(3);
+                cell1.id = "pozcell";
+                var newSpan = document.createElement('label');
+                newSpan.className = "labels";
+                newSpan.innerHTML = "Poz. echip.";
+                newSpan.setAttribute("style", "width:20%;");
+                cell1.appendChild(newSpan);
+                newSpan = document.createElement('input');
+                newSpan.type = "text";
+                newSpan.id = 'pozitie';
+                newSpan.name = 'pozitie';
+                newSpan.setAttribute("style", "width:50%;margin-left:2%;");
+                newSpan.className = "editors";
+                cell1.appendChild(newSpan);
+
+                newSpan = document.createElement('input');
+                newSpan.type = "hidden";
+                newSpan.id = 'pozitie:';
+                newSpan.name = 'pozitie:';
+                newSpan.value = 'S';
+                cell1.appendChild(newSpan);
 
 
-                                       newSpan = document.createElement('input');
-                                       newSpan.type = "hidden";
-                                       newSpan.id = 'tiptransport:';
-                                       newSpan.name = 'tiptransport:';
-                                       newSpan.value = 'S';
-                                       cell1.appendChild(newSpan);
+                var cell1 = row.insertCell(4);
+                cell1.id = "tipcell";
+                var newSpan = document.createElement('label');
+                newSpan.className = "labels";
+                newSpan.innerHTML = "Tip echip.";
+                newSpan.setAttribute("style", "width:20%;");
+                cell1.appendChild(newSpan);
+                newSpan = document.createElement('select');
+                newSpan.id = 'tiptransport';
+                newSpan.name = 'tiptransport';
+                newSpan.setAttribute("style", "width:50%;margin-left:2%;");
+                newSpan.className = "editors";
+                var option = document.createElement("option");
+                option.value = '';
+                option.text = '';
+                newSpan.appendChild(option);
 
-                                       var row = table.insertRow(rowCount+12);
-                                       var cell1 = row.insertCell(0);
-                                       cell1.innerHTML = "<input type='button' value='Adauga conexiune' id ='addcon' class='buton' onclick='addconexiune()' />";
+                var option = document.createElement("option");
+                option.value = 'MSED';
+                option.text = 'MSED';
+                newSpan.appendChild(option);
+                var option = document.createElement("option");
+                option.value = 'MC';
+                option.text = 'MC';
+                newSpan.appendChild(option);
+                var option = document.createElement("option");
+                option.value = 'Modem HDSL';
+                option.text = 'Modem HDSL';
+                newSpan.appendChild(option);
+                var option = document.createElement("option");
+                option.value = 'Concentrator';
+                option.text = 'Concentrator';
+                newSpan.appendChild(option);
+                var option = document.createElement("option");
+                option.value = 'Endpoint';
+                option.text = 'Endpoint';
+                newSpan.appendChild(option);
+                var option = document.createElement("option");
+                option.value = 'Modem HDSL public';
+                option.text = 'Modem HDSL public';
+                newSpan.appendChild(option);
+                var option = document.createElement("option");
+                option.value = 'Modem HDSL STS';
+                option.text = 'Modem HDSL STS';
+                newSpan.appendChild(option);
+                cell1.appendChild(newSpan);
+
+
+                newSpan = document.createElement('input');
+                newSpan.type = "hidden";
+                newSpan.id = 'tiptransport:';
+                newSpan.name = 'tiptransport:';
+                newSpan.value = 'S';
+                cell1.appendChild(newSpan);
+
+                var row = table.insertRow(rowCount + 12);
+                var cell1 = row.insertCell(0);
+                cell1.innerHTML = "<input type='button' value='Adauga conexiune' id ='addcon' class='buton' onclick='addconexiune()' />";
 
             }
-            var tabel = document.getElementById('tabel_detalii');
-            var rowCount = table.rows.length;
-            var row = table.insertRow(rowCount);
-            var cell1 = row.insertCell(0);
-            newSpan = document.createElement('input');
-            newSpan.type = "hidden";
-            newSpan.id = 'tipechipament';
-            newSpan.name = 'tipechipament';
-            newSpan.value = '@ViewBag.tipechipament';
+    var tabel = document.getElementById('tabel_detalii');
+    var rowCount = table.rows.length;
+    var row = table.insertRow(rowCount);
+    var cell1 = row.insertCell(0);
+    newSpan = document.createElement('input');
+    newSpan.type = "hidden";
+    newSpan.id = 'tipechipament';
+    newSpan.name = 'tipechipament';
+    newSpan.value = '@ViewBag.tipechipament';
             cell1.appendChild(newSpan);
             var cell1 = row.insertCell(1);
 
-                   var newSpan = document.createElement('input');
+            var newSpan = document.createElement('input');
+            newSpan.type = "hidden";
+            newSpan.id = 'siteID';
+            newSpan.name = 'siteID';
+            newSpan.value = '@ViewBag.siteID';
+                   cell1.appendChild(newSpan);
+               }
+
+               function addconexiune() {
+                   var tabel = document.getElementById('tabel_detalii');
+                   var rowCount = table.rows.length;
+                   var row = table.insertRow(rowCount);
+                   var cell1 = row.insertCell(0);
+                   var newSpan = document.createElement('label');
+                   newSpan.className = "labels";
+                   newSpan.innerHTML = "Nr. ruta";
+                   newSpan.setAttribute("style", "width:20%;");
+                   cell1.appendChild(newSpan);
+                   newSpan = document.createElement('input');
+                   newSpan.type = "text";
+                   newSpan.id = 'nrrutanou' + rowCount;
+                   newSpan.name = 'nrrutanou' + rowCount;
+                   newSpan.setAttribute("style", "width:70%;margin-left:2%;");
+                   newSpan.className = "editors";
+                   cell1.appendChild(newSpan);
+                   newSpan = document.createElement('input');
                    newSpan.type = "hidden";
-                   newSpan.id = 'siteID';
-                   newSpan.name = 'siteID';
-                   newSpan.value = '@ViewBag.siteID';
-            cell1.appendChild(newSpan);
-        }
+                   newSpan.id = 'nrrutanou' + rowCount + ':';
+                   newSpan.name = 'nrrutanou' + rowCount + ':';
+                   newSpan.value = 'S';
+                   cell1.appendChild(newSpan);
+                   var cell1 = row.insertCell(1);
+                   var newSpan = document.createElement('label');
+                   newSpan.className = "labels";
+                   newSpan.innerHTML = "Tip";
+                   newSpan.setAttribute("style", "width:20%;");
+                   cell1.appendChild(newSpan);
+                   newSpan = document.createElement('select');
+                   newSpan.setAttribute("style", "width:70%;margin-left:2%;");
+                   newSpan.setAttribute("name", "tipcnou" + rowCount);
+                   newSpan.setAttribute("id", "tipcnou" + rowCount);
+                   newSpan.className = "editors";
+                   newSpan.onchange = function () {
+                       if ($("#tipcnou" + rowCount).val() == "IP-SIP" || $("#tipcnou" + rowCount).val() == "IP-H323") {
+                           $("#destcell"+rowCount).attr("style", "display:none");
+                           $("#pozcell" + rowCount).attr("style", "display:none");
+                           $("#tipcell" + rowCount).attr("style", "display:none");
+                       }
+                       else {
+                           $("#destcell" + rowCount).attr("style", "display:compact");
+                           $("#pozcell" + rowCount).attr("style", "display:compact");
+                           $("#tipcell" + rowCount).attr("style", "display:compact");
+                       }
+                   }
+                   cell1.appendChild(newSpan);
 
-        function addconexiune() {
-            var tabel = document.getElementById('tabel_detalii');
-            var rowCount = table.rows.length;
-            var row = table.insertRow(rowCount);
-            var cell1 = row.insertCell(0);
-            var newSpan = document.createElement('label');
-            newSpan.className = "labels";
-            newSpan.innerHTML = "Nr. ruta";
-            newSpan.setAttribute("style", "width:20%;");
-            cell1.appendChild(newSpan);
-            newSpan = document.createElement('input');
-            newSpan.type = "text";
-            newSpan.id = 'nrrutanou' + rowCount;
-            newSpan.name = 'nrrutanou' + rowCount;
-            newSpan.setAttribute("style","width:70%;margin-left:2%;");
-            newSpan.className = "editors";
-            cell1.appendChild(newSpan);
-            newSpan = document.createElement('input');
-            newSpan.type = "hidden";
-            newSpan.id = 'nrrutanou'+rowCount+':';
-            newSpan.name = 'nrrutanou'+rowCount+':';
-            newSpan.value = 'S';
-            cell1.appendChild(newSpan);
-            var cell1 = row.insertCell(1);
-            var newSpan = document.createElement('label');
-            newSpan.className = "labels";
-            newSpan.innerHTML = "Tip";
-            newSpan.setAttribute("style", "width:20%;");
-            cell1.appendChild(newSpan);
-            newSpan = document.createElement('select');
-            newSpan.setAttribute("style", "width:70%;margin-left:2%;");
-            newSpan.setAttribute("name", "tipcnou" + rowCount);
-            newSpan.setAttribute("id", "tipcnou" + rowCount);
-            newSpan.className = "editors";
-            cell1.appendChild(newSpan);
+                   var option = document.createElement("option");
+                   option.value = '';
+                   option.text = '';
+                   newSpan.appendChild(option);
 
-            var option = document.createElement("option");
-            option.value = '';
-            option.text = '';
-            newSpan.appendChild(option);
+                   var option = document.createElement("option");
+                   option.value = 'IP-SIP';
+                   option.text = 'IP-SIP';
+                   newSpan.appendChild(option);
 
-            var option = document.createElement("option");
-            option.value = 'IP-SIP';
-            option.text = 'IP-SIP';
-            newSpan.appendChild(option);
+                   var option = document.createElement("option");
+                   option.value = 'IP-H323';
+                   option.text = 'IP-H323';
+                   newSpan.appendChild(option);
+                   var option = document.createElement("option");
+                   option.value = 'ISDN-QSIG';
+                   option.text = 'ISDN-QSIG';
+                   newSpan.appendChild(option);
+                   var option = document.createElement("option");
+                   option.value = 'ISDN-PUBLIC';
+                   option.text = 'ISDN-PUBLIC';
+                   newSpan.appendChild(option);
 
-            var option = document.createElement("option");
-            option.value = 'IP-H323';
-            option.text = 'IP-H323';
-            newSpan.appendChild(option);
-            var option = document.createElement("option");
-            option.value = 'ISDN-QSIG';
-            option.text = 'ISDN-QSIG';
-            newSpan.appendChild(option);
-            var option = document.createElement("option");
-            option.value = 'ISDN-PUBLIC';
-            option.text = 'ISDN-PUBLIC';
-            newSpan.appendChild(option);
-
-            newSpan = document.createElement('input');
-            newSpan.type = "hidden";
-            newSpan.id = 'tipcnou' + rowCount + ':';
-            newSpan.name = 'tipcnou' + rowCount + ':';
-            newSpan.value = 'S';
-            cell1.appendChild(newSpan);
+                   newSpan = document.createElement('input');
+                   newSpan.type = "hidden";
+                   newSpan.id = 'tipcnou' + rowCount + ':';
+                   newSpan.name = 'tipcnou' + rowCount + ':';
+                   newSpan.value = 'S';
+                   cell1.appendChild(newSpan);
 
 
-            var cell1 = row.insertCell(2);
-            var newSpan = document.createElement('label');
-            newSpan.className = "labels";
-            newSpan.innerHTML = "Destinatie";
-            newSpan.setAttribute("style", "width:20%;");
-            cell1.appendChild(newSpan);
-            newSpan = document.createElement('input');
-            newSpan.type = "text";
-            newSpan.id = 'destinatienou' + rowCount;
-            newSpan.name = 'destinatienou' + rowCount;
-            newSpan.setAttribute("style", "width:70%;margin-left:2%;");
-            newSpan.className = "editors";
-            cell1.appendChild(newSpan);
+                   var cell1 = row.insertCell(2);
+                   cell1.id = "destcell" + rowCount;
+                   var newSpan = document.createElement('label');
+                   newSpan.className = "labels";
+                   newSpan.innerHTML = "Destinatie";
+                   newSpan.setAttribute("style", "width:20%;");
+                   cell1.appendChild(newSpan);
+                   newSpan = document.createElement('input');
+                   newSpan.type = "text";
+                   newSpan.id = 'destinatienou' + rowCount;
+                   newSpan.name = 'destinatienou' + rowCount;
+                   newSpan.setAttribute("style", "width:70%;margin-left:2%;");
+                   newSpan.className = "editors";
+                   cell1.appendChild(newSpan);
 
-            newSpan = document.createElement('input');
-            newSpan.type = "hidden";
-            newSpan.id = 'destinatienou'+rowCount+':';
-            newSpan.name = 'destinatienou'+rowCount+':';
-            newSpan.value = 'S';
-            cell1.appendChild(newSpan);
+                   newSpan = document.createElement('input');
+                   newSpan.type = "hidden";
+                   newSpan.id = 'destinatienou' + rowCount + ':';
+                   newSpan.name = 'destinatienou' + rowCount + ':';
+                   newSpan.value = 'S';
+                   cell1.appendChild(newSpan);
 
-            var cell1 = row.insertCell(3);
-            var newSpan = document.createElement('label');
-            newSpan.className = "labels";
-            newSpan.innerHTML = "Poz. echip.";
-            newSpan.setAttribute("style", "width:20%;");
-            cell1.appendChild(newSpan);
-            newSpan = document.createElement('input');
-            newSpan.type = "text";
-            newSpan.id = 'pozitienou' + rowCount;
-            newSpan.name = 'pozitienou' + rowCount;
-            newSpan.setAttribute("style", "width:50%;margin-left:2%;");
-            newSpan.className = "editors";
-            cell1.appendChild(newSpan);
+                   var cell1 = row.insertCell(3);
+                   cell1.id = "pozcell" + rowCount;
+                   var newSpan = document.createElement('label');
+                   newSpan.className = "labels";
+                   newSpan.innerHTML = "Poz. echip.";
+                   newSpan.setAttribute("style", "width:20%;");
+                   cell1.appendChild(newSpan);
+                   newSpan = document.createElement('input');
+                   newSpan.type = "text";
+                   newSpan.id = 'pozitienou' + rowCount;
+                   newSpan.name = 'pozitienou' + rowCount;
+                   newSpan.setAttribute("style", "width:50%;margin-left:2%;");
+                   newSpan.className = "editors";
+                   cell1.appendChild(newSpan);
 
-            newSpan = document.createElement('input');
-            newSpan.type = "hidden";
-            newSpan.id = 'pozitienou'+ rowCount+':';
-            newSpan.name = 'pozitienou' + rowCount +':';
-            newSpan.value = 'S';
-            cell1.appendChild(newSpan);
-
-
-            var cell1 = row.insertCell(4);
-            var newSpan = document.createElement('label');
-            newSpan.className = "labels";
-            newSpan.innerHTML = "Tip echip.";
-            newSpan.setAttribute("style", "width:20%;");
-            cell1.appendChild(newSpan);
-            newSpan = document.createElement('select');
-            newSpan.id = 'tiptransportnou' + rowCount;
-            newSpan.name = 'tiptransportnou' + rowCount;
-            newSpan.setAttribute("style", "width:50%;margin-left:2%;");
-            newSpan.className = "editors";
-            var option = document.createElement("option");
-            option.value = '';
-            option.text = '';
-            newSpan.appendChild(option);
-
-            var option = document.createElement("option");
-            option.value = 'MSED';
-            option.text = 'MSED';
-            newSpan.appendChild(option);
-            var option = document.createElement("option");
-            option.value = 'MC';
-            option.text = 'MC';
-            newSpan.appendChild(option);
-            var option = document.createElement("option");
-            option.value = 'Modem HDSL';
-            option.text = 'Modem HDSL';
-            newSpan.appendChild(option);
-            var option = document.createElement("option");
-            option.value = 'Concentrator';
-            option.text = 'Concentrator';
-            newSpan.appendChild(option);
-            var option = document.createElement("option");
-            option.value = 'Endpoint';
-            option.text = 'Endpoint';
-            newSpan.appendChild(option);
-            var option = document.createElement("option");
-            option.value = 'Modem HDSL public';
-            option.text = 'Modem HDSL public';
-            newSpan.appendChild(option);
-            var option = document.createElement("option");
-            option.value = 'Modem HDSL STS';
-            option.text = 'Modem HDSL STS';
-            newSpan.appendChild(option);
-            cell1.appendChild(newSpan);
+                   newSpan = document.createElement('input');
+                   newSpan.type = "hidden";
+                   newSpan.id = 'pozitienou' + rowCount + ':';
+                   newSpan.name = 'pozitienou' + rowCount + ':';
+                   newSpan.value = 'S';
+                   cell1.appendChild(newSpan);
 
 
-            newSpan = document.createElement('input');
-            newSpan.type = "hidden";
-            newSpan.id = 'tiptransportnou' + rowCount+':';
-            newSpan.name = 'tiptransportnou' + rowCount+ ':';
-            newSpan.value = 'S';
-            cell1.appendChild(newSpan);
-        }
+                   var cell1 = row.insertCell(4);
+                   cell1.id = "tipcell" + rowCount;
+                   var newSpan = document.createElement('label');
+                   newSpan.className = "labels";
+                   newSpan.innerHTML = "Tip echip.";
+                   newSpan.setAttribute("style", "width:20%;");
+                   cell1.appendChild(newSpan);
+                   newSpan = document.createElement('select');
+                   newSpan.id = 'tiptransportnou' + rowCount;
+                   newSpan.name = 'tiptransportnou' + rowCount;
+                   newSpan.setAttribute("style", "width:50%;margin-left:2%;");
+                   newSpan.className = "editors";
+                   var option = document.createElement("option");
+                   option.value = '';
+                   option.text = '';
+                   newSpan.appendChild(option);
 
-        $("#addcon").removeClass("editors");
-        $("#addport").removeClass("editors");
+                   var option = document.createElement("option");
+                   option.value = 'MSED';
+                   option.text = 'MSED';
+                   newSpan.appendChild(option);
+                   var option = document.createElement("option");
+                   option.value = 'MC';
+                   option.text = 'MC';
+                   newSpan.appendChild(option);
+                   var option = document.createElement("option");
+                   option.value = 'Modem HDSL';
+                   option.text = 'Modem HDSL';
+                   newSpan.appendChild(option);
+                   var option = document.createElement("option");
+                   option.value = 'Concentrator';
+                   option.text = 'Concentrator';
+                   newSpan.appendChild(option);
+                   var option = document.createElement("option");
+                   option.value = 'Endpoint';
+                   option.text = 'Endpoint';
+                   newSpan.appendChild(option);
+                   var option = document.createElement("option");
+                   option.value = 'Modem HDSL public';
+                   option.text = 'Modem HDSL public';
+                   newSpan.appendChild(option);
+                   var option = document.createElement("option");
+                   option.value = 'Modem HDSL STS';
+                   option.text = 'Modem HDSL STS';
+                   newSpan.appendChild(option);
+                   cell1.appendChild(newSpan);
+
+
+                   newSpan = document.createElement('input');
+                   newSpan.type = "hidden";
+                   newSpan.id = 'tiptransportnou' + rowCount + ':';
+                   newSpan.name = 'tiptransportnou' + rowCount + ':';
+                   newSpan.value = 'S';
+                   cell1.appendChild(newSpan);
+               }
+
+               $("#addcon").removeClass("editors");
+               $("#addport").removeClass("editors");
     </script>
     <style>
         
@@ -1992,43 +2033,43 @@
             $(document).on('submit', '#ajaxForm', asd);
         });
         $("#addport").removeClass("editors");
-        
+
 
         function asd(e) {
             var submit_val = true;
-                $("input[validare='true']").each(function () {
-                    id = this.id;
-                    if ($("#" + id).val().length > 5) {
-                        //alert(id);
-                        if ($("#" + id + "1").html() === undefined)
-                            $("#list-error").append("<li id='" + id + "1'>Dimensiunea maxima de 5 caractere</li>");
-                        else
-                            console.log("exista "+id);
+            $("input[validare='true']").each(function () {
+                id = this.id;
+                if ($("#" + id).val().length > 5) {
+                    //alert(id);
+                    if ($("#" + id + "1").html() === undefined)
+                        $("#list-error").append("<li id='" + id + "1'>Dimensiunea maxima de 5 caractere</li>");
+                    else
+                        console.log("exista " + id);
 
-                        $("#list-error").css("display", "block");
-                        $("#" + id).css({ "background": "#FF8080" });
-                        submit_val = false;
-                    }
-                    else {
-                        $("#" + id + "1").remove();
-
-                        if ($("#list-error li").length == 0)
-                            $("#list-error").css("display", "none");
-
-                        $("#" + id).css({ "background": "" });
-                    }
-                });
-                if (submit_val == true)
-                    return true;
-                else {
-                    //alert("FALSE");
-                    return false;
+                    $("#list-error").css("display", "block");
+                    $("#" + id).css({ "background": "#FF8080" });
+                    submit_val = false;
                 }
+                else {
+                    $("#" + id + "1").remove();
+
+                    if ($("#list-error li").length == 0)
+                        $("#list-error").css("display", "none");
+
+                    $("#" + id).css({ "background": "" });
+                }
+            });
+            if (submit_val == true)
+                return true;
+            else {
+                //alert("FALSE");
+                return false;
+            }
         }
 
         function submit_form() {
             return false;
-                //$('#ajaxForm').trigger('submit');
+            //$('#ajaxForm').trigger('submit');
         }
         function addatribut() {
             $("#atribut_nou_div").css({ 'display': 'block' });

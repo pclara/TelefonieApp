@@ -145,6 +145,9 @@
     <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\bullet.png" />
+    <Content Include="Images\concentrator.JPG" />
+    <Content Include="Images\concentrator.png" />
+    <Content Include="Images\Delete.png" />
     <Content Include="Images\harta_pop.png" />
     <Content Include="Images\heroAccent.png" />
     <Content Include="Images\loading.gif" />

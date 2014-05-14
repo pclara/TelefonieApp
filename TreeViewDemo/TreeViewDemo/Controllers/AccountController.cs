@@ -46,7 +46,7 @@ namespace TreeViewDemo.Controllers
                 }
                 else
                 {
-                    ModelState.AddModelError("", "The user name or password provided is incorrect.");
+                    ModelState.AddModelError("", "Utilizatorul sau parola este gresita.");
                 }
             }
 

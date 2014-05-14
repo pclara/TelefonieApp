@@ -334,51 +334,125 @@ namespace TreeViewDemo.Controllers
 
                         db.SaveChanges();
 
-                        a = new atribut();
-                        a.val_string = echipmodel["destinatie"];
-                        a.val_csv = null;
-                        a.val_int = null;
-                        a.val_nr = null;
-                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Destinatie" select ta.id).FirstOrDefault();
-                        db.AddToatributs(a);
 
-                        ea = new echipament_atribute();
-                        ea.echipamentID = s.id;
-                        ea.atributID = a.id;
-                        db.AddToechipament_atribute(ea);
+                       // if (echipmodel["tipconexiune"] == "ISDN-PUBLIC" || echipmodel["tipconexiune"] == "ISDN-QSIG")
+                        {
+                            a = new atribut();
+                            a.val_string = echipmodel["destinatie"];
+                            a.val_csv = null;
+                            a.val_int = null;
+                            a.val_nr = null;
+                            a.tipID = (from ta in db.tip_atribut where ta.denumire == "Destinatie" select ta.id).FirstOrDefault();
+                            db.AddToatributs(a);
 
-                        db.SaveChanges();
+                            ea = new echipament_atribute();
+                            ea.echipamentID = s.id;
+                            ea.atributID = a.id;
+                            db.AddToechipament_atribute(ea);
+
+                            db.SaveChanges();
 
 
-                        a = new atribut();
-                        a.val_string = echipmodel["pozitie"];
-                        a.val_csv = null;
-                        a.val_int = null;
-                        a.val_nr = null;
-                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Poz. echip." select ta.id).FirstOrDefault();
-                        db.AddToatributs(a);
+                            a = new atribut();
+                            a.val_string = echipmodel["pozitie"];
+                            a.val_csv = null;
+                            a.val_int = null;
+                            a.val_nr = null;
+                            a.tipID = (from ta in db.tip_atribut where ta.denumire == "Poz. echip." select ta.id).FirstOrDefault();
+                            db.AddToatributs(a);
 
-                        ea = new echipament_atribute();
-                        ea.echipamentID = s.id;
-                        ea.atributID = a.id;
-                        db.AddToechipament_atribute(ea);
+                            ea = new echipament_atribute();
+                            ea.echipamentID = s.id;
+                            ea.atributID = a.id;
+                            db.AddToechipament_atribute(ea);
 
-                        db.SaveChanges();
+                            db.SaveChanges();
 
-                        a = new atribut();
-                        a.val_string = echipmodel["tiptransport"];
-                        a.val_csv = null;
-                        a.val_int = null;
-                        a.val_nr = null;
-                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Tip echip." select ta.id).FirstOrDefault();
-                        db.AddToatributs(a);
+                            a = new atribut();
+                            a.val_string = echipmodel["tiptransport"];
+                            a.val_csv = null;
+                            a.val_int = null;
+                            a.val_nr = null;
+                            a.tipID = (from ta in db.tip_atribut where ta.denumire == "Tip echip." select ta.id).FirstOrDefault();
+                            db.AddToatributs(a);
 
-                        ea = new echipament_atribute();
-                        ea.echipamentID = s.id;
-                        ea.atributID = a.id;
-                        db.AddToechipament_atribute(ea);
+                            ea = new echipament_atribute();
+                            ea.echipamentID = s.id;
+                            ea.atributID = a.id;
+                            db.AddToechipament_atribute(ea);
 
-                        db.SaveChanges();
+                            db.SaveChanges();
+                        }
+                        if (echipmodel["tipconexiune"] == "ISDN-PUBLIC" || echipmodel["tipconexiune"] == "ISDN-QSIG")
+                        {
+
+                            cartela s1 = new cartela();
+                            s1.tipID = (from tc in db.tip_cartela where tc.denumire == "TLU76" select tc.id).FirstOrDefault();
+                            s1.echipamentID = s.id;
+                            db.AddTocartelas(s1);
+                            db.SaveChanges();
+
+
+                            a = new atribut();
+                            a.val_string = echipmodel["pozitie"];
+                            a.val_csv = null;
+                            a.val_int = null;
+                            a.val_nr = null;
+                            a.tipID = (from ta in db.tip_atribut where ta.denumire == "BPOS" select ta.id).FirstOrDefault();
+                            db.AddToatributs(a);
+
+                            cartela_atribute ea1 = new cartela_atribute();
+                            ea1.cartelaID = s1.id;
+                            ea1.atributID = a.id;
+                            db.AddTocartela_atribute(ea1);
+
+                            db.SaveChanges();
+
+                            a = new atribut();
+                            a.val_string = echipmodel["destinatie"];
+                            a.val_csv = null;
+                            a.val_int = null;
+                            a.val_nr = null;
+                            a.tipID = (from ta in db.tip_atribut where ta.denumire == "Remote" select ta.id).FirstOrDefault();
+                            db.AddToatributs(a);
+
+                            ea1 = new cartela_atribute();
+                            ea1.cartelaID = s1.id;
+                            ea1.atributID = a.id;
+                            db.AddTocartela_atribute(ea1);
+
+                            db.SaveChanges();
+
+                            a = new atribut();
+                            a.val_string = "/1";
+                            a.val_csv = null;
+                            a.val_int = null;
+                            a.val_nr = null;
+                            a.tipID = (from ta in db.tip_atribut where ta.denumire == "VersiuneC" select ta.id).FirstOrDefault();
+                            db.AddToatributs(a);
+
+                            ea1 = new cartela_atribute();
+                            ea1.cartelaID = s1.id;
+                            ea1.atributID = a.id;
+                            db.AddTocartela_atribute(ea1);
+
+                            db.SaveChanges();
+
+                            a = new atribut();
+                            a.val_string = echipmodel["nrruta"];
+                            a.val_csv = null;
+                            a.val_int = null;
+                            a.val_nr = null;
+                            a.tipID = (from ta in db.tip_atribut where ta.denumire == "Numar ruta" select ta.id).FirstOrDefault();
+                            db.AddToatributs(a);
+
+                            ea1 = new cartela_atribute();
+                            ea1.cartelaID = s1.id;
+                            ea1.atributID = a.id;
+                            db.AddTocartela_atribute(ea1);
+
+                            db.SaveChanges();
+                        }
 
                         foreach (string key in echipmodel.Keys)
                         {
@@ -414,57 +488,141 @@ namespace TreeViewDemo.Controllers
                                 db.AddToechipament_atribute(ea);
 
                                 db.SaveChanges();
+
+
+                                if (echipmodel[key] == "ISDN-PUBLIC" || echipmodel[key] == "ISDN-QSIG")
+                                {
+                                    string nraux = key.ToString().Substring(7);
+                                    cartela s1 = new cartela();
+                                    s1.tipID = (from tc in db.tip_cartela where tc.denumire == "TLU76" select tc.id).FirstOrDefault();
+                                    s1.echipamentID = s.id;
+                                    db.AddTocartelas(s1);
+                                    db.SaveChanges();
+
+
+                                    a = new atribut();
+                                    a.val_string = echipmodel["pozitienou" + nraux];
+                                    a.val_csv = null;
+                                    a.val_int = null;
+                                    a.val_nr = null;
+                                    a.tipID = (from ta in db.tip_atribut where ta.denumire == "BPOS" select ta.id).FirstOrDefault();
+                                    db.AddToatributs(a);
+
+                                    cartela_atribute ea1 = new cartela_atribute();
+                                    ea1.cartelaID = s1.id;
+                                    ea1.atributID = a.id;
+                                    db.AddTocartela_atribute(ea1);
+
+                                    db.SaveChanges();
+
+                                    a = new atribut();
+                                    a.val_string = echipmodel["destinatienou" + nraux];
+                                    a.val_csv = null;
+                                    a.val_int = null;
+                                    a.val_nr = null;
+                                    a.tipID = (from ta in db.tip_atribut where ta.denumire == "Remote" select ta.id).FirstOrDefault();
+                                    db.AddToatributs(a);
+
+                                    ea1 = new cartela_atribute();
+                                    ea1.cartelaID = s1.id;
+                                    ea1.atributID = a.id;
+                                    db.AddTocartela_atribute(ea1);
+
+                                    db.SaveChanges();
+
+                                    a = new atribut();
+                                    a.val_string = "/1";
+                                    a.val_csv = null;
+                                    a.val_int = null;
+                                    a.val_nr = null;
+                                    a.tipID = (from ta in db.tip_atribut where ta.denumire == "VersiuneC" select ta.id).FirstOrDefault();
+                                    db.AddToatributs(a);
+
+                                    ea1 = new cartela_atribute();
+                                    ea1.cartelaID = s1.id;
+                                    ea1.atributID = a.id;
+                                    db.AddTocartela_atribute(ea1);
+
+                                    db.SaveChanges();
+
+                                    a = new atribut();
+                                    a.val_string = echipmodel["nrrutanou" + nraux];
+                                    a.val_csv = null;
+                                    a.val_int = null;
+                                    a.val_nr = null;
+                                    a.tipID = (from ta in db.tip_atribut where ta.denumire == "Numar ruta" select ta.id).FirstOrDefault();
+                                    db.AddToatributs(a);
+
+                                    ea1 = new cartela_atribute();
+                                    ea1.cartelaID = s1.id;
+                                    ea1.atributID = a.id;
+                                    db.AddTocartela_atribute(ea1);
+
+                                    db.SaveChanges();
+                                }
                             }
                             else if (key.StartsWith("destinatienou") && !key.EndsWith(":"))
                             {
-                                a = new atribut();
-                                a.val_string = echipmodel[key];
-                                a.val_csv = null;
-                                a.val_int = null;
-                                a.val_nr = null;
-                                a.tipID = (from ta in db.tip_atribut where ta.denumire == "Destinatie" select ta.id).FirstOrDefault();
-                                db.AddToatributs(a);
+                                //string nraux = key.ToString().Substring(13);
+                              //  if (echipmodel["tipcnou" + nraux] == "ISDN-PUBLIC" || echipmodel["tipcnou" + nraux] == "ISDN-QSIG")
+                                {
+                                    a = new atribut();
+                                    a.val_string = echipmodel[key];
+                                    a.val_csv = null;
+                                    a.val_int = null;
+                                    a.val_nr = null;
+                                    a.tipID = (from ta in db.tip_atribut where ta.denumire == "Destinatie" select ta.id).FirstOrDefault();
+                                    db.AddToatributs(a);
 
-                                ea = new echipament_atribute();
-                                ea.echipamentID = s.id;
-                                ea.atributID = a.id;
-                                db.AddToechipament_atribute(ea);
+                                    ea = new echipament_atribute();
+                                    ea.echipamentID = s.id;
+                                    ea.atributID = a.id;
+                                    db.AddToechipament_atribute(ea);
 
-                                db.SaveChanges();
+                                    db.SaveChanges();
+                                }
                             }
                             else if (key.StartsWith("pozitienou") && !key.EndsWith(":"))
                             {
-                                a = new atribut();
-                                a.val_string = echipmodel[key];
-                                a.val_csv = null;
-                                a.val_int = null;
-                                a.val_nr = null;
-                                a.tipID = (from ta in db.tip_atribut where ta.denumire == "Poz. echip." select ta.id).FirstOrDefault();
-                                db.AddToatributs(a);
+                                //string nraux = key.ToString().Substring(10);
+                              //  if (echipmodel["tipcnou" + nraux] == "ISDN-PUBLIC" || echipmodel["tipcnou" + nraux] == "ISDN-QSIG")
+                                {
+                                    a = new atribut();
+                                    a.val_string = echipmodel[key];
+                                    a.val_csv = null;
+                                    a.val_int = null;
+                                    a.val_nr = null;
+                                    a.tipID = (from ta in db.tip_atribut where ta.denumire == "Poz. echip." select ta.id).FirstOrDefault();
+                                    db.AddToatributs(a);
 
-                                ea = new echipament_atribute();
-                                ea.echipamentID = s.id;
-                                ea.atributID = a.id;
-                                db.AddToechipament_atribute(ea);
+                                    ea = new echipament_atribute();
+                                    ea.echipamentID = s.id;
+                                    ea.atributID = a.id;
+                                    db.AddToechipament_atribute(ea);
 
-                                db.SaveChanges();
+                                    db.SaveChanges();
+                                }
                             }
                             else if (key.StartsWith("tiptransportnou") && !key.EndsWith(":"))
                             {
-                                a = new atribut();
-                                a.val_string = echipmodel[key];
-                                a.val_csv = null;
-                                a.val_int = null;
-                                a.val_nr = null;
-                                a.tipID = (from ta in db.tip_atribut where ta.denumire == "Tip echip." select ta.id).FirstOrDefault();
-                                db.AddToatributs(a);
+                               // string nraux = key.ToString().Substring(15);
+                               // if (echipmodel["tipcnou" + nraux] == "ISDN-PUBLIC" || echipmodel["tipcnou" + nraux] == "ISDN-QSIG")
+                                {
+                                    a = new atribut();
+                                    a.val_string = echipmodel[key];
+                                    a.val_csv = null;
+                                    a.val_int = null;
+                                    a.val_nr = null;
+                                    a.tipID = (from ta in db.tip_atribut where ta.denumire == "Tip echip." select ta.id).FirstOrDefault();
+                                    db.AddToatributs(a);
 
-                                ea = new echipament_atribute();
-                                ea.echipamentID = s.id;
-                                ea.atributID = a.id;
-                                db.AddToechipament_atribute(ea);
+                                    ea = new echipament_atribute();
+                                    ea.echipamentID = s.id;
+                                    ea.atributID = a.id;
+                                    db.AddToechipament_atribute(ea);
 
-                                db.SaveChanges();
+                                    db.SaveChanges();
+                                }
                             }
                         }
 
@@ -1012,6 +1170,79 @@ namespace TreeViewDemo.Controllers
                             db.AddToatributs(a);
                             db.AddToechipament_atribute(ea);
                             db.SaveChanges();
+
+
+                            if (echipmodel[key.ToString()] == "ISDN-PUBLIC" || echipmodel[key.ToString()] == "ISDN-QSIG")
+                            {
+                                string nraux = key.ToString().Substring(7);//, key.ToString().Length - 7);
+
+                                cartela s1 = new cartela();
+                                s1.tipID = (from tc in db.tip_cartela where tc.denumire == "TLU76" select tc.id).FirstOrDefault();
+                                s1.echipamentID = id;
+                                db.AddTocartelas(s1);
+                                db.SaveChanges();
+
+
+                                a = new atribut();
+                                a.val_string = echipmodel["pozitienou"+nraux];
+                                a.val_csv = null;
+                                a.val_int = null;
+                                a.val_nr = null;
+                                a.tipID = (from ta in db.tip_atribut where ta.denumire == "BPOS" select ta.id).FirstOrDefault();
+                                db.AddToatributs(a);
+
+                                cartela_atribute ea1 = new cartela_atribute();
+                                ea1.cartelaID = s1.id;
+                                ea1.atributID = a.id;
+                                db.AddTocartela_atribute(ea1);
+
+                                db.SaveChanges();
+
+                                a = new atribut();
+                                a.val_string = echipmodel["destinatienou" + nraux];
+                                a.val_csv = null;
+                                a.val_int = null;
+                                a.val_nr = null;
+                                a.tipID = (from ta in db.tip_atribut where ta.denumire == "Remote" select ta.id).FirstOrDefault();
+                                db.AddToatributs(a);
+
+                                ea1 = new cartela_atribute();
+                                ea1.cartelaID = s1.id;
+                                ea1.atributID = a.id;
+                                db.AddTocartela_atribute(ea1);
+
+                                db.SaveChanges();
+
+                                a = new atribut();
+                                a.val_string = "/1";
+                                a.val_csv = null;
+                                a.val_int = null;
+                                a.val_nr = null;
+                                a.tipID = (from ta in db.tip_atribut where ta.denumire == "VersiuneC" select ta.id).FirstOrDefault();
+                                db.AddToatributs(a);
+
+                                ea1 = new cartela_atribute();
+                                ea1.cartelaID = s1.id;
+                                ea1.atributID = a.id;
+                                db.AddTocartela_atribute(ea1);
+
+                                db.SaveChanges();
+
+                                a = new atribut();
+                                a.val_string = echipmodel["nrrutanou"+nraux];
+                                a.val_csv = null;
+                                a.val_int = null;
+                                a.val_nr = null;
+                                a.tipID = (from ta in db.tip_atribut where ta.denumire == "Numar ruta" select ta.id).FirstOrDefault();
+                                db.AddToatributs(a);
+
+                                ea1 = new cartela_atribute();
+                                ea1.cartelaID = s1.id;
+                                ea1.atributID = a.id;
+                                db.AddTocartela_atribute(ea1);
+
+                                db.SaveChanges();
+                            }
                         }
                         else if (key.ToString().StartsWith("destinatienou") && !key.ToString().EndsWith(":"))
                         {

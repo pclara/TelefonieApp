@@ -229,6 +229,24 @@ namespace TreeViewDemo.Controllers
                                 db.AddTocartela_atribute(ea);
 
                                 db.SaveChanges();
+
+                                if (tipcartela == "IPLU")// || tipcartela == "ELU32")
+                                {
+                                    a = new atribut();
+                                    a.val_string = cartelamodel["utilizare_" + i.ToString()];
+                                    a.val_csv = null;
+                                    a.val_int = null;
+                                    a.val_nr = null;
+                                    a.tipID = (from ta in db.tip_atribut where ta.denumire == "Utilizare" select ta.id).FirstOrDefault();
+                                    db.AddToatributs(a);
+
+                                    ea = new cartela_atribute();
+                                    ea.cartelaID = s.id;
+                                    ea.atributID = a.id;
+                                    db.AddTocartela_atribute(ea);
+
+                                    db.SaveChanges();
+                                }
                                 break;
                             }
                         case "TLU76":
@@ -277,6 +295,22 @@ namespace TreeViewDemo.Controllers
                                 db.AddTocartela_atribute(ea);
 
                                 db.SaveChanges();
+
+
+                                a = new atribut();
+                                a.val_string = cartelamodel["nrruta_" + i.ToString()];
+                                a.val_csv = null;
+                                a.val_int = null;
+                                a.val_nr = null;
+                                a.tipID = (from ta in db.tip_atribut where ta.denumire == "Numar ruta" select ta.id).FirstOrDefault();
+                                db.AddToatributs(a);
+
+                                ea = new cartela_atribute();
+                                ea.cartelaID = s.id;
+                                ea.atributID = a.id;
+                                db.AddTocartela_atribute(ea);
+
+                                db.SaveChanges();
                                 break;
                             }
                         default:
@@ -308,7 +342,7 @@ namespace TreeViewDemo.Controllers
 
                         foreach (var key in cartelamodel.Keys)
                         {
-                            if (!key.ToString().StartsWith("remote") && !key.ToString().StartsWith("ver") && !key.ToString().StartsWith("versiune") && !key.ToString().StartsWith("1") && !key.ToString().StartsWith("switch_") && !key.ToString().StartsWith("gateway_") && !key.ToString().StartsWith("mask_") && !key.ToString().StartsWith("ip_") && !key.ToString().StartsWith("bpos_") && !key.ToString().StartsWith("id_") && !key.ToString().StartsWith("tip_") && key.ToString() != "val_nou" && key.ToString() != "randuri" && key.ToString() != "tip_nou" && key.ToString() != "tipcartela" && key.ToString() != "denumire" && key.ToString() != "parentE" && key.ToString() != "ip" && key.ToString() != "id" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "bpos" && !key.ToString().EndsWith(":"))
+                            if (!key.ToString().StartsWith("utilizare") && !key.ToString().StartsWith("remote") && !key.ToString().StartsWith("ver") && !key.ToString().StartsWith("versiune") && !key.ToString().StartsWith("switch_") && !key.ToString().StartsWith("gateway_") && !key.ToString().StartsWith("mask_") && !key.ToString().StartsWith("ip_") && !key.ToString().StartsWith("bpos_") && !key.ToString().StartsWith("id_") && !key.ToString().StartsWith("nrruta_") && !key.ToString().StartsWith("tip_") && key.ToString() != "val_nou" && key.ToString() != "randuri" && key.ToString() != "tip_nou" && key.ToString() != "tipcartela" && key.ToString() != "denumire" && key.ToString() != "parentE" && key.ToString() != "ip" && key.ToString() != "id" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "bpos" && !key.ToString().EndsWith(":")) //&& !key.ToString().StartsWith("1") 
                             {
 
                                 string idechip_idatr = key.ToString();
@@ -725,7 +759,7 @@ namespace TreeViewDemo.Controllers
 
         
         [HttpPost]
-        public string StergeCartela(string id)
+        public string StergeC(string id)
         {
             long idcartela = long.Parse(id.Split('_')[0]);
 
@@ -766,6 +800,51 @@ namespace TreeViewDemo.Controllers
             return idcentrala.ToString() + "_echipament";
 
             //return RedirectToAction("Index", "Judete", new { name = judet.denumire.ToString(), id = idcentrala.ToString() + "_echipament" });
+        }
+
+
+        [HttpPost]
+        public string StergeCartela(string id)
+        {
+            long idcartela = long.Parse(id);
+
+            long idcentrala = (from c in db.cartelas where c.id == idcartela select c.echipamentID).FirstOrDefault();
+
+            var judet = (from j in db.judetes
+                         join s in db.sites on j.id equals s.judetID
+                         join e in db.echipaments on s.id equals e.siteID
+                         join c in db.cartelas
+                             on e.id equals c.echipamentID
+                         where c.id == idcartela
+                         select new { j.id, j.denumire , sid= s.id,sden =  s.denumire}).FirstOrDefault();
+
+            string namejudet = judet.denumire;
+            string sitename = judet.sden;
+
+            cartela car = (from c in db.cartelas where c.id == idcartela select c).FirstOrDefault();
+            var c_a = (from ca in db.cartela_atribute where ca.cartelaID == idcartela select new { ca.id, ca.atributID }).ToList();
+
+            foreach (var x in c_a)
+            {
+                cartela_atribute y = (from a in db.cartela_atribute where a.id == x.id select a).FirstOrDefault();
+                db.cartela_atribute.DeleteObject(y);
+                db.SaveChanges();
+            }
+
+            foreach (var x in c_a)
+            {
+                atribut y = (from a in db.atributs where a.id == x.atributID select a).FirstOrDefault();
+                db.atributs.DeleteObject(y);
+                db.SaveChanges();
+            }
+
+
+            db.cartelas.DeleteObject(car);
+            db.SaveChanges();
+
+             long tip_id = (from e in db.echipaments where e.id == idcentrala select e.tipID).FirstOrDefault();
+
+             return namejudet + "," + idcentrala + "_cartele";
         }
          
     }
