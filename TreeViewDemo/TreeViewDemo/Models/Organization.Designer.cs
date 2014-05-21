@@ -575,6 +575,126 @@ namespace TreeViewDemo.Models
         private global::System.String _val_csv;
         partial void Onval_csvChanging(global::System.String value);
         partial void Onval_csvChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> disabled
+        {
+            get
+            {
+                return _disabled;
+            }
+            set
+            {
+                OndisabledChanging(value);
+                ReportPropertyChanging("disabled");
+                _disabled = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("disabled");
+                OndisabledChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _disabled;
+        partial void OndisabledChanging(Nullable<global::System.Int32> value);
+        partial void OndisabledChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> createDate
+        {
+            get
+            {
+                return _createDate;
+            }
+            set
+            {
+                OncreateDateChanging(value);
+                ReportPropertyChanging("createDate");
+                _createDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createDate");
+                OncreateDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _createDate;
+        partial void OncreateDateChanging(Nullable<global::System.DateTime> value);
+        partial void OncreateDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> createContactID
+        {
+            get
+            {
+                return _createContactID;
+            }
+            set
+            {
+                OncreateContactIDChanging(value);
+                ReportPropertyChanging("createContactID");
+                _createContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createContactID");
+                OncreateContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _createContactID;
+        partial void OncreateContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OncreateContactIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> editDate
+        {
+            get
+            {
+                return _editDate;
+            }
+            set
+            {
+                OneditDateChanging(value);
+                ReportPropertyChanging("editDate");
+                _editDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editDate");
+                OneditDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _editDate;
+        partial void OneditDateChanging(Nullable<global::System.DateTime> value);
+        partial void OneditDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> editContactID
+        {
+            get
+            {
+                return _editContactID;
+            }
+            set
+            {
+                OneditContactIDChanging(value);
+                ReportPropertyChanging("editContactID");
+                _editContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editContactID");
+                OneditContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _editContactID;
+        partial void OneditContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OneditContactIDChanged();
 
         #endregion
 
@@ -732,6 +852,126 @@ namespace TreeViewDemo.Models
         private global::System.Int64 _echipamentID;
         partial void OnechipamentIDChanging(global::System.Int64 value);
         partial void OnechipamentIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> disabled
+        {
+            get
+            {
+                return _disabled;
+            }
+            set
+            {
+                OndisabledChanging(value);
+                ReportPropertyChanging("disabled");
+                _disabled = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("disabled");
+                OndisabledChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _disabled;
+        partial void OndisabledChanging(Nullable<global::System.Int32> value);
+        partial void OndisabledChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> createDate
+        {
+            get
+            {
+                return _createDate;
+            }
+            set
+            {
+                OncreateDateChanging(value);
+                ReportPropertyChanging("createDate");
+                _createDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createDate");
+                OncreateDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _createDate;
+        partial void OncreateDateChanging(Nullable<global::System.DateTime> value);
+        partial void OncreateDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> createcontactID
+        {
+            get
+            {
+                return _createcontactID;
+            }
+            set
+            {
+                OncreatecontactIDChanging(value);
+                ReportPropertyChanging("createcontactID");
+                _createcontactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createcontactID");
+                OncreatecontactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _createcontactID;
+        partial void OncreatecontactIDChanging(Nullable<global::System.Int32> value);
+        partial void OncreatecontactIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> editDate
+        {
+            get
+            {
+                return _editDate;
+            }
+            set
+            {
+                OneditDateChanging(value);
+                ReportPropertyChanging("editDate");
+                _editDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editDate");
+                OneditDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _editDate;
+        partial void OneditDateChanging(Nullable<global::System.DateTime> value);
+        partial void OneditDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> editContactID
+        {
+            get
+            {
+                return _editContactID;
+            }
+            set
+            {
+                OneditContactIDChanging(value);
+                ReportPropertyChanging("editContactID");
+                _editContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editContactID");
+                OneditContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _editContactID;
+        partial void OneditContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OneditContactIDChanged();
 
         #endregion
 
@@ -943,6 +1183,126 @@ namespace TreeViewDemo.Models
         private global::System.Int64 _atributID;
         partial void OnatributIDChanging(global::System.Int64 value);
         partial void OnatributIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> disabled
+        {
+            get
+            {
+                return _disabled;
+            }
+            set
+            {
+                OndisabledChanging(value);
+                ReportPropertyChanging("disabled");
+                _disabled = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("disabled");
+                OndisabledChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _disabled;
+        partial void OndisabledChanging(Nullable<global::System.Int32> value);
+        partial void OndisabledChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> createDate
+        {
+            get
+            {
+                return _createDate;
+            }
+            set
+            {
+                OncreateDateChanging(value);
+                ReportPropertyChanging("createDate");
+                _createDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createDate");
+                OncreateDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _createDate;
+        partial void OncreateDateChanging(Nullable<global::System.DateTime> value);
+        partial void OncreateDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> createContactID
+        {
+            get
+            {
+                return _createContactID;
+            }
+            set
+            {
+                OncreateContactIDChanging(value);
+                ReportPropertyChanging("createContactID");
+                _createContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createContactID");
+                OncreateContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _createContactID;
+        partial void OncreateContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OncreateContactIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> editDate
+        {
+            get
+            {
+                return _editDate;
+            }
+            set
+            {
+                OneditDateChanging(value);
+                ReportPropertyChanging("editDate");
+                _editDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editDate");
+                OneditDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _editDate;
+        partial void OneditDateChanging(Nullable<global::System.DateTime> value);
+        partial void OneditDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> editContactID
+        {
+            get
+            {
+                return _editContactID;
+            }
+            set
+            {
+                OneditContactIDChanging(value);
+                ReportPropertyChanging("editContactID");
+                _editContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editContactID");
+                OneditContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _editContactID;
+        partial void OneditContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OneditContactIDChanged();
 
         #endregion
 
@@ -1283,6 +1643,126 @@ namespace TreeViewDemo.Models
         private Nullable<global::System.Int64> _siteID;
         partial void OnsiteIDChanging(Nullable<global::System.Int64> value);
         partial void OnsiteIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> disabled
+        {
+            get
+            {
+                return _disabled;
+            }
+            set
+            {
+                OndisabledChanging(value);
+                ReportPropertyChanging("disabled");
+                _disabled = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("disabled");
+                OndisabledChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _disabled;
+        partial void OndisabledChanging(Nullable<global::System.Int32> value);
+        partial void OndisabledChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> createDate
+        {
+            get
+            {
+                return _createDate;
+            }
+            set
+            {
+                OncreateDateChanging(value);
+                ReportPropertyChanging("createDate");
+                _createDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createDate");
+                OncreateDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _createDate;
+        partial void OncreateDateChanging(Nullable<global::System.DateTime> value);
+        partial void OncreateDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> createContactID
+        {
+            get
+            {
+                return _createContactID;
+            }
+            set
+            {
+                OncreateContactIDChanging(value);
+                ReportPropertyChanging("createContactID");
+                _createContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createContactID");
+                OncreateContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _createContactID;
+        partial void OncreateContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OncreateContactIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> editDate
+        {
+            get
+            {
+                return _editDate;
+            }
+            set
+            {
+                OneditDateChanging(value);
+                ReportPropertyChanging("editDate");
+                _editDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editDate");
+                OneditDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _editDate;
+        partial void OneditDateChanging(Nullable<global::System.DateTime> value);
+        partial void OneditDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> editcontactID
+        {
+            get
+            {
+                return _editcontactID;
+            }
+            set
+            {
+                OneditcontactIDChanging(value);
+                ReportPropertyChanging("editcontactID");
+                _editcontactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editcontactID");
+                OneditcontactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _editcontactID;
+        partial void OneditcontactIDChanging(Nullable<global::System.Int32> value);
+        partial void OneditcontactIDChanged();
 
         #endregion
 
@@ -1478,6 +1958,126 @@ namespace TreeViewDemo.Models
         private global::System.Int64 _atributID;
         partial void OnatributIDChanging(global::System.Int64 value);
         partial void OnatributIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> disabled
+        {
+            get
+            {
+                return _disabled;
+            }
+            set
+            {
+                OndisabledChanging(value);
+                ReportPropertyChanging("disabled");
+                _disabled = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("disabled");
+                OndisabledChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _disabled;
+        partial void OndisabledChanging(Nullable<global::System.Int32> value);
+        partial void OndisabledChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> editDate
+        {
+            get
+            {
+                return _editDate;
+            }
+            set
+            {
+                OneditDateChanging(value);
+                ReportPropertyChanging("editDate");
+                _editDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editDate");
+                OneditDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _editDate;
+        partial void OneditDateChanging(Nullable<global::System.DateTime> value);
+        partial void OneditDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> editContactID
+        {
+            get
+            {
+                return _editContactID;
+            }
+            set
+            {
+                OneditContactIDChanging(value);
+                ReportPropertyChanging("editContactID");
+                _editContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editContactID");
+                OneditContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _editContactID;
+        partial void OneditContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OneditContactIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> createDate
+        {
+            get
+            {
+                return _createDate;
+            }
+            set
+            {
+                OncreateDateChanging(value);
+                ReportPropertyChanging("createDate");
+                _createDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createDate");
+                OncreateDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _createDate;
+        partial void OncreateDateChanging(Nullable<global::System.DateTime> value);
+        partial void OncreateDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> createContactID
+        {
+            get
+            {
+                return _createContactID;
+            }
+            set
+            {
+                OncreateContactIDChanging(value);
+                ReportPropertyChanging("createContactID");
+                _createContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createContactID");
+                OncreateContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _createContactID;
+        partial void OncreateContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OncreateContactIDChanged();
 
         #endregion
 
@@ -1641,6 +2241,126 @@ namespace TreeViewDemo.Models
         private global::System.String _denumire;
         partial void OndenumireChanging(global::System.String value);
         partial void OndenumireChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> disabled
+        {
+            get
+            {
+                return _disabled;
+            }
+            set
+            {
+                OndisabledChanging(value);
+                ReportPropertyChanging("disabled");
+                _disabled = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("disabled");
+                OndisabledChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _disabled;
+        partial void OndisabledChanging(Nullable<global::System.Int32> value);
+        partial void OndisabledChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> createDate
+        {
+            get
+            {
+                return _createDate;
+            }
+            set
+            {
+                OncreateDateChanging(value);
+                ReportPropertyChanging("createDate");
+                _createDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createDate");
+                OncreateDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _createDate;
+        partial void OncreateDateChanging(Nullable<global::System.DateTime> value);
+        partial void OncreateDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> createContactID
+        {
+            get
+            {
+                return _createContactID;
+            }
+            set
+            {
+                OncreateContactIDChanging(value);
+                ReportPropertyChanging("createContactID");
+                _createContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createContactID");
+                OncreateContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _createContactID;
+        partial void OncreateContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OncreateContactIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> editDate
+        {
+            get
+            {
+                return _editDate;
+            }
+            set
+            {
+                OneditDateChanging(value);
+                ReportPropertyChanging("editDate");
+                _editDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editDate");
+                OneditDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _editDate;
+        partial void OneditDateChanging(Nullable<global::System.DateTime> value);
+        partial void OneditDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> editContactID
+        {
+            get
+            {
+                return _editContactID;
+            }
+            set
+            {
+                OneditContactIDChanging(value);
+                ReportPropertyChanging("editContactID");
+                _editContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editContactID");
+                OneditContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _editContactID;
+        partial void OneditContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OneditContactIDChanged();
 
         #endregion
 
@@ -1746,6 +2466,126 @@ namespace TreeViewDemo.Models
         private global::System.String _echipament;
         partial void OnechipamentChanging(global::System.String value);
         partial void OnechipamentChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> disabled
+        {
+            get
+            {
+                return _disabled;
+            }
+            set
+            {
+                OndisabledChanging(value);
+                ReportPropertyChanging("disabled");
+                _disabled = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("disabled");
+                OndisabledChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _disabled;
+        partial void OndisabledChanging(Nullable<global::System.Int32> value);
+        partial void OndisabledChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> createDate
+        {
+            get
+            {
+                return _createDate;
+            }
+            set
+            {
+                OncreateDateChanging(value);
+                ReportPropertyChanging("createDate");
+                _createDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createDate");
+                OncreateDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _createDate;
+        partial void OncreateDateChanging(Nullable<global::System.DateTime> value);
+        partial void OncreateDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> createContactID
+        {
+            get
+            {
+                return _createContactID;
+            }
+            set
+            {
+                OncreateContactIDChanging(value);
+                ReportPropertyChanging("createContactID");
+                _createContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createContactID");
+                OncreateContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _createContactID;
+        partial void OncreateContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OncreateContactIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> editDate
+        {
+            get
+            {
+                return _editDate;
+            }
+            set
+            {
+                OneditDateChanging(value);
+                ReportPropertyChanging("editDate");
+                _editDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editDate");
+                OneditDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _editDate;
+        partial void OneditDateChanging(Nullable<global::System.DateTime> value);
+        partial void OneditDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> editContactID
+        {
+            get
+            {
+                return _editContactID;
+            }
+            set
+            {
+                OneditContactIDChanging(value);
+                ReportPropertyChanging("editContactID");
+                _editContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editContactID");
+                OneditContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _editContactID;
+        partial void OneditContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OneditContactIDChanged();
 
         #endregion
 
@@ -1990,6 +2830,126 @@ namespace TreeViewDemo.Models
         private global::System.Int64 _siteParinteID;
         partial void OnsiteParinteIDChanging(global::System.Int64 value);
         partial void OnsiteParinteIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> disabled
+        {
+            get
+            {
+                return _disabled;
+            }
+            set
+            {
+                OndisabledChanging(value);
+                ReportPropertyChanging("disabled");
+                _disabled = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("disabled");
+                OndisabledChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _disabled;
+        partial void OndisabledChanging(Nullable<global::System.Int32> value);
+        partial void OndisabledChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> createDate
+        {
+            get
+            {
+                return _createDate;
+            }
+            set
+            {
+                OncreateDateChanging(value);
+                ReportPropertyChanging("createDate");
+                _createDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createDate");
+                OncreateDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _createDate;
+        partial void OncreateDateChanging(Nullable<global::System.DateTime> value);
+        partial void OncreateDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> createContactID
+        {
+            get
+            {
+                return _createContactID;
+            }
+            set
+            {
+                OncreateContactIDChanging(value);
+                ReportPropertyChanging("createContactID");
+                _createContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createContactID");
+                OncreateContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _createContactID;
+        partial void OncreateContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OncreateContactIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> editDate
+        {
+            get
+            {
+                return _editDate;
+            }
+            set
+            {
+                OneditDateChanging(value);
+                ReportPropertyChanging("editDate");
+                _editDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editDate");
+                OneditDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _editDate;
+        partial void OneditDateChanging(Nullable<global::System.DateTime> value);
+        partial void OneditDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> editContactID
+        {
+            get
+            {
+                return _editContactID;
+            }
+            set
+            {
+                OneditContactIDChanging(value);
+                ReportPropertyChanging("editContactID");
+                _editContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editContactID");
+                OneditContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _editContactID;
+        partial void OneditContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OneditContactIDChanged();
 
         #endregion
 
@@ -2141,6 +3101,126 @@ namespace TreeViewDemo.Models
         private global::System.String _tip_valoare;
         partial void Ontip_valoareChanging(global::System.String value);
         partial void Ontip_valoareChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> disabled
+        {
+            get
+            {
+                return _disabled;
+            }
+            set
+            {
+                OndisabledChanging(value);
+                ReportPropertyChanging("disabled");
+                _disabled = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("disabled");
+                OndisabledChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _disabled;
+        partial void OndisabledChanging(Nullable<global::System.Int32> value);
+        partial void OndisabledChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> createDate
+        {
+            get
+            {
+                return _createDate;
+            }
+            set
+            {
+                OncreateDateChanging(value);
+                ReportPropertyChanging("createDate");
+                _createDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createDate");
+                OncreateDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _createDate;
+        partial void OncreateDateChanging(Nullable<global::System.DateTime> value);
+        partial void OncreateDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> createContactID
+        {
+            get
+            {
+                return _createContactID;
+            }
+            set
+            {
+                OncreateContactIDChanging(value);
+                ReportPropertyChanging("createContactID");
+                _createContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createContactID");
+                OncreateContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _createContactID;
+        partial void OncreateContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OncreateContactIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> editDate
+        {
+            get
+            {
+                return _editDate;
+            }
+            set
+            {
+                OneditDateChanging(value);
+                ReportPropertyChanging("editDate");
+                _editDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editDate");
+                OneditDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _editDate;
+        partial void OneditDateChanging(Nullable<global::System.DateTime> value);
+        partial void OneditDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> editContactID
+        {
+            get
+            {
+                return _editContactID;
+            }
+            set
+            {
+                OneditContactIDChanging(value);
+                ReportPropertyChanging("editContactID");
+                _editContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editContactID");
+                OneditContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _editContactID;
+        partial void OneditContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OneditContactIDChanged();
 
         #endregion
 
@@ -2224,6 +3304,126 @@ namespace TreeViewDemo.Models
         private global::System.String _denumire;
         partial void OndenumireChanging(global::System.String value);
         partial void OndenumireChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> disabled
+        {
+            get
+            {
+                return _disabled;
+            }
+            set
+            {
+                OndisabledChanging(value);
+                ReportPropertyChanging("disabled");
+                _disabled = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("disabled");
+                OndisabledChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _disabled;
+        partial void OndisabledChanging(Nullable<global::System.Int32> value);
+        partial void OndisabledChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> createDate
+        {
+            get
+            {
+                return _createDate;
+            }
+            set
+            {
+                OncreateDateChanging(value);
+                ReportPropertyChanging("createDate");
+                _createDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createDate");
+                OncreateDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _createDate;
+        partial void OncreateDateChanging(Nullable<global::System.DateTime> value);
+        partial void OncreateDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> createContactID
+        {
+            get
+            {
+                return _createContactID;
+            }
+            set
+            {
+                OncreateContactIDChanging(value);
+                ReportPropertyChanging("createContactID");
+                _createContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createContactID");
+                OncreateContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _createContactID;
+        partial void OncreateContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OncreateContactIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> editDate
+        {
+            get
+            {
+                return _editDate;
+            }
+            set
+            {
+                OneditDateChanging(value);
+                ReportPropertyChanging("editDate");
+                _editDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editDate");
+                OneditDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _editDate;
+        partial void OneditDateChanging(Nullable<global::System.DateTime> value);
+        partial void OneditDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> editContactID
+        {
+            get
+            {
+                return _editContactID;
+            }
+            set
+            {
+                OneditContactIDChanging(value);
+                ReportPropertyChanging("editContactID");
+                _editContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editContactID");
+                OneditContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _editContactID;
+        partial void OneditContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OneditContactIDChanged();
 
         #endregion
 
@@ -2333,6 +3533,126 @@ namespace TreeViewDemo.Models
         private global::System.String _denumire;
         partial void OndenumireChanging(global::System.String value);
         partial void OndenumireChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> disabled
+        {
+            get
+            {
+                return _disabled;
+            }
+            set
+            {
+                OndisabledChanging(value);
+                ReportPropertyChanging("disabled");
+                _disabled = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("disabled");
+                OndisabledChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _disabled;
+        partial void OndisabledChanging(Nullable<global::System.Int32> value);
+        partial void OndisabledChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> createDate
+        {
+            get
+            {
+                return _createDate;
+            }
+            set
+            {
+                OncreateDateChanging(value);
+                ReportPropertyChanging("createDate");
+                _createDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createDate");
+                OncreateDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _createDate;
+        partial void OncreateDateChanging(Nullable<global::System.DateTime> value);
+        partial void OncreateDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> createContactID
+        {
+            get
+            {
+                return _createContactID;
+            }
+            set
+            {
+                OncreateContactIDChanging(value);
+                ReportPropertyChanging("createContactID");
+                _createContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("createContactID");
+                OncreateContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _createContactID;
+        partial void OncreateContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OncreateContactIDChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.DateTime> editDate
+        {
+            get
+            {
+                return _editDate;
+            }
+            set
+            {
+                OneditDateChanging(value);
+                ReportPropertyChanging("editDate");
+                _editDate = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editDate");
+                OneditDateChanged();
+            }
+        }
+        private Nullable<global::System.DateTime> _editDate;
+        partial void OneditDateChanging(Nullable<global::System.DateTime> value);
+        partial void OneditDateChanged();
+    
+        /// <summary>
+        /// No Metadata Documentation available.
+        /// </summary>
+        [EdmScalarPropertyAttribute(EntityKeyProperty=false, IsNullable=true)]
+        [DataMemberAttribute()]
+        public Nullable<global::System.Int32> editContactID
+        {
+            get
+            {
+                return _editContactID;
+            }
+            set
+            {
+                OneditContactIDChanging(value);
+                ReportPropertyChanging("editContactID");
+                _editContactID = StructuralObject.SetValidValue(value);
+                ReportPropertyChanged("editContactID");
+                OneditContactIDChanged();
+            }
+        }
+        private Nullable<global::System.Int32> _editContactID;
+        partial void OneditContactIDChanging(Nullable<global::System.Int32> value);
+        partial void OneditContactIDChanged();
 
         #endregion
 

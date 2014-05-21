@@ -59,6 +59,11 @@
     <Property Type="String" Name="val_csv" MaxLength="Max" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="echipament_atribute" Relationship="OrganizationModel.FK_echipament_atribute_atribut" FromRole="atribut" ToRole="echipament_atribute" />
     <NavigationProperty Name="cartela_atribute" Relationship="OrganizationModel.FK_cartela_atribute_atribut" FromRole="atribut" ToRole="cartela_atribute" />
+    <Property Type="Int32" Name="disabled" />
+    <Property Type="DateTime" Name="createDate" Precision="3" />
+    <Property Type="Int32" Name="createContactID" />
+    <Property Type="DateTime" Name="editDate" Precision="3" />
+    <Property Type="Int32" Name="editContactID" />
   </EntityType>
   <EntityType Name="cartela">
     <Key>
@@ -70,6 +75,11 @@
     <Property Type="Int64" Name="echipamentID" Nullable="false" />
     <NavigationProperty Name="cartela_atribute" Relationship="OrganizationModel.FK_cartela_atribute" FromRole="cartela" ToRole="cartela_atribute" />
     <NavigationProperty Name="echipament" Relationship="OrganizationModel.FK_cartela_echipament" FromRole="cartela" ToRole="echipament" />
+    <Property Type="Int32" Name="disabled" />
+    <Property Type="DateTime" Name="createDate" Precision="3" />
+    <Property Type="Int32" Name="createcontactID" />
+    <Property Type="DateTime" Name="editDate" Precision="3" />
+    <Property Type="Int32" Name="editContactID" />
   </EntityType>
   <EntityType Name="contact">
     <Key>
@@ -91,6 +101,11 @@
     <NavigationProperty Name="echipament_atribute" Relationship="OrganizationModel.FK_echipament_atribute_echipament" FromRole="echipament" ToRole="echipament_atribute" />
     <NavigationProperty Name="tip_echipament" Relationship="OrganizationModel.FK_echipament_tip_echipament" FromRole="echipament" ToRole="tip_echipament" />
     <NavigationProperty Name="cartelas" Relationship="OrganizationModel.FK_cartela_echipament" FromRole="echipament" ToRole="cartela" />
+    <Property Type="Int32" Name="disabled" />
+    <Property Type="DateTime" Name="createDate" Precision="3" />
+    <Property Type="Int32" Name="createContactID" />
+    <Property Type="DateTime" Name="editDate" Precision="3" />
+    <Property Type="Int32" Name="editcontactID" />
   </EntityType>
   <EntityType Name="echipament_atribute">
     <Key>
@@ -101,6 +116,11 @@
     <Property Type="Int64" Name="atributID" Nullable="false" />
     <NavigationProperty Name="atribut" Relationship="OrganizationModel.FK_echipament_atribute_atribut" FromRole="echipament_atribute" ToRole="atribut" />
     <NavigationProperty Name="echipament" Relationship="OrganizationModel.FK_echipament_atribute_echipament" FromRole="echipament_atribute" ToRole="echipament" />
+    <Property Type="Int32" Name="disabled" />
+    <Property Type="DateTime" Name="editDate" Precision="3" />
+    <Property Type="Int32" Name="editContactID" />
+    <Property Type="DateTime" Name="createDate" Precision="3" />
+    <Property Type="Int32" Name="createContactID" />
   </EntityType>
   <EntityType Name="judete">
     <Key>
@@ -119,6 +139,11 @@
     <Property Type="String" Name="denumire" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Type="Int64" Name="siteParinteID" Nullable="false" />
     <NavigationProperty Name="judete" Relationship="OrganizationModel.FK__site__judetID__09DE7BCC" FromRole="site" ToRole="judete" />
+    <Property Type="Int32" Name="disabled" />
+    <Property Type="DateTime" Name="createDate" Precision="3" />
+    <Property Type="Int32" Name="createContactID" />
+    <Property Type="DateTime" Name="editDate" Precision="3" />
+    <Property Type="Int32" Name="editContactID" />
   </EntityType>
   <EntityType Name="tip_atribut">
     <Key>
@@ -127,6 +152,11 @@
     <Property Type="Int64" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Type="String" Name="denumire" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
     <Property Type="String" Name="tip_valoare" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="disabled" />
+    <Property Type="DateTime" Name="createDate" Precision="3" />
+    <Property Type="Int32" Name="createContactID" />
+    <Property Type="DateTime" Name="editDate" Precision="3" />
+    <Property Type="Int32" Name="editContactID" />
   </EntityType>
   <EntityType Name="tip_cartela">
     <Key>
@@ -135,6 +165,11 @@
     <Property Type="Int64" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Type="String" Name="denumire" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="cartelas" Relationship="OrganizationModel.FK_cartela_tip_cartela" FromRole="tip_cartela" ToRole="cartela" />
+    <Property Type="Int32" Name="disabled" />
+    <Property Type="DateTime" Name="createDate" Precision="3" />
+    <Property Type="Int32" Name="createContactID" />
+    <Property Type="DateTime" Name="editDate" Precision="3" />
+    <Property Type="Int32" Name="editContactID" />
   </EntityType>
   <EntityType Name="tip_echipament">
     <Key>
@@ -143,6 +178,11 @@
     <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Type="String" Name="denumire" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="echipaments" Relationship="OrganizationModel.FK_echipament_tip_echipament" FromRole="tip_echipament" ToRole="echipament" />
+    <Property Type="Int32" Name="disabled" />
+    <Property Type="DateTime" Name="createDate" Precision="3" />
+    <Property Type="Int32" Name="createContactID" />
+    <Property Type="DateTime" Name="editDate" Precision="3" />
+    <Property Type="Int32" Name="editContactID" />
   </EntityType>
   <Association Name="FK_echipament_atribute_atribut">
     <End Type="OrganizationModel.atribut" Role="atribut" Multiplicity="1" />
@@ -213,6 +253,11 @@
     <Property Type="Int64" Name="atributID" Nullable="false" />
     <NavigationProperty Name="atribut" Relationship="OrganizationModel.FK_cartela_atribute_atribut" FromRole="cartela_atribute" ToRole="atribut" />
     <NavigationProperty Name="cartela" Relationship="OrganizationModel.FK_cartela_atribute" FromRole="cartela_atribute" ToRole="cartela" />
+    <Property Type="Int32" Name="disabled" />
+    <Property Type="DateTime" Name="createDate" Precision="3" />
+    <Property Type="Int32" Name="createContactID" />
+    <Property Type="DateTime" Name="editDate" Precision="3" />
+    <Property Type="Int32" Name="editContactID" />
   </EntityType>
   <Association Name="FK_cartela_atribute_atribut">
     <End Type="OrganizationModel.atribut" Role="atribut" Multiplicity="1" />
@@ -257,6 +302,11 @@
     <Property Type="Int64" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Type="String" Name="denumire" MaxLength="50" FixedLength="false" Unicode="true" />
     <Property Type="String" Name="echipament" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="disabled" />
+    <Property Type="DateTime" Name="createDate" Precision="3" />
+    <Property Type="Int32" Name="createContactID" />
+    <Property Type="DateTime" Name="editDate" Precision="3" />
+    <Property Type="Int32" Name="editContactID" />
   </EntityType>
   <EntityType Name="echipament_tip">
     <Key>
@@ -264,5 +314,10 @@
     </Key>
     <Property Type="Int32" Name="id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Type="String" Name="denumire" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Type="Int32" Name="disabled" />
+    <Property Type="DateTime" Name="createDate" Precision="3" />
+    <Property Type="Int32" Name="createContactID" />
+    <Property Type="DateTime" Name="editDate" Precision="3" />
+    <Property Type="Int32" Name="editContactID" />
   </EntityType>
 </Schema>

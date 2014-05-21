@@ -28,7 +28,7 @@ namespace TreeViewDemo.Controllers
                 if (long.TryParse(parentID, out tipechipID) == false)
                     tipechipID = long.Parse(parentID.Split('_')[0]);
 
-                string idPABX = (from te in db.tip_echipament where te.id == tipechipID select te.denumire).FirstOrDefault();
+                string idPABX = (from te in db.tip_echipament.Where(o => o.disabled == 0) where te.id == tipechipID select te.denumire).FirstOrDefault();
                 //var numeechip = "";
                 ViewBag.numeechip = idPABX;
                 ViewBag.id = -1;
@@ -47,10 +47,10 @@ namespace TreeViewDemo.Controllers
             }
             else
             {
-                var numeechip = (from j in db.echipaments where j.id == id select new { j.denumire, j.id }).FirstOrDefault();
-                var atribute = (from a in db.atributs
-                                join ea in db.echipament_atribute on a.id equals ea.atributID
-                                join e in db.echipaments on ea.echipamentID equals e.id
+                var numeechip = (from j in db.echipaments.Where(o => o.disabled == 0) where j.id == id select new { j.denumire, j.id }).FirstOrDefault();
+                var atribute = (from a in db.atributs.Where(o => o.disabled == 0)
+                                join ea in db.echipament_atribute.Where(o => o.disabled == 0) on a.id equals ea.atributID
+                                join e in db.echipaments.Where(o => o.disabled == 0) on ea.echipamentID equals e.id
                                 join ta in db.tip_atribut on a.tipID equals ta.id
                                 
                                 where ea.echipamentID == id
@@ -100,7 +100,7 @@ namespace TreeViewDemo.Controllers
                 long id1 = long.Parse(numeechip.id.ToString());
                 if (numeechip.denumire.ToString() == "PABX")
                 {
-                    string tip = (from e in db.echipaments
+                    string tip = (from e in db.echipaments.Where(o => o.disabled == 0)
                                   join ea in db.echipament_atribute on e.id equals ea.echipamentID
                                   join a in db.atributs on ea.atributID equals a.id
                                   join ta in db.tip_atribut on a.tipID equals ta.id
@@ -120,6 +120,7 @@ namespace TreeViewDemo.Controllers
         [HttpPost]
         public ActionResult Edit(FormCollection echipmodel)
         {
+            int userID = int.Parse((from c in db.contacts where c.username == User.Identity.Name select c.id).FirstOrDefault().ToString());
             if (ModelState.IsValid)
             {
                 echipament s;
@@ -142,6 +143,11 @@ namespace TreeViewDemo.Controllers
 
 
                         s.siteID = long.Parse(echipmodel["siteID"].ToString()); /// ???
+                        s.createDate = DateTime.Now;
+                        s.editDate = null;
+                        s.editcontactID = null;
+                        s.createContactID = userID;
+                        s.disabled = 0;
                         db.AddToechipaments(s);
 
                         atribut a = new atribut();
@@ -153,11 +159,21 @@ namespace TreeViewDemo.Controllers
                             a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "Tip" select ta.id).FirstOrDefault();
+                        a.createDate = DateTime.Now;
+                        a.editDate = null;
+                        a.editContactID = null;
+                        a.createContactID = userID;
+                        a.disabled = 0;
                         db.AddToatributs(a);
 
                         echipament_atribute ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
+                        ea.createDate = DateTime.Now;
+                        ea.editDate = null;
+                        ea.editContactID = null;
+                        ea.createContactID = userID;
+                        ea.disabled = 0;
                         db.AddToechipament_atribute(ea);
 
                         db.SaveChanges();
@@ -171,12 +187,22 @@ namespace TreeViewDemo.Controllers
                             a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "Versiune" select ta.id).FirstOrDefault();
+                        a.createDate = DateTime.Now;
+                        a.editDate = null;
+                        a.editContactID = null;
+                        a.createContactID = userID;
+                        a.disabled = 0;
                         db.AddToatributs(a);
                         db.SaveChanges();
 
                         ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
+                        ea.createDate = DateTime.Now;
+                        ea.editDate = null;
+                        ea.editContactID = null;
+                        ea.createContactID = userID;
+                        ea.disabled = 0;
                         db.AddToechipament_atribute(ea);
                         db.SaveChanges();
                         ////
@@ -186,10 +212,21 @@ namespace TreeViewDemo.Controllers
                         a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "IP" select ta.id).FirstOrDefault();
+                        a.createDate = DateTime.Now;
+                        a.editDate = null;
+                        a.editContactID = null;
+                        a.createContactID = userID;
+                        a.disabled = 0;
                         db.AddToatributs(a);
+
                         ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
+                        ea.createDate = DateTime.Now;
+                        ea.editDate = null;
+                        ea.editContactID = null;
+                        ea.createContactID = userID;
+                        ea.disabled = 0;
                         db.AddToechipament_atribute(ea);
                         db.SaveChanges();
                         ///
@@ -207,10 +244,20 @@ namespace TreeViewDemo.Controllers
                         a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "Licenta" select ta.id).FirstOrDefault();
+                        a.createDate = DateTime.Now;
+                        a.editDate = null;
+                        a.editContactID = null;
+                        a.createContactID = userID;
+                        a.disabled = 0;
                         db.AddToatributs(a);
                         ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
+                        ea.createDate = DateTime.Now;
+                        ea.editDate = null;
+                        ea.editContactID = null;
+                        ea.createContactID = userID;
+                        ea.disabled = 0;
                         db.AddToechipament_atribute(ea);
                         db.SaveChanges();
                         ////
@@ -224,70 +271,24 @@ namespace TreeViewDemo.Controllers
                         a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "Contract" select ta.id).FirstOrDefault();
+                        a.createDate = DateTime.Now;
+                        a.editDate = null;
+                        a.editContactID = null;
+                        a.createContactID = userID;
+                        a.disabled = 0;
                         db.AddToatributs(a);
                         ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
+                        ea.createDate = DateTime.Now;
+                        ea.editDate = null;
+                        ea.editContactID = null;
+                        ea.createContactID = userID;
+                        ea.disabled = 0;
                         db.AddToechipament_atribute(ea);
                         db.SaveChanges();
                         ///
-                        a = new atribut();
-                        a.val_string = null;
-                        a.val_csv = echipmodel["ab_analogici_dela"].ToString() + "," + echipmodel["ab_analogici_panala"].ToString();
-                        a.val_int = null;
-                        a.val_nr = null;
-                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati analogici" select ta.id).FirstOrDefault();
-                        db.AddToatributs(a);
-
-                        ea = new echipament_atribute();
-                        ea.echipamentID = s.id;
-                        ea.atributID = a.id;
-                        db.AddToechipament_atribute(ea);
-                        db.SaveChanges();
-                        
-                        a = new atribut();
-                        a.val_string = null;
-                        a.val_csv = echipmodel["ab_digitali_dela"].ToString() + "," + echipmodel["ab_digitali_panala"].ToString();
-                        a.val_int = null;
-                        a.val_nr = null;
-                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati digitali" select ta.id).FirstOrDefault();
-                        db.AddToatributs(a);
-
-                        ea = new echipament_atribute();
-                        ea.echipamentID = s.id;
-                        ea.atributID = a.id;
-                        db.AddToechipament_atribute(ea);
-                        db.SaveChanges();
                        
-                        a = new atribut();
-                        a.val_string = null;
-                        a.val_csv = echipmodel["ab_IP_dela"].ToString() + "," + echipmodel["ab_IP_panala"].ToString();
-                        a.val_int = null;
-                        a.val_nr = null;
-                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati IP" select ta.id).FirstOrDefault();
-                        db.AddToatributs(a);
-
-                        ea = new echipament_atribute();
-                        ea.echipamentID = s.id;
-                        ea.atributID = a.id;
-                        db.AddToechipament_atribute(ea);
-
-                        db.SaveChanges();
-                        
-                        a = new atribut();
-                        a.val_string = null;
-                        a.val_csv = echipmodel["ab_DECT_dela"].ToString() + "," + echipmodel["ab_DECT_panala"].ToString();
-                        a.val_int = null;
-                        a.val_nr = null;
-                        a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati DECT" select ta.id).FirstOrDefault();
-                        db.AddToatributs(a);
-
-                        ea = new echipament_atribute();
-                        ea.echipamentID = s.id;
-                        ea.atributID = a.id;
-                        db.AddToechipament_atribute(ea);
-
-                        db.SaveChanges();
                         
                         a = new atribut();
                         a.val_string = null;
@@ -295,14 +296,55 @@ namespace TreeViewDemo.Controllers
                         a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati total" select ta.id).FirstOrDefault();
+                        a.createDate = DateTime.Now;
+                        a.editDate = null;
+                        a.editContactID = null;
+                        a.createContactID = userID;
+                        a.disabled = 0;
                         db.AddToatributs(a);
 
                         ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
+                        ea.createDate = DateTime.Now;
+                        ea.editDate = null;
+                        ea.editContactID = null;
+                        ea.createContactID = userID;
+                        ea.disabled = 0;
                         db.AddToechipament_atribute(ea);
                         db.SaveChanges();
 
+
+                        foreach(var k1 in echipmodel.Keys)
+                        {
+                            if (k1.ToString().StartsWith("abonati_dela") && !k1.ToString().EndsWith(":"))
+                            {
+                                string nraux = k1.ToString().Substring(12);
+                                a = new atribut();
+                                a.val_string = null;
+                                a.val_csv = echipmodel[k1.ToString()].ToString() + "," + echipmodel["abonati_panala"+nraux].ToString();
+                                a.val_int = null;
+                                a.val_nr = null;
+                                a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati" select ta.id).FirstOrDefault();
+                                a.createDate = DateTime.Now;
+                                a.editDate = null;
+                                a.editContactID = null;
+                                a.createContactID = userID;
+                                a.disabled = 0;
+                                db.AddToatributs(a);
+
+                                ea = new echipament_atribute();
+                                ea.echipamentID = s.id;
+                                ea.atributID = a.id;
+                                ea.createDate = DateTime.Now;
+                                ea.editDate = null;
+                                ea.editContactID = null;
+                                ea.createContactID = userID;
+                                ea.disabled = 0;
+                                db.AddToechipament_atribute(ea);
+                                db.SaveChanges();
+                            }
+                        }
 
                         a = new atribut();
                         a.val_string = echipmodel["nrruta"];
@@ -310,11 +352,21 @@ namespace TreeViewDemo.Controllers
                         a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "Numar ruta" select ta.id).FirstOrDefault();
+                        a.createDate = DateTime.Now;
+                        a.editDate = null;
+                        a.editContactID = null;
+                        a.createContactID = userID;
+                        a.disabled = 0;
                         db.AddToatributs(a);
 
                         ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
+                        ea.createDate = DateTime.Now;
+                        ea.editDate = null;
+                        ea.editContactID = null;
+                        ea.createContactID = userID;
+                        ea.disabled = 0;
                         db.AddToechipament_atribute(ea);
 
                         db.SaveChanges();
@@ -325,11 +377,21 @@ namespace TreeViewDemo.Controllers
                         a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "Tip Conexiune" select ta.id).FirstOrDefault();
+                        a.createDate = DateTime.Now;
+                        a.editDate = null;
+                        a.editContactID = null;
+                        a.createContactID = userID;
+                        a.disabled = 0;
                         db.AddToatributs(a);
 
                         ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
+                        ea.createDate = DateTime.Now;
+                        ea.editDate = null;
+                        ea.editContactID = null;
+                        ea.createContactID = userID;
+                        ea.disabled = 0;
                         db.AddToechipament_atribute(ea);
 
                         db.SaveChanges();
@@ -343,11 +405,21 @@ namespace TreeViewDemo.Controllers
                             a.val_int = null;
                             a.val_nr = null;
                             a.tipID = (from ta in db.tip_atribut where ta.denumire == "Destinatie" select ta.id).FirstOrDefault();
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
                             db.AddToatributs(a);
 
                             ea = new echipament_atribute();
                             ea.echipamentID = s.id;
                             ea.atributID = a.id;
+                            ea.createDate = DateTime.Now;
+                            ea.editDate = null;
+                            ea.editContactID = null;
+                            ea.createContactID = userID;
+                            ea.disabled = 0;
                             db.AddToechipament_atribute(ea);
 
                             db.SaveChanges();
@@ -359,11 +431,21 @@ namespace TreeViewDemo.Controllers
                             a.val_int = null;
                             a.val_nr = null;
                             a.tipID = (from ta in db.tip_atribut where ta.denumire == "Poz. echip." select ta.id).FirstOrDefault();
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
                             db.AddToatributs(a);
 
                             ea = new echipament_atribute();
                             ea.echipamentID = s.id;
                             ea.atributID = a.id;
+                            ea.createDate = DateTime.Now;
+                            ea.editDate = null;
+                            ea.editContactID = null;
+                            ea.createContactID = userID;
+                            ea.disabled = 0;
                             db.AddToechipament_atribute(ea);
 
                             db.SaveChanges();
@@ -374,11 +456,21 @@ namespace TreeViewDemo.Controllers
                             a.val_int = null;
                             a.val_nr = null;
                             a.tipID = (from ta in db.tip_atribut where ta.denumire == "Tip echip." select ta.id).FirstOrDefault();
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
                             db.AddToatributs(a);
 
                             ea = new echipament_atribute();
                             ea.echipamentID = s.id;
                             ea.atributID = a.id;
+                            ea.createDate = DateTime.Now;
+                            ea.editDate = null;
+                            ea.editContactID = null;
+                            ea.createContactID = userID;
+                            ea.disabled = 0;
                             db.AddToechipament_atribute(ea);
 
                             db.SaveChanges();
@@ -389,6 +481,11 @@ namespace TreeViewDemo.Controllers
                             cartela s1 = new cartela();
                             s1.tipID = (from tc in db.tip_cartela where tc.denumire == "TLU76" select tc.id).FirstOrDefault();
                             s1.echipamentID = s.id;
+                            s1.createDate = DateTime.Now;
+                            s1.editDate = null;
+                            s1.editContactID = null;
+                            s1.createcontactID = userID;
+                            s1.disabled = 0;
                             db.AddTocartelas(s1);
                             db.SaveChanges();
 
@@ -399,11 +496,21 @@ namespace TreeViewDemo.Controllers
                             a.val_int = null;
                             a.val_nr = null;
                             a.tipID = (from ta in db.tip_atribut where ta.denumire == "BPOS" select ta.id).FirstOrDefault();
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
                             db.AddToatributs(a);
 
                             cartela_atribute ea1 = new cartela_atribute();
                             ea1.cartelaID = s1.id;
                             ea1.atributID = a.id;
+                            ea1.createDate = DateTime.Now;
+                            ea1.editDate = null;
+                            ea1.editContactID = null;
+                            ea1.createContactID = userID;
+                            ea1.disabled = 0;
                             db.AddTocartela_atribute(ea1);
 
                             db.SaveChanges();
@@ -414,11 +521,21 @@ namespace TreeViewDemo.Controllers
                             a.val_int = null;
                             a.val_nr = null;
                             a.tipID = (from ta in db.tip_atribut where ta.denumire == "Remote" select ta.id).FirstOrDefault();
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
                             db.AddToatributs(a);
 
                             ea1 = new cartela_atribute();
                             ea1.cartelaID = s1.id;
                             ea1.atributID = a.id;
+                            ea1.createDate = DateTime.Now;
+                            ea1.editDate = null;
+                            ea1.editContactID = null;
+                            ea1.createContactID = userID;
+                            ea1.disabled = 0;
                             db.AddTocartela_atribute(ea1);
 
                             db.SaveChanges();
@@ -429,11 +546,21 @@ namespace TreeViewDemo.Controllers
                             a.val_int = null;
                             a.val_nr = null;
                             a.tipID = (from ta in db.tip_atribut where ta.denumire == "VersiuneC" select ta.id).FirstOrDefault();
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
                             db.AddToatributs(a);
 
                             ea1 = new cartela_atribute();
                             ea1.cartelaID = s1.id;
                             ea1.atributID = a.id;
+                            ea1.createDate = DateTime.Now;
+                            ea1.editDate = null;
+                            ea1.editContactID = null;
+                            ea1.createContactID = userID;
+                            ea1.disabled = 0;
                             db.AddTocartela_atribute(ea1);
 
                             db.SaveChanges();
@@ -444,11 +571,21 @@ namespace TreeViewDemo.Controllers
                             a.val_int = null;
                             a.val_nr = null;
                             a.tipID = (from ta in db.tip_atribut where ta.denumire == "Numar ruta" select ta.id).FirstOrDefault();
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
                             db.AddToatributs(a);
 
                             ea1 = new cartela_atribute();
                             ea1.cartelaID = s1.id;
                             ea1.atributID = a.id;
+                            ea1.createDate = DateTime.Now;
+                            ea1.editDate = null;
+                            ea1.editContactID = null;
+                            ea1.createContactID = userID;
+                            ea1.disabled = 0;
                             db.AddTocartela_atribute(ea1);
 
                             db.SaveChanges();
@@ -464,11 +601,21 @@ namespace TreeViewDemo.Controllers
                                 a.val_int = null;
                                 a.val_nr = null;
                                 a.tipID = (from ta in db.tip_atribut where ta.denumire == "Numar ruta" select ta.id).FirstOrDefault();
+                                a.createDate = DateTime.Now;
+                                a.editDate = null;
+                                a.editContactID = null;
+                                a.createContactID = userID;
+                                a.disabled = 0;
                                 db.AddToatributs(a);
 
                                 ea = new echipament_atribute();
                                 ea.echipamentID = s.id;
                                 ea.atributID = a.id;
+                                ea.createDate = DateTime.Now;
+                                ea.editDate = null;
+                                ea.editContactID = null;
+                                ea.createContactID = userID;
+                                ea.disabled = 0;
                                 db.AddToechipament_atribute(ea);
                                 db.SaveChanges();
                             }
@@ -480,11 +627,21 @@ namespace TreeViewDemo.Controllers
                                 a.val_int = null;
                                 a.val_nr = null;
                                 a.tipID = (from ta in db.tip_atribut where ta.denumire == "Tip Conexiune" select ta.id).FirstOrDefault();
+                                a.createDate = DateTime.Now;
+                                a.editDate = null;
+                                a.editContactID = null;
+                                a.createContactID = userID;
+                                a.disabled = 0;
                                 db.AddToatributs(a);
 
                                 ea = new echipament_atribute();
                                 ea.echipamentID = s.id;
                                 ea.atributID = a.id;
+                                ea.createDate = DateTime.Now;
+                                ea.editDate = null;
+                                ea.editContactID = null;
+                                ea.createContactID = userID;
+                                ea.disabled = 0;
                                 db.AddToechipament_atribute(ea);
 
                                 db.SaveChanges();
@@ -496,6 +653,11 @@ namespace TreeViewDemo.Controllers
                                     cartela s1 = new cartela();
                                     s1.tipID = (from tc in db.tip_cartela where tc.denumire == "TLU76" select tc.id).FirstOrDefault();
                                     s1.echipamentID = s.id;
+                                    s1.createDate = DateTime.Now;
+                                    s1.editDate = null;
+                                    s1.editContactID = null;
+                                    s1.createcontactID = userID;
+                                    s1.disabled = 0;
                                     db.AddTocartelas(s1);
                                     db.SaveChanges();
 
@@ -506,11 +668,21 @@ namespace TreeViewDemo.Controllers
                                     a.val_int = null;
                                     a.val_nr = null;
                                     a.tipID = (from ta in db.tip_atribut where ta.denumire == "BPOS" select ta.id).FirstOrDefault();
+                                    a.createDate = DateTime.Now;
+                                    a.editDate = null;
+                                    a.editContactID = null;
+                                    a.createContactID = userID;
+                                    a.disabled = 0;
                                     db.AddToatributs(a);
 
                                     cartela_atribute ea1 = new cartela_atribute();
                                     ea1.cartelaID = s1.id;
                                     ea1.atributID = a.id;
+                                    ea1.createDate = DateTime.Now;
+                                    ea1.editDate = null;
+                                    ea1.editContactID = null;
+                                    ea1.createContactID = userID;
+                                    ea1.disabled = 0;
                                     db.AddTocartela_atribute(ea1);
 
                                     db.SaveChanges();
@@ -521,11 +693,21 @@ namespace TreeViewDemo.Controllers
                                     a.val_int = null;
                                     a.val_nr = null;
                                     a.tipID = (from ta in db.tip_atribut where ta.denumire == "Remote" select ta.id).FirstOrDefault();
+                                    a.createDate = DateTime.Now;
+                                    a.editDate = null;
+                                    a.editContactID = null;
+                                    a.createContactID = userID;
+                                    a.disabled = 0;
                                     db.AddToatributs(a);
 
                                     ea1 = new cartela_atribute();
                                     ea1.cartelaID = s1.id;
                                     ea1.atributID = a.id;
+                                    ea1.createDate = DateTime.Now;
+                                    ea1.editDate = null;
+                                    ea1.editContactID = null;
+                                    ea1.createContactID = userID;
+                                    ea1.disabled = 0;
                                     db.AddTocartela_atribute(ea1);
 
                                     db.SaveChanges();
@@ -536,11 +718,21 @@ namespace TreeViewDemo.Controllers
                                     a.val_int = null;
                                     a.val_nr = null;
                                     a.tipID = (from ta in db.tip_atribut where ta.denumire == "VersiuneC" select ta.id).FirstOrDefault();
+                                    a.createDate = DateTime.Now;
+                                    a.editDate = null;
+                                    a.editContactID = null;
+                                    a.createContactID = userID;
+                                    a.disabled = 0;
                                     db.AddToatributs(a);
 
                                     ea1 = new cartela_atribute();
                                     ea1.cartelaID = s1.id;
                                     ea1.atributID = a.id;
+                                    ea1.createDate = DateTime.Now;
+                                    ea1.editDate = null;
+                                    ea1.editContactID = null;
+                                    ea1.createContactID = userID;
+                                    ea1.disabled = 0;
                                     db.AddTocartela_atribute(ea1);
 
                                     db.SaveChanges();
@@ -551,11 +743,21 @@ namespace TreeViewDemo.Controllers
                                     a.val_int = null;
                                     a.val_nr = null;
                                     a.tipID = (from ta in db.tip_atribut where ta.denumire == "Numar ruta" select ta.id).FirstOrDefault();
+                                    a.createDate = DateTime.Now;
+                                    a.editDate = null;
+                                    a.editContactID = null;
+                                    a.createContactID = userID;
+                                    a.disabled = 0;
                                     db.AddToatributs(a);
 
                                     ea1 = new cartela_atribute();
                                     ea1.cartelaID = s1.id;
                                     ea1.atributID = a.id;
+                                    ea1.createDate = DateTime.Now;
+                                    ea1.editDate = null;
+                                    ea1.editContactID = null;
+                                    ea1.createContactID = userID;
+                                    ea1.disabled = 0;
                                     db.AddTocartela_atribute(ea1);
 
                                     db.SaveChanges();
@@ -572,11 +774,21 @@ namespace TreeViewDemo.Controllers
                                     a.val_int = null;
                                     a.val_nr = null;
                                     a.tipID = (from ta in db.tip_atribut where ta.denumire == "Destinatie" select ta.id).FirstOrDefault();
+                                    a.createDate = DateTime.Now;
+                                    a.editDate = null;
+                                    a.editContactID = null;
+                                    a.createContactID = userID;
+                                    a.disabled = 0;
                                     db.AddToatributs(a);
 
                                     ea = new echipament_atribute();
                                     ea.echipamentID = s.id;
                                     ea.atributID = a.id;
+                                    ea.createDate = DateTime.Now;
+                                    ea.editDate = null;
+                                    ea.editContactID = null;
+                                    ea.createContactID = userID;
+                                    ea.disabled = 0;
                                     db.AddToechipament_atribute(ea);
 
                                     db.SaveChanges();
@@ -593,11 +805,21 @@ namespace TreeViewDemo.Controllers
                                     a.val_int = null;
                                     a.val_nr = null;
                                     a.tipID = (from ta in db.tip_atribut where ta.denumire == "Poz. echip." select ta.id).FirstOrDefault();
+                                    a.createDate = DateTime.Now;
+                                    a.editDate = null;
+                                    a.editContactID = null;
+                                    a.createContactID = userID;
+                                    a.disabled = 0;
                                     db.AddToatributs(a);
 
                                     ea = new echipament_atribute();
                                     ea.echipamentID = s.id;
                                     ea.atributID = a.id;
+                                    ea.createDate = DateTime.Now;
+                                    ea.editDate = null;
+                                    ea.editContactID = null;
+                                    ea.createContactID = userID;
+                                    ea.disabled = 0;
                                     db.AddToechipament_atribute(ea);
 
                                     db.SaveChanges();
@@ -614,11 +836,21 @@ namespace TreeViewDemo.Controllers
                                     a.val_int = null;
                                     a.val_nr = null;
                                     a.tipID = (from ta in db.tip_atribut where ta.denumire == "Tip echip." select ta.id).FirstOrDefault();
+                                    a.createDate = DateTime.Now;
+                                    a.editDate = null;
+                                    a.editContactID = null;
+                                    a.createContactID = userID;
+                                    a.disabled = 0;
                                     db.AddToatributs(a);
 
                                     ea = new echipament_atribute();
                                     ea.echipamentID = s.id;
                                     ea.atributID = a.id;
+                                    ea.createDate = DateTime.Now;
+                                    ea.editDate = null;
+                                    ea.editContactID = null;
+                                    ea.createContactID = userID;
+                                    ea.disabled = 0;
                                     db.AddToechipament_atribute(ea);
 
                                     db.SaveChanges();
@@ -635,11 +867,21 @@ namespace TreeViewDemo.Controllers
                             a.val_int = null;
                             a.val_nr = null;
                             a.tipID = (from ta in db.tip_atribut where ta.denumire == "LIM MAIN" select ta.id).FirstOrDefault();
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
                             db.AddToatributs(a);
 
                             ea = new echipament_atribute();
                             ea.echipamentID = s.id;
                             ea.atributID = a.id;
+                            ea.createDate = DateTime.Now;
+                            ea.editDate = null;
+                            ea.editContactID = null;
+                            ea.createContactID = userID;
+                            ea.disabled = 0;
                             db.AddToechipament_atribute(ea);
                             db.SaveChanges();
                         }
@@ -651,11 +893,21 @@ namespace TreeViewDemo.Controllers
                             a.val_int = null;
                             a.val_nr = null;
                             a.tipID = (from ta in db.tip_atribut where ta.denumire == "LIM DISTANT" select ta.id).FirstOrDefault();
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
                             db.AddToatributs(a);
 
                             ea = new echipament_atribute();
                             ea.echipamentID = s.id;
                             ea.atributID = a.id;
+                            ea.createDate = DateTime.Now;
+                            ea.editDate = null;
+                            ea.editContactID = null;
+                            ea.createContactID = userID;
+                            ea.disabled = 0;
                             db.AddToechipament_atribute(ea);
 
                             db.SaveChanges();
@@ -675,6 +927,11 @@ namespace TreeViewDemo.Controllers
 
 
                         s.siteID = long.Parse(echipmodel["siteID"].ToString()); /// ???
+                        s.createDate = DateTime.Now;
+                        s.editDate = null;
+                        s.editcontactID = null;
+                        s.editcontactID = userID;
+                        s.disabled = 0;                                                                                
                         db.AddToechipaments(s);
 
 
@@ -684,11 +941,21 @@ namespace TreeViewDemo.Controllers
                         a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "Locatie remote" select ta.id).FirstOrDefault();
+                        a.createDate = DateTime.Now;
+                        a.editDate = null;
+                        a.editContactID = null;
+                        a.createContactID = userID;
+                        a.disabled = 0;
                         db.AddToatributs(a);
 
                         echipament_atribute ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
+                        ea.createDate = DateTime.Now;
+                        ea.editDate = null;
+                        ea.editContactID = null;
+                        ea.createContactID = userID;
+                        ea.disabled = 0;
                         db.AddToechipament_atribute(ea);
 
                         db.SaveChanges();
@@ -701,11 +968,21 @@ namespace TreeViewDemo.Controllers
                         a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "IP CES" select ta.id).FirstOrDefault();
+                        a.createDate = DateTime.Now;
+                        a.editDate = null;
+                        a.editContactID = null;
+                        a.createContactID = userID;
+                        a.disabled = 0;
                         db.AddToatributs(a);
 
                         ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
+                        ea.createDate = DateTime.Now;
+                        ea.editDate = null;
+                        ea.editContactID = null;
+                        ea.createContactID = userID;
+                        ea.disabled = 0;
                         db.AddToechipament_atribute(ea);
 
                         db.SaveChanges();
@@ -716,11 +993,21 @@ namespace TreeViewDemo.Controllers
                         a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "IP Management" select ta.id).FirstOrDefault();
+                        a.createDate = DateTime.Now;
+                        a.editDate = null;
+                        a.editContactID = null;
+                        a.createContactID = userID;
+                        a.disabled = 0;
                         db.AddToatributs(a);
 
                         ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
+                        ea.createDate = DateTime.Now;
+                        ea.editDate = null;
+                        ea.editContactID = null;
+                        ea.createContactID = userID;
+                        ea.disabled = 0;
                         db.AddToechipament_atribute(ea);
 
                         db.SaveChanges();
@@ -731,11 +1018,21 @@ namespace TreeViewDemo.Controllers
                         a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "IP CES Remote" select ta.id).FirstOrDefault();
+                        a.createDate = DateTime.Now;
+                        a.editDate = null;
+                        a.editContactID = null;
+                        a.createContactID = userID;
+                        a.disabled = 0;
                         db.AddToatributs(a);
 
                         ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
+                        ea.createDate = DateTime.Now;
+                        ea.editDate = null;
+                        ea.editContactID = null;
+                        ea.createContactID = userID;
+                        ea.disabled = 0;
                         db.AddToechipament_atribute(ea);
 
                         db.SaveChanges();
@@ -746,11 +1043,21 @@ namespace TreeViewDemo.Controllers
                         a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "IP Management Remote" select ta.id).FirstOrDefault();
+                        a.createDate = DateTime.Now;
+                        a.editDate = null;
+                        a.editContactID = null;
+                        a.createContactID = userID;
+                        a.disabled = 0;
                         db.AddToatributs(a);
 
                         ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
+                        ea.createDate = DateTime.Now;
+                        ea.editDate = null;
+                        ea.editContactID = null;
+                        ea.createContactID = userID;
+                        ea.disabled = 0;
                         db.AddToechipament_atribute(ea);
 
                         db.SaveChanges();
@@ -762,11 +1069,21 @@ namespace TreeViewDemo.Controllers
                         a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "MASK" select ta.id).FirstOrDefault();
+                        a.createDate = DateTime.Now;
+                        a.editDate = null;
+                        a.editContactID = null;
+                        a.createContactID = userID;
+                        a.disabled = 0;
                         db.AddToatributs(a);
 
                         ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
+                        ea.createDate = DateTime.Now;
+                        ea.editDate = null;
+                        ea.editContactID = null;
+                        ea.createContactID = userID;
+                        ea.disabled = 0;
                         db.AddToechipament_atribute(ea);
 
                         db.SaveChanges();
@@ -777,11 +1094,21 @@ namespace TreeViewDemo.Controllers
                         a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "GATEWAY" select ta.id).FirstOrDefault();
+                        a.createDate = DateTime.Now;
+                        a.editDate = null;
+                        a.editContactID = null;
+                        a.createContactID = userID;
+                        a.disabled = 0;
                         db.AddToatributs(a);
 
                         ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
+                        ea.createDate = DateTime.Now;
+                        ea.editDate = null;
+                        ea.editContactID = null;
+                        ea.createContactID = userID;
+                        ea.disabled = 0;
                         db.AddToechipament_atribute(ea);
 
                         db.SaveChanges();
@@ -801,6 +1128,11 @@ namespace TreeViewDemo.Controllers
 
 
                         s.siteID = long.Parse(echipmodel["siteID"].ToString()); /// ???
+                        s.createDate = DateTime.Now;
+                        s.editDate = null;
+                        s.editcontactID = null;
+                        s.createContactID = userID;
+                        s.disabled = 0;
                         db.AddToechipaments(s);
 
 
@@ -810,11 +1142,21 @@ namespace TreeViewDemo.Controllers
                         a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "IP" select ta.id).FirstOrDefault();
+                        a.createDate = DateTime.Now;
+                        a.editDate = null;
+                        a.editContactID = null;
+                        a.createContactID = userID;
+                        a.disabled = 0;
                         db.AddToatributs(a);
 
                         echipament_atribute ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
+                        ea.createDate = DateTime.Now;
+                        ea.editDate = null;
+                        ea.editContactID = null;
+                        ea.createContactID = userID;
+                        ea.disabled = 0;
                         db.AddToechipament_atribute(ea);
                         db.SaveChanges();
 
@@ -824,11 +1166,21 @@ namespace TreeViewDemo.Controllers
                         a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "MASK" select ta.id).FirstOrDefault();
+                        a.createDate = DateTime.Now;
+                        a.editDate = null;
+                        a.editContactID = null;
+                        a.createContactID = userID;
+                        a.disabled = 0;
                         db.AddToatributs(a);
 
                         ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
+                        ea.createDate = DateTime.Now;
+                        ea.editDate = null;
+                        ea.editContactID = null;
+                        ea.createContactID = userID;
+                        ea.disabled = 0;
                         db.AddToechipament_atribute(ea);
                         db.SaveChanges();
 
@@ -838,11 +1190,21 @@ namespace TreeViewDemo.Controllers
                         a.val_int = null;
                         a.val_nr = null;
                         a.tipID = (from ta in db.tip_atribut where ta.denumire == "GATEWAY" select ta.id).FirstOrDefault();
+                        a.createDate = DateTime.Now;
+                        a.editDate = null;
+                        a.editContactID = null;
+                        a.createContactID = userID;
+                        a.disabled = 0;
                         db.AddToatributs(a);
 
                         ea = new echipament_atribute();
                         ea.echipamentID = s.id;
                         ea.atributID = a.id;
+                        ea.createDate = DateTime.Now;
+                        ea.editDate = null;
+                        ea.editContactID = null;
+                        ea.createContactID = userID;
+                        ea.disabled = 0;
                         db.AddToechipament_atribute(ea);
                         db.SaveChanges();
 
@@ -858,11 +1220,21 @@ namespace TreeViewDemo.Controllers
                                     a.val_int = null;
                                     a.val_nr = null;
                                     a.tipID = (from ta in db.tip_atribut where ta.denumire == "Port" select ta.id).FirstOrDefault();
+                                    a.createDate = DateTime.Now;
+                                    a.editDate = null;
+                                    a.editContactID = null;
+                                    a.createContactID = userID;
+                                    a.disabled = 0;
                                     db.AddToatributs(a);
 
                                     ea = new echipament_atribute();
                                     ea.echipamentID = s.id;
                                     ea.atributID = a.id;
+                                    ea.createDate = DateTime.Now;
+                                    ea.editDate = null;
+                                    ea.editContactID = null;
+                                    ea.createContactID = userID;
+                                    ea.disabled = 0;
                                     db.AddToechipament_atribute(ea);
                                     db.SaveChanges();
                                 }
@@ -877,11 +1249,21 @@ namespace TreeViewDemo.Controllers
                             a.val_int = null;
                             a.val_nr = null;
                             a.tipID = (from ta in db.tip_atribut where ta.denumire == "ENDPOINT" select ta.id).FirstOrDefault();
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
                             db.AddToatributs(a);
 
                             ea = new echipament_atribute();
                             ea.echipamentID = s.id;
                             ea.atributID = a.id;
+                            ea.createDate = DateTime.Now;
+                            ea.editDate = null;
+                            ea.editContactID = null;
+                            ea.createContactID = userID;
+                            ea.disabled = 0;
                             db.AddToechipament_atribute(ea);
                             db.SaveChanges();
                         }
@@ -896,11 +1278,21 @@ namespace TreeViewDemo.Controllers
                                 a.val_int = null;
                                 a.val_nr = null;
                                 a.tipID = (from ta in db.tip_atribut where ta.denumire == "Port" select ta.id).FirstOrDefault();
+                                a.createDate = DateTime.Now;
+                                a.editDate = null;
+                                a.editContactID = null;
+                                a.createContactID = userID;
+                                a.disabled = 0;
                                 db.AddToatributs(a);
 
                                 ea = new echipament_atribute();
                                 ea.echipamentID = s.id;
                                 ea.atributID = a.id;
+                                ea.createDate = DateTime.Now;
+                                ea.editDate = null;
+                                ea.editContactID = null;
+                                ea.createContactID = userID;
+                                ea.disabled = 0;
                                 db.AddToechipament_atribute(ea);
                                 db.SaveChanges();
                             }
@@ -918,7 +1310,7 @@ namespace TreeViewDemo.Controllers
                     int i = 0;
                     foreach (var key in echipmodel.Keys)
                     {
-                        if (key.ToString() != "lim" && !key.ToString().StartsWith("port") && !key.ToString().StartsWith("nrrutanou") && !key.ToString().StartsWith("pozitienou") && !key.ToString().StartsWith("tiptransportnou") && !key.ToString().StartsWith("tipcnou") && !key.ToString().StartsWith("destinatienou") && !key.ToString().EndsWith("-text") && key.ToString() != "tipcnou" && key.ToString() != "destinatienou" && key.ToString() != "nrrutanou" && key.ToString() != "destinatie" && key.ToString() != "tipconexiune" && key.ToString() != "nrruta" && key.ToString() != "siteID" && key.ToString() != "ipces" && key.ToString() != "licenta" && key.ToString() != "locatieremote" && key.ToString() != "ipmanagement" && key.ToString() != "ipcesremote" && key.ToString() != "ipmanagementremote" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "numeechip" && key.ToString() != "ab_analogici_dela" && key.ToString() != "ab_digitali_dela" && key.ToString() != "ab_IP_dela" && key.ToString() != "ab_DECT_dela" && key.ToString() != "ab_total_dela" && key.ToString() != "ab_analogici_panala" && key.ToString() != "ab_digitali_panala" && key.ToString() != "ab_IP_panala" && key.ToString() != "ab_DECT_panala" && key.ToString() != "ab_total_panala" && key.ToString() != "tip_nou" && key.ToString() != "denumire" && key.ToString() != "tip_val" && key.ToString() != "val_nou" && key.ToString() != "id" && !key.ToString().EndsWith(":"))
+                        if (!key.ToString().StartsWith("abonati") && key.ToString() != "lim" && !key.ToString().StartsWith("port") && !key.ToString().StartsWith("nrrutanou") && !key.ToString().StartsWith("pozitienou") && !key.ToString().StartsWith("tiptransportnou") && !key.ToString().StartsWith("tipcnou") && !key.ToString().StartsWith("destinatienou") && !key.ToString().EndsWith("-text") && key.ToString() != "tipcnou" && key.ToString() != "destinatienou" && key.ToString() != "nrrutanou" && key.ToString() != "destinatie" && key.ToString() != "tipconexiune" && key.ToString() != "nrruta" && key.ToString() != "siteID" && key.ToString() != "ipces" && key.ToString() != "licenta" && key.ToString() != "locatieremote" && key.ToString() != "ipmanagement" && key.ToString() != "ipcesremote" && key.ToString() != "ipmanagementremote" && key.ToString() != "mask" && key.ToString() != "gateway" && key.ToString() != "numeechip" && key.ToString() != "ab_analogici_dela" && key.ToString() != "ab_digitali_dela" && key.ToString() != "ab_IP_dela" && key.ToString() != "ab_DECT_dela" && key.ToString() != "ab_total_dela" && key.ToString() != "ab_analogici_panala" && key.ToString() != "ab_digitali_panala" && key.ToString() != "ab_IP_panala" && key.ToString() != "ab_DECT_panala" && key.ToString() != "ab_total_panala" && key.ToString() != "tip_nou" && key.ToString() != "denumire" && key.ToString() != "tip_val" && key.ToString() != "val_nou" && key.ToString() != "id" && !key.ToString().EndsWith(":"))
                         {
                             string idechip_idatr = key.ToString();
                             int nr_split = idechip_idatr.Split('_').Count();
@@ -995,8 +1387,38 @@ namespace TreeViewDemo.Controllers
                                             break;
                                 default:    a.val_string = echipmodel[key.ToString()].ToString();
                                             break;
+
                             }
+                            a.editDate = DateTime.Now;
+                            a.editContactID = userID;
                             db.SaveChanges();
+                        }
+                        else if (key.ToString().StartsWith("abonati_dela") && !key.ToString().EndsWith(":"))
+                        {
+                                    string nraux = key.ToString().Substring(12);
+                                    atribut a = new atribut();
+                                    a.val_string = null;
+                                    a.val_csv = echipmodel[key.ToString()].ToString() + "," + echipmodel["abonati_panala" + nraux].ToString();
+                                    a.val_int = null;
+                                    a.val_nr = null;
+                                    a.tipID = (from ta in db.tip_atribut where ta.denumire == "Abonati" select ta.id).FirstOrDefault();
+                                    a.createDate = DateTime.Now;
+                                    a.editDate = null;
+                                    a.editContactID = null;
+                                    a.createContactID = userID;
+                                    a.disabled = 0;
+                                    db.AddToatributs(a);
+
+                                    echipament_atribute ea = new echipament_atribute();
+                                    ea.echipamentID = id;
+                                    ea.atributID = a.id;
+                                    ea.createDate = DateTime.Now;
+                                    ea.editDate = null;
+                                    ea.editContactID = null;
+                                    ea.createContactID = userID;
+                                    ea.disabled = 0;
+                                    db.AddToechipament_atribute(ea);
+                                    db.SaveChanges();
                         }
                         else if (key.ToString().StartsWith("port"))
                         {
@@ -1006,11 +1428,21 @@ namespace TreeViewDemo.Controllers
                             a.val_int = null;
                             a.val_nr = null;
                             a.tipID = (from ta in db.tip_atribut where ta.denumire == "Port" select ta.id).FirstOrDefault();
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
                             db.AddToatributs(a);
 
                             echipament_atribute ea = new echipament_atribute();
                             ea.echipamentID = id;
                             ea.atributID = a.id;
+                            ea.createDate = DateTime.Now;
+                            ea.editDate = null;
+                            ea.editContactID = null;
+                            ea.createContactID = userID;
+                            ea.disabled = 0;
                             db.AddToechipament_atribute(ea);
                             db.SaveChanges();
                         }
@@ -1045,10 +1477,20 @@ namespace TreeViewDemo.Controllers
                                         a2.val_csv = null;
                                         a2.val_int = null;
                                         a2.val_nr = null;
+                                        a2.createDate = DateTime.Now;
+                                        a2.editDate = null;
+                                        a2.editContactID = null;
+                                        a2.createContactID = userID;
+                                        a2.disabled = 0;
 
                                         echipament_atribute ea = new echipament_atribute();
                                         ea.atributID = a2.id;
                                         ea.echipamentID = id;
+                                        ea.createDate = DateTime.Now;
+                                        ea.editDate = null;
+                                        ea.editContactID = null;
+                                        ea.createContactID = userID;
+                                        ea.disabled = 0;
 
                                         db.AddToatributs(a2);
                                         db.AddToechipament_atribute(ea);
@@ -1059,6 +1501,11 @@ namespace TreeViewDemo.Controllers
                                         a2.val_csv = null;
                                         a2.val_int = null;
                                         a2.val_nr = null;
+
+                                        
+                                        a2.editDate = DateTime.Now;
+                                        a2.editContactID = userID;
+                                        
 
                                     }
                                     db.SaveChanges();
@@ -1073,7 +1520,10 @@ namespace TreeViewDemo.Controllers
                                         a1.val_csv = null;
                                         a1.val_int = null;
                                         a1.val_nr = null;
+                                        a1.editDate = DateTime.Now;
+                                        a1.editContactID = userID;
                                         db.SaveChanges();
+
                                     }
                                 }
                                 catch { }
@@ -1090,6 +1540,9 @@ namespace TreeViewDemo.Controllers
                                         a2.val_csv = null;
                                         a2.val_int = null;
                                         a2.val_nr = null;
+                                       
+                                        a2.editDate = DateTime.Now;
+                                        a2.editContactID = userID;
                                         db.SaveChanges();
                                     }
                                 }
@@ -1106,10 +1559,20 @@ namespace TreeViewDemo.Controllers
                                         a1.val_csv = null;
                                         a1.val_int = null;
                                         a1.val_nr = null;
+                                        a1.createDate = DateTime.Now;
+                                        a1.editDate = null;
+                                        a1.editContactID = null;
+                                        a1.createContactID = userID;
+                                        a1.disabled = 0;
 
                                         echipament_atribute ea = new echipament_atribute();
                                         ea.atributID = a1.id;
                                         ea.echipamentID = id;
+                                        ea.createDate = DateTime.Now;
+                                        ea.editDate = null;
+                                        ea.editContactID = null;
+                                        ea.createContactID = userID;
+                                        ea.disabled = 0;
 
                                         db.AddToatributs(a1);
                                         db.AddToechipament_atribute(ea);
@@ -1120,6 +1583,8 @@ namespace TreeViewDemo.Controllers
                                         a1.val_csv = null;
                                         a1.val_int = null;
                                         a1.val_nr = null;
+                                        a1.editDate = DateTime.Now;
+                                        a1.editContactID = userID;
                                     }
 
                                     db.SaveChanges();
@@ -1138,10 +1603,20 @@ namespace TreeViewDemo.Controllers
                             a.val_csv = null;
                             a.val_int = null;
                             a.val_nr = null;
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
 
                             echipament_atribute ea = new echipament_atribute();
                             ea.atributID = a.id;
                             ea.echipamentID = id;
+                            ea.createDate = DateTime.Now;
+                            ea.editDate = null;
+                            ea.editContactID = null;
+                            ea.createContactID = userID;
+                            ea.disabled = 0;
 
                             db.AddToatributs(a);
                             db.AddToechipament_atribute(ea);
@@ -1162,10 +1637,20 @@ namespace TreeViewDemo.Controllers
                             a.val_csv = null;
                             a.val_int = null;
                             a.val_nr = null;
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
 
                             echipament_atribute ea = new echipament_atribute();
                             ea.atributID = a.id;
                             ea.echipamentID = id;
+                            ea.createDate = DateTime.Now;
+                            ea.editDate = null;
+                            ea.editContactID = null;
+                            ea.createContactID = userID;
+                            ea.disabled = 0;
 
                             db.AddToatributs(a);
                             db.AddToechipament_atribute(ea);
@@ -1179,21 +1664,36 @@ namespace TreeViewDemo.Controllers
                                 cartela s1 = new cartela();
                                 s1.tipID = (from tc in db.tip_cartela where tc.denumire == "TLU76" select tc.id).FirstOrDefault();
                                 s1.echipamentID = id;
+                                s1.createDate = DateTime.Now;
+                                s1.editDate = null;
+                                s1.editContactID = null;
+                                s1.createcontactID = userID;
+                                s1.disabled = 0;
                                 db.AddTocartelas(s1);
                                 db.SaveChanges();
 
 
                                 a = new atribut();
-                                a.val_string = echipmodel["pozitienou"+nraux];
+                                a.val_string = echipmodel["pozitienou" + nraux];
                                 a.val_csv = null;
                                 a.val_int = null;
                                 a.val_nr = null;
                                 a.tipID = (from ta in db.tip_atribut where ta.denumire == "BPOS" select ta.id).FirstOrDefault();
+                                a.createDate = DateTime.Now;
+                                a.editDate = null;
+                                a.editContactID = null;
+                                a.createContactID = userID;
+                                a.disabled = 0;
                                 db.AddToatributs(a);
 
                                 cartela_atribute ea1 = new cartela_atribute();
                                 ea1.cartelaID = s1.id;
                                 ea1.atributID = a.id;
+                                ea1.createDate = DateTime.Now;
+                                ea1.editDate = null;
+                                ea1.editContactID = null;
+                                ea1.createContactID = userID;
+                                ea1.disabled = 0;
                                 db.AddTocartela_atribute(ea1);
 
                                 db.SaveChanges();
@@ -1204,11 +1704,21 @@ namespace TreeViewDemo.Controllers
                                 a.val_int = null;
                                 a.val_nr = null;
                                 a.tipID = (from ta in db.tip_atribut where ta.denumire == "Remote" select ta.id).FirstOrDefault();
+                                a.createDate = DateTime.Now;
+                                a.editDate = null;
+                                a.editContactID = null;
+                                a.createContactID = userID;
+                                a.disabled = 0;
                                 db.AddToatributs(a);
 
                                 ea1 = new cartela_atribute();
                                 ea1.cartelaID = s1.id;
                                 ea1.atributID = a.id;
+                                ea1.createDate = DateTime.Now;
+                                ea1.editDate = null;
+                                ea1.editContactID = null;
+                                ea1.createContactID = userID;
+                                ea1.disabled = 0;
                                 db.AddTocartela_atribute(ea1);
 
                                 db.SaveChanges();
@@ -1219,26 +1729,46 @@ namespace TreeViewDemo.Controllers
                                 a.val_int = null;
                                 a.val_nr = null;
                                 a.tipID = (from ta in db.tip_atribut where ta.denumire == "VersiuneC" select ta.id).FirstOrDefault();
+                                a.createDate = DateTime.Now;
+                                a.editDate = null;
+                                a.editContactID = null;
+                                a.createContactID = userID;
+                                a.disabled = 0;
                                 db.AddToatributs(a);
 
                                 ea1 = new cartela_atribute();
                                 ea1.cartelaID = s1.id;
                                 ea1.atributID = a.id;
+                                ea1.createDate = DateTime.Now;
+                                ea1.editDate = null;
+                                ea1.editContactID = null;
+                                ea1.createContactID = userID;
+                                ea1.disabled = 0;
                                 db.AddTocartela_atribute(ea1);
 
                                 db.SaveChanges();
 
                                 a = new atribut();
-                                a.val_string = echipmodel["nrrutanou"+nraux];
+                                a.val_string = echipmodel["nrrutanou" + nraux];
                                 a.val_csv = null;
                                 a.val_int = null;
                                 a.val_nr = null;
                                 a.tipID = (from ta in db.tip_atribut where ta.denumire == "Numar ruta" select ta.id).FirstOrDefault();
+                                a.createDate = DateTime.Now;
+                                a.editDate = null;
+                                a.editContactID = null;
+                                a.createContactID = userID;
+                                a.disabled = 0;
                                 db.AddToatributs(a);
 
                                 ea1 = new cartela_atribute();
                                 ea1.cartelaID = s1.id;
                                 ea1.atributID = a.id;
+                                ea1.createDate = DateTime.Now;
+                                ea1.editDate = null;
+                                ea1.editContactID = null;
+                                ea1.createContactID = userID;
+                                ea1.disabled = 0;
                                 db.AddTocartela_atribute(ea1);
 
                                 db.SaveChanges();
@@ -1256,10 +1786,20 @@ namespace TreeViewDemo.Controllers
                             a.val_csv = null;
                             a.val_int = null;
                             a.val_nr = null;
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
 
                             echipament_atribute ea = new echipament_atribute();
                             ea.atributID = a.id;
                             ea.echipamentID = id;
+                            ea.createDate = DateTime.Now;
+                            ea.editDate = null;
+                            ea.editContactID = null;
+                            ea.createContactID = userID;
+                            ea.disabled = 0;
 
                             db.AddToatributs(a);
                             db.AddToechipament_atribute(ea);
@@ -1276,10 +1816,20 @@ namespace TreeViewDemo.Controllers
                             a.val_csv = null;
                             a.val_int = null;
                             a.val_nr = null;
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
 
                             echipament_atribute ea = new echipament_atribute();
                             ea.atributID = a.id;
                             ea.echipamentID = id;
+                            ea.createDate = DateTime.Now;
+                            ea.editDate = null;
+                            ea.editContactID = null;
+                            ea.createContactID = userID;
+                            ea.disabled = 0;
 
                             db.AddToatributs(a);
                             db.AddToechipament_atribute(ea);
@@ -1300,10 +1850,20 @@ namespace TreeViewDemo.Controllers
                             a.val_csv = null;
                             a.val_int = null;
                             a.val_nr = null;
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
 
                             echipament_atribute ea = new echipament_atribute();
                             ea.atributID = a.id;
                             ea.echipamentID = id;
+                            ea.createDate = DateTime.Now;
+                            ea.editDate = null;
+                            ea.editContactID = null;
+                            ea.createContactID = userID;
+                            ea.disabled = 0;
 
                             db.AddToatributs(a);
                             db.AddToechipament_atribute(ea);
@@ -1324,10 +1884,20 @@ namespace TreeViewDemo.Controllers
                             a.val_csv = null;
                             a.val_int = null;
                             a.val_nr = null;
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
 
                             echipament_atribute ea = new echipament_atribute();
                             ea.atributID = a.id;
                             ea.echipamentID = id;
+                            ea.createDate = DateTime.Now;
+                            ea.editDate = null;
+                            ea.editContactID = null;
+                            ea.createContactID = userID;
+                            ea.disabled = 0;
 
                             db.AddToatributs(a);
                             db.AddToechipament_atribute(ea);
@@ -1340,10 +1910,20 @@ namespace TreeViewDemo.Controllers
                             a.val_csv = null;
                             a.val_int = null;
                             a.val_nr = null;
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
 
                             ea = new echipament_atribute();
                             ea.atributID = a.id;
                             ea.echipamentID = id;
+                            ea.createDate = DateTime.Now;
+                            ea.editDate = null;
+                            ea.editContactID = null;
+                            ea.createContactID = userID;
+                            ea.disabled = 0;
 
                             db.AddToatributs(a);
                             db.AddToechipament_atribute(ea);
@@ -1357,10 +1937,20 @@ namespace TreeViewDemo.Controllers
                             a.val_csv = null;
                             a.val_int = null;
                             a.val_nr = null;
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
 
                             ea = new echipament_atribute();
                             ea.atributID = a.id;
                             ea.echipamentID = id;
+                            ea.createDate = DateTime.Now;
+                            ea.editDate = null;
+                            ea.editContactID = null;
+                            ea.createContactID = userID;
+                            ea.disabled = 0;
 
                             db.AddToatributs(a);
                             db.AddToechipament_atribute(ea);
@@ -1413,10 +2003,21 @@ namespace TreeViewDemo.Controllers
                                     a.val_nr = null;
                                     break;
                             }
+                            a.createDate = DateTime.Now;
+                            a.editDate = null;
+                            a.editContactID = null;
+                            a.createContactID = userID;
+                            a.disabled = 0;
+
 
                             echipament_atribute ea = new echipament_atribute();
                             ea.atributID = a.id;
                             ea.echipamentID = id;
+                            ea.createDate = DateTime.Now;
+                            ea.editDate = null;
+                            ea.editContactID = null;
+                            ea.createContactID = userID;
+                            ea.disabled = 0;
 
                             db.AddToatributs(a);
                             db.AddToechipament_atribute(ea);
@@ -1518,6 +2119,7 @@ namespace TreeViewDemo.Controllers
             long tip_id = (from e in db.echipaments where e.id == idechipament select e.tipID).FirstOrDefault();
 
             var denumire = (from t in db.tip_echipament where t.id == tip_id select t.denumire).FirstOrDefault();
+            int userID = int.Parse((from c in db.contacts where c.username == User.Identity.Name select c.id).FirstOrDefault().ToString());
 
 
             if (denumire == "PABX")
@@ -1543,7 +2145,10 @@ namespace TreeViewDemo.Controllers
                     foreach (var x in c_a.ToList())
                     {
                         cartela_atribute y = (from a in db.cartela_atribute where a.id == x.id select a).FirstOrDefault();
-                        db.cartela_atribute.DeleteObject(y);
+                        y.editContactID = userID;
+                        y.editDate = DateTime.Now;
+                        y.disabled = 1;
+                        //db.cartela_atribute.DeleteObject(y);
                     }
                     db.SaveChanges();
 
@@ -1551,12 +2156,18 @@ namespace TreeViewDemo.Controllers
                     foreach (var x in c_a)
                     {
                         atribut y = (from a in db.atributs where a.id == x.atributID select a).FirstOrDefault();
-                        db.atributs.DeleteObject(y);
+                        y.editContactID = userID;
+                        y.editDate = DateTime.Now;
+                        y.disabled = 1;
+                        //db.atributs.DeleteObject(y);
                     }
 
                     db.SaveChanges();
 
-                    db.cartelas.DeleteObject(car);
+                    car.editContactID = userID;
+                    car.editDate = DateTime.Now;
+                    car.disabled = 1;
+//                    db.cartelas.DeleteObject(car);
                     db.SaveChanges();
 
                 }
@@ -1569,14 +2180,20 @@ namespace TreeViewDemo.Controllers
                 foreach (var x in listaatr)
                 {
                     echipament_atribute y = (from a in db.echipament_atribute where a.id == x.id select a).FirstOrDefault();
-                    db.echipament_atribute.DeleteObject(y);
+                    y.editContactID = userID;
+                    y.editDate = DateTime.Now;
+                    y.disabled = 1;
+                    //db.echipament_atribute.DeleteObject(y);
                     db.SaveChanges();
                 }
 
                 foreach (var x in listaatr)
                 {
                     atribut y = (from a in db.atributs where a.id == x.atributID select a).FirstOrDefault();
-                    db.atributs.DeleteObject(y);
+                    y.editContactID = userID;
+                    y.editDate = DateTime.Now;
+                    y.disabled = 1;
+                    //db.atributs.DeleteObject(y);
                     db.SaveChanges();
                 }
 
@@ -1586,7 +2203,10 @@ namespace TreeViewDemo.Controllers
 
              
                     echipament z = (from a in db.echipaments where a.id == idechipament select a).FirstOrDefault();
-                    db.echipaments.DeleteObject(z);
+                    z.editcontactID = userID;
+                    z.editDate = DateTime.Now;
+                    z.disabled = 1;
+                    //db.echipaments.DeleteObject(z);
                      db.SaveChanges();
 
                      //}

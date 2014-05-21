@@ -57,6 +57,11 @@
     <Property Name="val_string" Type="nvarchar(max)" />
     <Property Name="val_nr" Type="decimal" Scale="8" />
     <Property Name="val_csv" Type="nvarchar(max)" />
+    <Property Name="disabled" Type="int" />
+    <Property Name="createDate" Type="datetime" />
+    <Property Name="createContactID" Type="int" />
+    <Property Name="editDate" Type="datetime" />
+    <Property Name="editContactID" Type="int" />
   </EntityType>
   <EntityType Name="cartela">
     <Key>
@@ -65,6 +70,11 @@
     <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="tipID" Type="bigint" Nullable="false" />
     <Property Name="echipamentID" Type="bigint" Nullable="false" />
+    <Property Name="disabled" Type="int" />
+    <Property Name="createDate" Type="datetime" />
+    <Property Name="createcontactID" Type="int" />
+    <Property Name="editDate" Type="datetime" />
+    <Property Name="editContactID" Type="int" />
   </EntityType>
   <EntityType Name="cartela_atribute">
     <Key>
@@ -73,6 +83,11 @@
     <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="cartelaID" Type="bigint" Nullable="false" />
     <Property Name="atributID" Type="bigint" Nullable="false" />
+    <Property Name="disabled" Type="int" />
+    <Property Name="createDate" Type="datetime" />
+    <Property Name="createContactID" Type="int" />
+    <Property Name="editDate" Type="datetime" />
+    <Property Name="editContactID" Type="int" />
   </EntityType>
   <EntityType Name="contact">
     <Key>
@@ -91,6 +106,11 @@
     <Property Name="denumire" Type="nvarchar(max)" />
     <Property Name="tipID" Type="int" Nullable="false" />
     <Property Name="siteID" Type="bigint" />
+    <Property Name="disabled" Type="int" />
+    <Property Name="createDate" Type="datetime" />
+    <Property Name="createContactID" Type="int" />
+    <Property Name="editDate" Type="datetime" />
+    <Property Name="editcontactID" Type="int" />
   </EntityType>
   <EntityType Name="echipament_atribute">
     <Key>
@@ -99,6 +119,11 @@
     <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="echipamentID" Type="bigint" Nullable="false" />
     <Property Name="atributID" Type="bigint" Nullable="false" />
+    <Property Name="disabled" Type="int" />
+    <Property Name="editDate" Type="datetime" />
+    <Property Name="editContactID" Type="int" />
+    <Property Name="createDate" Type="datetime" />
+    <Property Name="createContactID" Type="int" />
   </EntityType>
   <EntityType Name="echipament_tip">
     <Key>
@@ -106,6 +131,11 @@
     </Key>
     <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="denumire" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="disabled" Type="int" />
+    <Property Name="createDate" Type="datetime" />
+    <Property Name="createContactID" Type="int" />
+    <Property Name="editDate" Type="datetime" />
+    <Property Name="editContactID" Type="int" />
   </EntityType>
   <EntityType Name="echipament_versiuni">
     <Key>
@@ -114,6 +144,11 @@
     <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="denumire" Type="nvarchar" MaxLength="50" />
     <Property Name="echipament" Type="nvarchar" MaxLength="50" />
+    <Property Name="disabled" Type="int" />
+    <Property Name="createDate" Type="datetime" />
+    <Property Name="createContactID" Type="int" />
+    <Property Name="editDate" Type="datetime" />
+    <Property Name="editContactID" Type="int" />
   </EntityType>
   <EntityType Name="judete">
     <Key>
@@ -130,6 +165,11 @@
     <Property Name="judetID" Type="int" Nullable="false" />
     <Property Name="denumire" Type="nvarchar(max)" Nullable="false" />
     <Property Name="siteParinteID" Type="bigint" Nullable="false" />
+    <Property Name="disabled" Type="int" />
+    <Property Name="createDate" Type="datetime" />
+    <Property Name="createContactID" Type="int" />
+    <Property Name="editDate" Type="datetime" />
+    <Property Name="editContactID" Type="int" />
   </EntityType>
   <EntityType Name="tip_atribut">
     <Key>
@@ -138,6 +178,11 @@
     <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="denumire" Type="nvarchar(max)" Nullable="false" />
     <Property Name="tip_valoare" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="disabled" Type="int" />
+    <Property Name="createDate" Type="datetime" />
+    <Property Name="createContactID" Type="int" />
+    <Property Name="editDate" Type="datetime" />
+    <Property Name="editContactID" Type="int" />
   </EntityType>
   <EntityType Name="tip_cartela">
     <Key>
@@ -145,6 +190,11 @@
     </Key>
     <Property Name="id" Type="bigint" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="denumire" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="disabled" Type="int" />
+    <Property Name="createDate" Type="datetime" />
+    <Property Name="createContactID" Type="int" />
+    <Property Name="editDate" Type="datetime" />
+    <Property Name="editContactID" Type="int" />
   </EntityType>
   <EntityType Name="tip_echipament">
     <Key>
@@ -152,6 +202,11 @@
     </Key>
     <Property Name="id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
     <Property Name="denumire" Type="nvarchar" Nullable="false" MaxLength="50" />
+    <Property Name="disabled" Type="int" />
+    <Property Name="createDate" Type="datetime" />
+    <Property Name="createContactID" Type="int" />
+    <Property Name="editDate" Type="datetime" />
+    <Property Name="editContactID" Type="int" />
   </EntityType>
   <Association Name="FK__site__judetID__09DE7BCC">
     <End Role="judete" Type="OrganizationModel.Store.judete" Multiplicity="1" />

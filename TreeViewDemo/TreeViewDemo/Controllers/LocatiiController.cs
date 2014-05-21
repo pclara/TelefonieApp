@@ -44,7 +44,7 @@ namespace TreeViewDemo.Controllers
                 foreach (var x in jud)
                     judete1.lista.Add(new TreeViewDemo.Models.Site.Judet(x.id, x.denumire));
 
-                var namesite = (from j in db.sites where j.id == id select j.denumire).FirstOrDefault();
+                var namesite = (from j in db.sites.Where(o => o.disabled == 0) where j.id == id select j.denumire).FirstOrDefault();
                 judete1.denumire = namesite.ToString();
                 judete1.id = id;
                 judete1.parinteJudet = judetid;
@@ -55,6 +55,7 @@ namespace TreeViewDemo.Controllers
         [HttpPost]
         public ActionResult Edit(FormCollection sitemodel)
         {
+            int userID = int.Parse((from c in db.contacts where c.username == User.Identity.Name select c.id).FirstOrDefault().ToString());
             if (ModelState.IsValid)
             {
                 site s ;
@@ -64,6 +65,11 @@ namespace TreeViewDemo.Controllers
                         s = new site();
                         s.denumire = sitemodel["denumire"].ToString();
                         s.judetID = int.Parse(sitemodel["judet"]);
+                        s.createDate = DateTime.Now;
+                        s.editDate = null;
+                        s.editContactID = null;
+                        s.createContactID = userID;
+                        s.disabled = 0;
                         db.AddTosites(s);
                         db.SaveChanges();
                     }
@@ -71,6 +77,8 @@ namespace TreeViewDemo.Controllers
                     {
                         s = db.sites.Where(o => o.id == id).FirstOrDefault();
                         s.denumire = sitemodel["denumire"].ToString();
+                        s.editContactID = userID;
+                        s.editDate = DateTime.Now;
                         db.SaveChanges();
                     }
                 var namejudet = (from j in db.judetes where j.id == s.judetID select j.denumire).FirstOrDefault();
@@ -93,39 +101,56 @@ namespace TreeViewDemo.Controllers
         [HttpPost]
         public ActionResult StergeLocatie(string id)
         {
+            string userName = User.Identity.Name;
+            int userID = int.Parse((from c in db.contacts where c.username == userName select c.id).FirstOrDefault().ToString());
+
             long idsite = long.Parse(id.Split('_')[0]);
 
             var idjudet = (from j in db.sites join judet1 in db.judetes on j.judetID equals judet1.id where j.id == idsite select new { j.judetID , judet1.denumire}).FirstOrDefault();
 
-            var echipamente = (from ec in db.echipaments where ec.siteID == idsite select ec.id).ToList();
-            var atribute = (from at in db.atributs
-                            join ae in db.echipament_atribute on at.id equals ae.atributID
-                            join ec in db.echipaments on ae.echipamentID equals ec.id
+            var echipamente = (from ec in db.echipaments.Where(o => o.disabled == 0) where ec.siteID == idsite select ec.id).ToList();
+            var atribute = (from at in db.atributs.Where(o => o.disabled == 0)
+                            join ae in db.echipament_atribute.Where(o => o.disabled == 0) on at.id equals ae.atributID
+                            join ec in db.echipaments.Where(o => o.disabled == 0) on ae.echipamentID equals ec.id
+                            join s in db.sites.Where(o => o.disabled == 0) on ec.siteID equals s.id
+                            where s.id == idsite
                             select new { idae = ae.id, aid = at.id }).ToList();
             foreach (var x in atribute)
             {
 
-                echipament_atribute y = (from ea in db.echipament_atribute where ea.id == x.idae select ea).FirstOrDefault();
-                db.echipament_atribute.DeleteObject(y);
+                echipament_atribute y = (from ea in db.echipament_atribute.Where(o=>o.disabled == 0) where ea.id == x.idae select ea).FirstOrDefault();
+                //db.echipament_atribute.DeleteObject(y);
+                y.disabled = 1;
+                y.editDate = DateTime.Now;
+                y.editContactID = userID;
                 db.SaveChanges();
             }
 
             foreach (var x in atribute)
             {
-                atribut y = (from ea in db.atributs where ea.id == x.aid select ea).FirstOrDefault();
-                db.atributs.DeleteObject(y);
+                atribut y = (from ea in db.atributs.Where(o => o.disabled == 0) where ea.id == x.aid select ea).FirstOrDefault();
+                //db.atributs.DeleteObject(y);
+                y.disabled = 1;
+                y.editDate = DateTime.Now;
+                y.editContactID = userID;
                 db.SaveChanges();
             }
 
             foreach (var x in echipamente)
             {
-                echipament y = (from ea in db.echipaments where ea.id == x select ea).FirstOrDefault();
-                db.echipaments.DeleteObject(y);
+                echipament y = (from ea in db.echipaments.Where(o => o.disabled == 0) where ea.id == x select ea).FirstOrDefault();
+                //db.echipaments.DeleteObject(y);
+                y.disabled = 1;
+                y.editDate = DateTime.Now;
+                y.editcontactID = userID;
                 db.SaveChanges();
             }
 
             site v = (from s in db.sites where s.id == idsite select s).FirstOrDefault();
-            db.sites.DeleteObject(v);
+            v.disabled = 1;
+            v.editDate = DateTime.Now;
+            v.editContactID = userID;
+            //db.sites.DeleteObject(v);
             db.SaveChanges();
 
             return RedirectToAction("Index", "Judete", new { name = idjudet.denumire});
@@ -134,7 +159,7 @@ namespace TreeViewDemo.Controllers
         public ActionResult CautaLocatie(long? id, string parentID = "")
         {
             ViewBag.id = id;
-            var numejudet = (from j in db.judetes join s in db.sites on j.id equals s.judetID where s.id == id select j.denumire).FirstOrDefault();
+            var numejudet = (from j in db.judetes join s in db.sites.Where(o => o.disabled == 0) on j.id equals s.judetID where s.id == id select j.denumire).FirstOrDefault();
             ViewBag.numejudet = numejudet;
             return PartialView();
         }
@@ -143,9 +168,13 @@ namespace TreeViewDemo.Controllers
         {
             var page1 = Request["page"];
             int rows = 15;
-            var name = (from s in db.sites join e in db.echipaments on s.id equals e.siteID join te in db.tip_echipament  on e.tipID equals te.id select new { e.id, te.denumire }).ToList().Distinct();
-            var detalii = (from e in db.echipaments join ea in db.echipament_atribute on e.id equals ea.echipamentID join
-                          at in db.atributs on ea.atributID equals at.id join ta in db.tip_atribut on at.tipID equals ta.id join te in db.tip_echipament
+            var name = (from s in db.sites join e in db.echipaments.Where(o => o.disabled == 0) on s.id equals e.siteID join te in db.tip_echipament.Where(o => o.disabled == 0) on e.tipID equals te.id select new { e.id, te.denumire }).ToList().Distinct();
+            var detalii = (from e in db.echipaments.Where(o => o.disabled == 0)
+                           join ea in db.echipament_atribute on e.id equals ea.echipamentID
+                           join
+                          at in db.atributs.Where(o => o.disabled == 0) on ea.atributID equals at.id
+                           join ta in db.tip_atribut.Where(o => o.disabled == 0) on at.tipID equals ta.id
+                           join te in db.tip_echipament
                           on e.tipID equals te.id
                            where e.siteID == id
                            let nrmsed = (from e2 in db.echipaments

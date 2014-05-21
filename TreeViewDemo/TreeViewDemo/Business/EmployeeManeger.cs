@@ -19,7 +19,7 @@ namespace TreeViewDemo.Business
         {
             JsTreeModel root = (from e1 in _orgDb.judetes
                                 where e1.denumire == name
-                                let nrsites = (from j in _orgDb.judetes join s in _orgDb.sites on j.id equals s.judetID where j.denumire == name select s.id).Count()
+                                let nrsites = (from j in _orgDb.judetes join s in _orgDb.sites.Where(o=>o.disabled == 0) on j.id equals s.judetID where j.denumire == name select s.id).Count()
                                 select new JsTreeModel()
                                 {
                                     data = new JsTreeData(){ title = e1.denumire, icon = "" },
@@ -48,7 +48,7 @@ namespace TreeViewDemo.Business
                 if (rootNode.attr.description == "judet")
                 {
                     string parentID = rootNode.attr.id.Split('_')[0];
-                    List<JsTreeModel> children = (from e1 in _orgDb.sites
+                    List<JsTreeModel> children = (from e1 in _orgDb.sites.Where(o => o.disabled == 0)
                                                   where e1.judetID == idroot
                                                   select new JsTreeModel()
                                                   {
@@ -73,8 +73,9 @@ namespace TreeViewDemo.Business
                     string judetID = rootNode.attr.parentJudet;
                     long sitID = long.Parse(siteID);
                     List<JsTreeModel> children = (from e1 in _orgDb.tip_echipament
-                                                  let copii = (from j in _orgDb.judetes join s in _orgDb.sites on j.id equals s.judetID
-                                                                   join e in _orgDb.echipaments on s.id equals e.siteID
+                                                  let copii = (from j in _orgDb.judetes
+                                                               join s in _orgDb.sites.Where(o => o.disabled == 0) on j.id equals s.judetID
+                                                               join e in _orgDb.echipaments.Where(o => o.disabled == 0) on s.id equals e.siteID
                                                                    join te in _orgDb.tip_echipament on e.tipID equals te.id
                                                                    where te.id == e1.id
                                                                    && s.id == sitID
@@ -98,13 +99,13 @@ namespace TreeViewDemo.Business
                 }
                 else if(rootNode.attr.description == "tip_echipament")
                 {
-                    List<JsTreeModel> children = (from e1 in _orgDb.echipaments
+                    List<JsTreeModel> children = (from e1 in _orgDb.echipaments.Where(o => o.disabled == 0)
                                                   join te in _orgDb.tip_echipament 
                                                   on e1.tipID equals te.id
                                                   where te.id == idroot
                                                   && e1.siteID == idparam
 
-                                                  let nrmsed = (from e2 in _orgDb.echipaments
+                                                  let nrmsed = (from e2 in _orgDb.echipaments.Where(o => o.disabled == 0)
                                                                 join te1 in _orgDb.tip_echipament
                                                                 on e2.tipID equals te1.id
                                                                 where te1.id == idroot
@@ -112,28 +113,28 @@ namespace TreeViewDemo.Business
                                                                 where e2.id <= e1.id
                                                                 select e2.id).Count()
 
-                                                  let nrmc = (from e2 in _orgDb.echipaments
+                                                  let nrmc = (from e2 in _orgDb.echipaments.Where(o => o.disabled == 0)
                                                                 join te1 in _orgDb.tip_echipament
                                                                 on e2.tipID equals te1.id
                                                                 where te1.id == idroot
                                                                 && e2.siteID == idparam && te1.denumire == "MC"
                                                                 where e2.id <= e1.id
                                                                 select e2.id).Count()
-                                                  let nrrouter = (from e2 in _orgDb.echipaments
+                                                  let nrrouter = (from e2 in _orgDb.echipaments.Where(o => o.disabled == 0)
                                                               join te1 in _orgDb.tip_echipament
                                                               on e2.tipID equals te1.id
                                                               where te1.id == idroot
                                                               && e2.siteID == idparam && te1.denumire == "Router"
                                                               where e2.id <= e1.id
                                                               select e2.id).Count()
-                                                  let nrswitch = (from e2 in _orgDb.echipaments
+                                                  let nrswitch = (from e2 in _orgDb.echipaments.Where(o => o.disabled == 0)
                                                                   join te1 in _orgDb.tip_echipament
                                                                   on e2.tipID equals te1.id
                                                                   where te1.id == idroot
                                                                   && e2.siteID == idparam && te1.denumire == "Switch"
                                                                   where e2.id <= e1.id
                                                                   select e2.id).Count()
-                                                  let nrcon = (from e2 in _orgDb.echipaments
+                                                  let nrcon = (from e2 in _orgDb.echipaments.Where(o => o.disabled == 0)
                                                                   join te1 in _orgDb.tip_echipament
                                                                   on e2.tipID equals te1.id
                                                                   where te1.id == idroot
@@ -141,7 +142,7 @@ namespace TreeViewDemo.Business
                                                                   where e2.id <= e1.id
                                                                   select e2.id).Count()
 
-                                                  let nrend = (from e2 in _orgDb.echipaments
+                                                  let nrend = (from e2 in _orgDb.echipaments.Where(o => o.disabled == 0)
                                                                 join te1 in _orgDb.tip_echipament
                                                                 on e2.tipID equals te1.id
                                                                 where te1.id == idroot
@@ -151,9 +152,9 @@ namespace TreeViewDemo.Business
     
     
                                                   let titlu = te.denumire == "PABX" ?
-                                                        (from a in _orgDb.atributs
-                                                         join ea in _orgDb.echipament_atribute on a.id equals ea.atributID
-                                                         join e in _orgDb.echipaments on ea.echipamentID equals e.id
+                                                        (from a in _orgDb.atributs.Where(o => o.disabled == 0)
+                                                         join ea in _orgDb.echipament_atribute.Where(o => o.disabled == 0) on a.id equals ea.atributID
+                                                         join e in _orgDb.echipaments.Where(o => o.disabled == 0) on ea.echipamentID equals e.id
                                                          join ta in _orgDb.tip_atribut on a.tipID equals ta.id
                                                          join te1 in _orgDb.echipament_tip on a.val_int equals te1.id 
                                                          where e.id == e1.id && ta.denumire == "Tip"
@@ -167,8 +168,8 @@ namespace TreeViewDemo.Business
                                                          )) 
                                                          )
                                                          )
-                                                  let copii = (from car in _orgDb.cartelas
-                                                               join ech in _orgDb.echipaments on car.echipamentID equals ech.id
+                                                  let copii = (from car in _orgDb.cartelas.Where(o => o.disabled == 0)
+                                                               join ech in _orgDb.echipaments.Where(o => o.disabled == 0) on car.echipamentID equals ech.id
                                                                where ech.id == e1.id
                                                                select car.id).Count()
                                                   select new JsTreeModel()
@@ -190,7 +191,7 @@ namespace TreeViewDemo.Business
                 }
                 else if (rootNode.attr.description == "echipament")
                 {
-                    List<JsTreeModel> children = (from e in _orgDb.echipaments
+                    List<JsTreeModel> children = (from e in _orgDb.echipaments.Where(o => o.disabled == 0)
                                                   join te in _orgDb.tip_echipament on e.tipID equals te.id
                                                   where
                                                       e.id == idroot && te.denumire == "PABX"

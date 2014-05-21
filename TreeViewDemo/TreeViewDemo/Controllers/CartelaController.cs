@@ -35,10 +35,10 @@ namespace TreeViewDemo.Controllers
                 string tipcartela = (from tc in db.tip_cartela join c in db.cartelas on tc.id equals c.tipID select tc.denumire).FirstOrDefault();
                 ViewBag.tipcartela = tipcartela;
 
-                var atribute = (from a in db.atributs
-                                join ea in db.cartela_atribute on a.id equals ea.atributID
-                                join e in db.cartelas on ea.cartelaID equals e.id
-                                join ta in db.tip_atribut on a.tipID equals ta.id
+                var atribute = (from a in db.atributs.Where(o => o.disabled == 0)
+                                join ea in db.cartela_atribute.Where(o => o.disabled == 0) on a.id equals ea.atributID
+                                join e in db.cartelas.Where(o => o.disabled == 0) on ea.cartelaID equals e.id
+                                join ta in db.tip_atribut.Where(o => o.disabled == 0) on a.tipID equals ta.id
 
                                 where ea.cartelaID == id
                                 select new { a.id, ta.tip_valoare, a.val_csv, a.val_int, a.val_nr, a.val_string, tipatrden = ta.denumire }).ToList();
@@ -84,14 +84,14 @@ namespace TreeViewDemo.Controllers
             }
 
             List<object> cart = new List<object>();
-            var cartele = (from e in db.echipaments join c in db.cartelas on e.id equals c.echipamentID where e.id == x select c.id).ToList();
+            var cartele = (from e in db.echipaments.Where(o => o.disabled == 0) join c in db.cartelas.Where(o => o.disabled == 0) on e.id equals c.echipamentID where e.id == x select c.id).ToList();
 
             foreach (long idcartela in cartele)
             {
-                var atribute = (from a in db.atributs
-                                join ea in db.cartela_atribute on a.id equals ea.atributID
-                                join e in db.cartelas on ea.cartelaID equals e.id
-                                join ta in db.tip_atribut on a.tipID equals ta.id
+                var atribute = (from a in db.atributs.Where(o=>o.disabled==0)
+                                join ea in db.cartela_atribute.Where(o => o.disabled == 0) on a.id equals ea.atributID
+                                join e in db.cartelas.Where(o => o.disabled == 0) on ea.cartelaID equals e.id
+                                join ta in db.tip_atribut.Where(o => o.disabled == 0) on a.tipID equals ta.id
                                 where ea.cartelaID == idcartela
                                 select new { a.id, ta.tip_valoare, a.val_csv, a.val_int, a.val_nr, a.val_string, tipatrden = ta.denumire }).ToList();
 
@@ -128,6 +128,9 @@ namespace TreeViewDemo.Controllers
         [HttpPost]
         public ActionResult Salvare(FormCollection cartelamodel)
         {
+            string userName = HttpContext.User.Identity.Name;
+            int userID = int.Parse((from c in db.contacts where c.username == userName select c.id).FirstOrDefault().ToString());
+
             long echipamentID = long.Parse(cartelamodel["id"].ToString());
             if (ModelState.IsValid)
             {
@@ -142,6 +145,11 @@ namespace TreeViewDemo.Controllers
                         cartela s = new cartela();
                         s.tipID = (from tc in db.tip_cartela where tc.denumire == tipcartela select tc.id).FirstOrDefault();
                         s.echipamentID = long.Parse(cartelamodel["id"].ToString());
+                        s.createDate = DateTime.Now;
+                        s.editDate = null;
+                        s.editContactID = null;
+                        s.createcontactID = userID;
+                        s.disabled = 0;
                         db.AddTocartelas(s);
                         db.SaveChanges();
 
@@ -161,13 +169,22 @@ namespace TreeViewDemo.Controllers
                                 a.val_int = null;
                                 a.val_nr = null;
                                 a.tipID = (from ta in db.tip_atribut where ta.denumire == "BPOS" select ta.id).FirstOrDefault();
+                                a.createDate = DateTime.Now;
+                                a.editDate = null;
+                                a.editContactID = null;
+                                a.createContactID = userID;
+                                a.disabled = 0;
                                 db.AddToatributs(a);
 
                                 cartela_atribute ea = new cartela_atribute();
                                 ea.cartelaID = s.id;
                                 ea.atributID = a.id;
+                                ea.createDate = DateTime.Now;
+                                ea.editDate = null;
+                                ea.editContactID = null;
+                                ea.createContactID = userID;
+                                ea.disabled = 0;
                                 db.AddTocartela_atribute(ea);
-
                                 db.SaveChanges();
 
                                 a = new atribut();
@@ -176,11 +193,21 @@ namespace TreeViewDemo.Controllers
                                 a.val_int = null;
                                 a.val_nr = null;
                                 a.tipID = (from ta in db.tip_atribut where ta.denumire == "IP" select ta.id).FirstOrDefault();
+                                a.createDate = DateTime.Now;
+                                a.editDate = null;
+                                a.editContactID = null;
+                                a.createContactID = userID;
+                                a.disabled = 0;
                                 db.AddToatributs(a);
 
                                 ea = new cartela_atribute();
                                 ea.cartelaID = s.id;
                                 ea.atributID = a.id;
+                                ea.createDate = DateTime.Now;
+                                ea.editDate = null;
+                                ea.editContactID = null;
+                                ea.createContactID = userID;
+                                ea.disabled = 0;
                                 db.AddTocartela_atribute(ea);
 
                                 db.SaveChanges();
@@ -191,11 +218,21 @@ namespace TreeViewDemo.Controllers
                                 a.val_int = null;
                                 a.val_nr = null;
                                 a.tipID = (from ta in db.tip_atribut where ta.denumire == "MASK" select ta.id).FirstOrDefault();
+                                a.createDate = DateTime.Now;
+                                a.editDate = null;
+                                a.editContactID = null;
+                                a.createContactID = userID;
+                                a.disabled = 0;
                                 db.AddToatributs(a);
 
                                 ea = new cartela_atribute();
                                 ea.cartelaID = s.id;
                                 ea.atributID = a.id;
+                                ea.createDate = DateTime.Now;
+                                ea.editDate = null;
+                                ea.editContactID = null;
+                                ea.createContactID = userID;
+                                ea.disabled = 0;
                                 db.AddTocartela_atribute(ea);
 
                                 db.SaveChanges();
@@ -206,11 +243,21 @@ namespace TreeViewDemo.Controllers
                                 a.val_int = null;
                                 a.val_nr = null;
                                 a.tipID = (from ta in db.tip_atribut where ta.denumire == "GATEWAY" select ta.id).FirstOrDefault();
+                                a.createDate = DateTime.Now;
+                                a.editDate = null;
+                                a.editContactID = null;
+                                a.createContactID = userID;
+                                a.disabled = 0;
                                 db.AddToatributs(a);
 
                                 ea = new cartela_atribute();
                                 ea.cartelaID = s.id;
                                 ea.atributID = a.id;
+                                ea.createDate = DateTime.Now;
+                                ea.editDate = null;
+                                ea.editContactID = null;
+                                ea.createContactID = userID;
+                                ea.disabled = 0;
                                 db.AddTocartela_atribute(ea);
 
                                 db.SaveChanges();
@@ -220,12 +267,22 @@ namespace TreeViewDemo.Controllers
                                 a.val_csv = null;
                                 a.val_int = null;
                                 a.val_nr = null;
+                                a.createDate = DateTime.Now;
+                                a.editDate = null;
+                                a.editContactID = null;
+                                a.createContactID = userID;
+                                a.disabled = 0;
                                 a.tipID = (from ta in db.tip_atribut where ta.denumire == "Port switch" select ta.id).FirstOrDefault();
                                 db.AddToatributs(a);
 
                                 ea = new cartela_atribute();
                                 ea.cartelaID = s.id;
                                 ea.atributID = a.id;
+                                ea.createDate = DateTime.Now;
+                                ea.editDate = null;
+                                ea.editContactID = null;
+                                ea.createContactID = userID;
+                                ea.disabled = 0;
                                 db.AddTocartela_atribute(ea);
 
                                 db.SaveChanges();
@@ -238,11 +295,21 @@ namespace TreeViewDemo.Controllers
                                     a.val_int = null;
                                     a.val_nr = null;
                                     a.tipID = (from ta in db.tip_atribut where ta.denumire == "Utilizare" select ta.id).FirstOrDefault();
+                                    a.createDate = DateTime.Now;
+                                    a.editDate = null;
+                                    a.editContactID = null;
+                                    a.createContactID = userID;
+                                    a.disabled = 0;
                                     db.AddToatributs(a);
 
                                     ea = new cartela_atribute();
                                     ea.cartelaID = s.id;
                                     ea.atributID = a.id;
+                                    ea.createDate = DateTime.Now;
+                                    ea.editDate = null;
+                                    ea.editContactID = null;
+                                    ea.createContactID = userID;
+                                    ea.disabled = 0;
                                     db.AddTocartela_atribute(ea);
 
                                     db.SaveChanges();
@@ -257,11 +324,21 @@ namespace TreeViewDemo.Controllers
                                 a.val_int = null;
                                 a.val_nr = null;
                                 a.tipID = (from ta in db.tip_atribut where ta.denumire == "BPOS" select ta.id).FirstOrDefault();
+                                a.createDate = DateTime.Now;
+                                a.editDate = null;
+                                a.editContactID = null;
+                                a.createContactID = userID;
+                                a.disabled = 0;
                                 db.AddToatributs(a);
 
                                 cartela_atribute ea = new cartela_atribute();
                                 ea.cartelaID = s.id;
                                 ea.atributID = a.id;
+                                ea.createDate = DateTime.Now;
+                                ea.editDate = null;
+                                ea.editContactID = null;
+                                ea.createContactID = userID;
+                                ea.disabled = 0;
                                 db.AddTocartela_atribute(ea);
 
                                 db.SaveChanges();
@@ -272,11 +349,21 @@ namespace TreeViewDemo.Controllers
                                 a.val_int = null;
                                 a.val_nr = null;
                                 a.tipID = (from ta in db.tip_atribut where ta.denumire == "Remote" select ta.id).FirstOrDefault();
+                                a.createDate = DateTime.Now;
+                                a.editDate = null;
+                                a.editContactID = null;
+                                a.createContactID = userID;
+                                a.disabled = 0;
                                 db.AddToatributs(a);
 
                                 ea = new cartela_atribute();
                                 ea.cartelaID = s.id;
                                 ea.atributID = a.id;
+                                ea.createDate = DateTime.Now;
+                                ea.editDate = null;
+                                ea.editContactID = null;
+                                ea.createContactID = userID;
+                                ea.disabled = 0;
                                 db.AddTocartela_atribute(ea);
 
                                 db.SaveChanges();
@@ -287,11 +374,21 @@ namespace TreeViewDemo.Controllers
                                 a.val_int = null;
                                 a.val_nr = null;
                                 a.tipID = (from ta in db.tip_atribut where ta.denumire == "VersiuneC" select ta.id).FirstOrDefault();
+                                a.createDate = DateTime.Now;
+                                a.editDate = null;
+                                a.editContactID = null;
+                                a.createContactID = userID;
+                                a.disabled = 0;
                                 db.AddToatributs(a);
 
                                 ea = new cartela_atribute();
                                 ea.cartelaID = s.id;
                                 ea.atributID = a.id;
+                                ea.createDate = DateTime.Now;
+                                ea.editDate = null;
+                                ea.editContactID = null;
+                                ea.createContactID = userID;
+                                ea.disabled = 0;
                                 db.AddTocartela_atribute(ea);
 
                                 db.SaveChanges();
@@ -303,11 +400,21 @@ namespace TreeViewDemo.Controllers
                                 a.val_int = null;
                                 a.val_nr = null;
                                 a.tipID = (from ta in db.tip_atribut where ta.denumire == "Numar ruta" select ta.id).FirstOrDefault();
+                                a.createDate = DateTime.Now;
+                                a.editDate = null;
+                                a.editContactID = null;
+                                a.createContactID = userID;
+                                a.disabled = 0;
                                 db.AddToatributs(a);
 
                                 ea = new cartela_atribute();
                                 ea.cartelaID = s.id;
                                 ea.atributID = a.id;
+                                ea.createDate = DateTime.Now;
+                                ea.editDate = null;
+                                ea.editContactID = null;
+                                ea.createContactID = userID;
+                                ea.disabled = 0;
                                 db.AddTocartela_atribute(ea);
 
                                 db.SaveChanges();
@@ -321,11 +428,21 @@ namespace TreeViewDemo.Controllers
                                 a.val_int = null;
                                 a.val_nr = null;
                                 a.tipID = (from ta in db.tip_atribut where ta.denumire == "BPOS" select ta.id).FirstOrDefault();
+                                a.createDate = DateTime.Now;
+                                a.editDate = null;
+                                a.editContactID = null;
+                                a.createContactID = userID;
+                                a.disabled = 0;
                                 db.AddToatributs(a);
 
                                 cartela_atribute ea = new cartela_atribute();
                                 ea.cartelaID = s.id;
                                 ea.atributID = a.id;
+                                ea.createDate = DateTime.Now;
+                                ea.editDate = null;
+                                ea.editContactID = null;
+                                ea.createContactID = userID;
+                                ea.disabled = 0;
                                 db.AddTocartela_atribute(ea);
 
                                 db.SaveChanges();
@@ -366,6 +483,8 @@ namespace TreeViewDemo.Controllers
                                         default: a.val_string = cartelamodel[key.ToString()].ToString();
                                             break;
                                     }
+                                    a.editDate = DateTime.Now;
+                                    a.editContactID = userID;
                                     db.SaveChanges();
                                 }
                             }
@@ -381,6 +500,8 @@ namespace TreeViewDemo.Controllers
                                     string den_tip_atr = (from ta in db.tip_atribut where ta.id == a.tipID select ta.tip_valoare).FirstOrDefault();
                                     string atr = (from ta in db.tip_atribut where ta.id == a.tipID select ta.denumire).FirstOrDefault();
                                     a.val_string = atr == "VersiuneC" ? "/" + cartelamodel[key.ToString()] : cartelamodel[key.ToString()];
+                                    a.editContactID = userID;
+                                    a.editDate = DateTime.Now;
                                     db.SaveChanges();
                                 }
                             }
@@ -392,6 +513,8 @@ namespace TreeViewDemo.Controllers
                                     cartela s = (from c in db.cartelas where c.id == idcartela select c).FirstOrDefault();
                                     string tipcartela = cartelamodel[key.ToString()];
                                     s.tipID = (from tc in db.tip_cartela where tc.denumire == tipcartela select tc.id).FirstOrDefault();
+                                    s.editContactID = userID;
+                                    s.editDate = DateTime.Now;
                                     db.SaveChanges();
                                 }
                             }
@@ -827,19 +950,29 @@ namespace TreeViewDemo.Controllers
             foreach (var x in c_a)
             {
                 cartela_atribute y = (from a in db.cartela_atribute where a.id == x.id select a).FirstOrDefault();
-                db.cartela_atribute.DeleteObject(y);
+                y.disabled = 1;
+                y.editDate = DateTime.Now;
+                y.editContactID = int.Parse((from c in db.contacts where c.username == User.Identity.Name select c.id).FirstOrDefault().ToString());
+                //db.cartela_atribute.DeleteObject(y);
                 db.SaveChanges();
             }
 
             foreach (var x in c_a)
             {
                 atribut y = (from a in db.atributs where a.id == x.atributID select a).FirstOrDefault();
-                db.atributs.DeleteObject(y);
+                y.disabled = 1;
+                y.editDate = DateTime.Now;
+                y.editContactID = int.Parse((from c in db.contacts where c.username == User.Identity.Name select c.id).FirstOrDefault().ToString());
+                
+                //db.atributs.DeleteObject(y);
                 db.SaveChanges();
             }
 
-
-            db.cartelas.DeleteObject(car);
+            car.disabled = 1;
+            car.editDate = DateTime.Now;
+            car.editContactID = int.Parse((from c in db.contacts where c.username == User.Identity.Name select c.id).FirstOrDefault().ToString());
+                
+            //db.cartelas.DeleteObject(car);
             db.SaveChanges();
 
              long tip_id = (from e in db.echipaments where e.id == idcentrala select e.tipID).FirstOrDefault();
