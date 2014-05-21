@@ -2218,5 +2218,86 @@ namespace TreeViewDemo.Controllers
 
             //return RedirectToAction("Index", "Judete", new { name = judet.denumire.ToString(), id = idcentrala.ToString() + "_echipament" });
         }
+
+        [HttpPost]
+        public string StergeConexiune(string tipecid, string destid, string tipid, string nrrutaid, string idechip, string pozid)
+        {
+            int tip_echip = int.Parse(tipecid.Split('_')[1]);
+            int dest = int.Parse(destid.Split('_')[1]);
+            int tip = int.Parse(tipid.Split('_')[1]);
+            int ruta = int.Parse(nrrutaid.Split('_')[1]);
+            int poz = int.Parse(pozid.Split('_')[1]);
+            int ide = int.Parse(idechip);
+
+            atribut a = (from a1 in db.atributs where a1.id == tip_echip select a1).FirstOrDefault();
+            a.disabled = 1;
+            a.editContactID = int.Parse((from c in db.contacts where c.username == User.Identity.Name select c.id).FirstOrDefault().ToString());
+            a.editDate = DateTime.Now;
+            db.SaveChanges();
+
+
+            a = (from a1 in db.atributs where a1.id == dest select a1).FirstOrDefault();
+            a.disabled = 1;
+            a.editContactID = int.Parse((from c in db.contacts where c.username == User.Identity.Name select c.id).FirstOrDefault().ToString());
+            a.editDate = DateTime.Now;
+            db.SaveChanges();
+
+            a = (from a1 in db.atributs where a1.id == tip select a1).FirstOrDefault();
+            a.disabled = 1;
+            a.editContactID = int.Parse((from c in db.contacts where c.username == User.Identity.Name select c.id).FirstOrDefault().ToString());
+            a.editDate = DateTime.Now;
+            db.SaveChanges();
+
+            a = (from a1 in db.atributs where a1.id == ruta select a1).FirstOrDefault();
+            a.disabled = 1;
+            a.editContactID = int.Parse((from c in db.contacts where c.username == User.Identity.Name select c.id).FirstOrDefault().ToString());
+            a.editDate = DateTime.Now;
+            db.SaveChanges();
+
+            a = (from a1 in db.atributs where a1.id == poz select a1).FirstOrDefault();
+            a.disabled = 1;
+            a.editContactID = int.Parse((from c in db.contacts where c.username == User.Identity.Name select c.id).FirstOrDefault().ToString());
+            a.editDate = DateTime.Now;
+            db.SaveChanges();
+
+            echipament_atribute ea = (from ea1 in db.echipament_atribute where ea1.atributID == tip_echip select ea1).FirstOrDefault();
+            ea.disabled = 1;
+            ea.editContactID = int.Parse((from c in db.contacts where c.username == User.Identity.Name select c.id).FirstOrDefault().ToString());
+            ea.editDate = DateTime.Now;
+            db.SaveChanges();
+
+            ea = (from ea1 in db.echipament_atribute where ea1.atributID == dest select ea1).FirstOrDefault();
+            ea.disabled = 1;
+            ea.editContactID = int.Parse((from c in db.contacts where c.username == User.Identity.Name select c.id).FirstOrDefault().ToString());
+            ea.editDate = DateTime.Now;
+            db.SaveChanges();
+
+            ea = (from ea1 in db.echipament_atribute where ea1.atributID == tip select ea1).FirstOrDefault();
+            ea.disabled = 1;
+            ea.editContactID = int.Parse((from c in db.contacts where c.username == User.Identity.Name select c.id).FirstOrDefault().ToString());
+            ea.editDate = DateTime.Now;
+            db.SaveChanges();
+
+            ea = (from ea1 in db.echipament_atribute where ea1.atributID == ruta select ea1).FirstOrDefault();
+            ea.disabled = 1;
+            ea.editContactID = int.Parse((from c in db.contacts where c.username == User.Identity.Name select c.id).FirstOrDefault().ToString());
+            ea.editDate = DateTime.Now;
+            db.SaveChanges();
+
+            ea = (from ea1 in db.echipament_atribute where ea1.atributID == poz select ea1).FirstOrDefault();
+            ea.disabled = 1;
+            ea.editContactID = int.Parse((from c in db.contacts where c.username == User.Identity.Name select c.id).FirstOrDefault().ToString());
+            ea.editDate = DateTime.Now;
+            db.SaveChanges();
+
+            var judet = (from j in db.judetes
+                         join s in db.sites on j.id equals s.judetID
+                         join e in db.echipaments on s.id equals e.siteID
+                         where e.id == ide
+                         select new { j.id, j.denumire, sid = s.id, sden = s.denumire }).FirstOrDefault();
+
+            string namejudet = judet.denumire;
+            return namejudet + "," + idechip + "_echipament";
+        }
     }
 }

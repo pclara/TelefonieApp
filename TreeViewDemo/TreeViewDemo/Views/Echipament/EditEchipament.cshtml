@@ -89,6 +89,7 @@
                             newSpan.name = '@ViewBag.id' + "_" + x[i].id_atr;
                                 newSpan.className = "editors";
                                 newSpan.value = x[i].val_atr;
+                                var nrrutaid = '@ViewBag.id' + "_" + x[i].id_atr;;
                                 cell1.appendChild(newSpan);
                                 var cell1 = row.insertCell(2);
                                 var newSpan = document.createElement('input');
@@ -103,10 +104,36 @@
                                 var tip_con = "";
                                 for (j = 0; j < x.length; j++)
                                     if (x[j].nume_atr == "Tip Conexiune" && index1 == index) {
+                                        var newSpan = document.createElement('select');
+                                        var id1 = '@ViewBag.id' + "_" + x[j].id_atr;
                                         newSpan.id = '@ViewBag.id' + "_" + x[j].id_atr;
-                                    newSpan.name = '@ViewBag.id' + "_" + x[j].id_atr;
-                                    newSpan.className = "editors";
-                                    newSpan.value = x[j].val_atr;
+                                        newSpan.name = '@ViewBag.id' + "_" + x[j].id_atr;
+                                        newSpan.className = "editors";
+
+                                        //optiuni tipuri
+                                        var option = document.createElement("option");
+                                        option.value = 'IP-SIP';
+                                        option.text = 'IP-SIP';
+                                        newSpan.appendChild(option);
+
+                                        var option = document.createElement("option");
+                                        option.value = 'IP-H323';
+                                        option.text = 'IP-H323';
+                                        newSpan.appendChild(option);
+                                        var option = document.createElement("option");
+                                        option.value = 'ISDN-QSIG';
+                                        option.text = 'ISDN-QSIG';
+                                        newSpan.appendChild(option);
+                                        var option = document.createElement("option");
+                                        option.value = 'ISDN-PUBLIC';
+                                        option.text = 'ISDN-PUBLIC';
+                                        newSpan.appendChild(option);
+
+                                        newSpan.value = x[j].val_atr;
+                                        
+                                        
+                                        
+                                    //newSpan.value = x[j].val_atr;
                                     tip_con = x[j].val_atr;
                                     index1++;
                                 }
@@ -121,9 +148,11 @@
                                 var newSpan = document.createElement('input');
                                 newSpan.type = "text";
 
+                                var destid = "";
                                 var index2 = 1;
                                 for (j = 0; j < x.length; j++)
                                     if (x[j].nume_atr == "Destinatie" && index2 == index) {
+                                        destid = '@ViewBag.id' + "_" + x[j].id_atr;
                                         newSpan.id = '@ViewBag.id' + "_" + x[j].id_atr;
                                         newSpan.name = '@ViewBag.id' + "_" + x[j].id_atr;
                                         newSpan.className = "editors";
@@ -143,8 +172,10 @@
                                 newSpan.type = "text";
 
                                 var index2 = 1;
+                                var pozid = "";
                                 for (j = 0; j < x.length; j++)
                                     if (x[j].nume_atr == "Poz. echip." && index2 == index) {
+                                        pozid = '@ViewBag.id' + "_" + x[j].id_atr;
                                         newSpan.id = '@ViewBag.id' + "_" + x[j].id_atr;
                                         newSpan.name = '@ViewBag.id' + "_" + x[j].id_atr;
                                         newSpan.className = "editors";
@@ -163,8 +194,10 @@
 
                                 var index2 = 1;
                                 var selected_tip = 0;
+                                var tipecid = "";
                                 for (j = 0; j < x.length; j++)
                                     if (x[j].nume_atr == "Tip echip." && index2 == index) {
+                                        tipecid = '@ViewBag.id' + "_" + x[j].id_atr;
                                         newSpan.id = '@ViewBag.id' + "_" + x[j].id_atr;
                                         newSpan.name = '@ViewBag.id' + "_" + x[j].id_atr;
 
@@ -217,6 +250,49 @@
                                     $("#tipcell" + rowCount).attr("style", "display:none");
                                     $("#pozcell" + rowCount).attr("style", "display:none");
                                 }
+
+                                var cell1 = row.insertCell(6);
+                                cell1.id = "sterge" + rowCount;
+                                var idechipp = '@ViewBag.id';
+                                cell1.innerHTML = "<img src = '"+'@Url.Content("~/Images/delete.png")'+"' style='width:30px;' onclick=\"stergeconexiune('"+tipecid+"','"+destid+"','"+id1+"','"+nrrutaid+"','"+idechipp+"','"+pozid+"')\" />";
+                                @*var newSpan = document.createElement('img');
+                                newSpan.src = '@Url.Content("~/Images/delete.png")';
+                                newSpan.style = "width:30px";
+                                *@
+                                function stergeconexiune(tipecid, destid, id1, nrrutaid, idechip, pozid)
+                                {
+                                    $.ajax({
+                                        url: '@Url.Content("~/Echipament/StergeConexiune")',
+                                        type:'post',
+                                        data: { tipecid: tipecid , destid:destid, tipid:id1, nrrutaid:nrrutaid , pozid:pozid , idechip:idechip},
+                                        success: function (response) {
+                                            
+                                            var href = document.URL;
+                                            var href1 = href.substr(0, href.lastIndexOf("Index") + 5);
+
+                                            if (href1.length <= 4)
+                                                href1 = href.substr(0, href.lastIndexOf("Judete") + 6);
+
+                                            var stringuri = response.split(',');
+                                            var href2 = href1 + "?name=" + stringuri[0] + "&&id=" + stringuri[1];
+                                            window.location = href2;
+                                        }
+                                    });
+                                }
+
+                                /*
+                                alert(id1);
+                                document.getElementById(id1.toString()).onchange = function () {
+                                    alert(document.getElementById(id1.toString()).value);
+                                    if (document.getElementById(id1.toString()).value == "IP-H323" || document.getElementById(id1.toString()).value == "IP-SIP") {
+                                        
+                                        $("#" + destid.toString()).attr("style", "display:none");
+                                    }
+                                    else {
+                                        $("#" + destid.toString()).attr("style", "display:compact");
+                                    }
+                                }
+                                */
                         }
                     }
                     else
