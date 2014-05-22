@@ -7,7 +7,7 @@
   
 {
     <br />
-   <input type="submit" value="Salveaza" class="buton" id="submit_1" />
+   <input type="submit" value="Salveaza" class="buton" style="width:" id="submit_1" />
    <input type="button" value="Sterge echipament" class="buton" id="stergeechipament" />
     <input type="hidden" value="@ViewBag.numeechip" id="denumire" name="denumire"/>
     <table id="tabel_detalii">
@@ -162,7 +162,7 @@
                     }
 
                     var cell1 = row.insertCell(j + 1);
-                    cell1.innerHTML = "<input type='button' id='sterge_" + rowCount + "' name='sterge_" + rowCount + "' value='' style=\"background-image:url(\'../Images/Delete.png\');background-size:100% 100%;width:30px;\" onclick=\"stergecart('"+ x[l].id + "')\" />";
+                    cell1.innerHTML = "<img id='sterge_" + rowCount + "' name='sterge_" + rowCount + "' value='' src=\"../Images/Delete.png\" style=\"background-size:100% 100%;width:30px;\" onclick=\"stergecart('"+ x[l].id + "')\" />";
                     
                     var cell1 = row.insertCell(j + 2);
                     cell1.innerHTML += "<input type='hidden' id='id_" + rowCount + "' name='id_" + rowCount + "' value='" + x[l].id + "' />";
